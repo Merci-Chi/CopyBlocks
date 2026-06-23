@@ -1,0 +1,1579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Copy Blocks</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        color-scheme: light;
+        --bg: #f3f4f6;
+        --panel: #ffffff;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --border-strong: #d1d5db;
+        --button: #111827;
+        --button-hover: #272f3d;
+        --button-text: #ffffff;
+        --soft-button: #f3f4f6;
+        --soft-button-hover: #e5e7eb;
+        --soft-button-text: #111827;
+        --danger: #dc2626;
+        --danger-soft: #fee2e2;
+        --accent: #2563eb;
+        --accent-soft: #eff6ff;
+        --shadow: 0 18px 45px rgba(17, 24, 39, 0.1);
+        --small-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
+      }
+
+      body.dark {
+        color-scheme: dark;
+        --bg: #09090b;
+        --panel: #111113;
+        --card: #18181b;
+        --text: #f4f4f5;
+        --muted: #a1a1aa;
+        --border: #27272a;
+        --border-strong: #3f3f46;
+        --button: #f4f4f5;
+        --button-hover: #d4d4d8;
+        --button-text: #09090b;
+        --soft-button: #27272a;
+        --soft-button-hover: #3f3f46;
+        --soft-button-text: #f4f4f5;
+        --danger: #f87171;
+        --danger-soft: #450a0a;
+        --accent: #60a5fa;
+        --accent-soft: #172554;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+        --small-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(
+            circle at top left,
+            rgba(37, 99, 235, 0.13),
+            transparent 34rem
+          ),
+          var(--bg);
+        color: var(--text);
+      }
+
+      body {
+        display: grid;
+        min-height: 100vh;
+        min-height: 100dvh;
+        place-items: start center;
+        padding: 18px;
+        background-attachment: fixed;
+      }
+
+      main {
+        width: min(100%, 820px);
+        display: grid;
+        gap: 16px;
+      }
+
+      .app {
+        width: 100%;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background: color-mix(in srgb, var(--panel), transparent 3%);
+        box-shadow: var(--shadow);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .title-area {
+        min-width: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(22px, 5vw, 32px);
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+
+      .subtitle {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .top-actions,
+      .toolbar-row,
+      .category-tabs,
+      .block-actions,
+      .theme-buttons,
+      .reorder-controls,
+      .dialog-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .hints-list {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .hints-list li + li {
+        margin-top: 8px;
+      }
+
+      .top-actions {
+        justify-content: flex-end;
+      }
+
+      .toolbar {
+        display: none;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      body.editing .toolbar {
+        display: grid;
+      }
+
+      .toolbar-row {
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .category-tabs {
+        align-items: center;
+      }
+
+      .blocks {
+        display: grid;
+        gap: 14px;
+      }
+
+      .empty-state {
+        display: none;
+        padding: 22px;
+        border: 1px dashed var(--border-strong);
+        border-radius: 22px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .block-card {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--card);
+        box-shadow: var(--small-shadow);
+      }
+
+      .block-card.collapsed {
+        gap: 0;
+      }
+
+      .block-header {
+        position: relative;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: absolute;
+        top: 6px;
+        right: 7px;
+      }
+
+      .arrow-button {
+        min-width: 34px;
+        width: 34px;
+        min-height: 34px;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .arrow-button .arrow {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 10px solid currentColor;
+        transition: transform 140ms ease;
+      }
+
+      .block-card.expanded .arrow-button .arrow {
+        transform: rotate(180deg);
+      }
+
+      .arrow-button:hover {
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent), transparent 92%);
+      }
+
+      .block-title {
+        margin: 0;
+        width: 100%;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        padding: 11px 160px 11px 14px;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        background: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--soft-button), transparent 12%),
+          color-mix(in srgb, var(--card), transparent 3%)
+        );
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.015em;
+        color: var(--text);
+        overflow-wrap: anywhere;
+        box-shadow: inset 0 1px 0 color-mix(in srgb, white, transparent 55%);
+      }
+
+      .block-title[contenteditable="true"] {
+        cursor: text;
+        border-color: color-mix(in srgb, var(--accent), var(--border) 55%);
+        background: var(--panel);
+      }
+
+      body.editing .block-title {
+        padding-right: 292px;
+      }
+
+      .block-title[contenteditable="true"]:focus {
+        outline: 3px solid color-mix(in srgb, var(--accent), transparent 70%);
+        border-color: var(--accent);
+      }
+
+      .block-body {
+        display: grid;
+        gap: 12px;
+      }
+
+      .category-control,
+      .edit-only {
+        display: none;
+      }
+
+      body.editing .category-control,
+      body.editing .edit-only {
+        display: grid;
+      }
+
+      .category-control {
+        gap: 6px;
+      }
+
+      .category-label,
+      .setting-label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 750;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel);
+        color: var(--text);
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+        padding: 12px;
+        line-height: 1.45;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 3px solid color-mix(in srgb, var(--accent), transparent 65%);
+        border-color: var(--accent);
+      }
+
+      .btn {
+        appearance: none;
+        -webkit-appearance: none;
+        border: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 130ms ease,
+          background 130ms ease,
+          border-color 130ms ease,
+          box-shadow 130ms ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--accent), transparent 60%);
+        outline-offset: 2px;
+      }
+
+      .btn-primary {
+        background: var(--button);
+        color: var(--button-text);
+        box-shadow: 0 8px 18px rgba(17, 24, 39, 0.16);
+      }
+
+      .btn-primary:hover {
+        background: var(--button-hover);
+      }
+
+      .add-top-button {
+        min-width: 40px;
+        width: 40px;
+        padding: 0;
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .btn-soft,
+      .category-tab {
+        background: var(--soft-button);
+        color: var(--soft-button-text);
+        border: 1px solid var(--border);
+      }
+
+      .btn-soft:hover,
+      .category-tab:hover {
+        background: var(--soft-button-hover);
+        border-color: var(--border-strong);
+      }
+
+      .btn-danger {
+        background: var(--danger-soft);
+        color: var(--danger);
+        border: 1px solid color-mix(in srgb, var(--danger), transparent 70%);
+      }
+
+      .btn-icon {
+        gap: 7px;
+      }
+
+      .category-tab.active {
+        background: var(--button);
+        color: var(--button-text);
+        border-color: var(--button);
+      }
+
+      .copy-shell {
+        position: relative;
+        display: grid;
+        gap: 0;
+      }
+
+      .text-toggle-button {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .copy-shell.capped .copy-block {
+        max-height: 220px;
+        overflow-y: auto;
+        padding-bottom: 64px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .copy-fade {
+        display: none;
+        position: absolute;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        min-height: 96px;
+        align-items: end;
+        justify-content: center;
+        padding: 44px 12px 12px;
+        border-radius: 0 0 18px 18px;
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--card), transparent 100%),
+          var(--card) 64%
+        );
+        pointer-events: none;
+      }
+
+      .block-card.collapsed .block-body {
+        display: none;
+      }
+
+      .copy-fade {
+        z-index: 1;
+      }
+
+      .copy-shell.capped .copy-fade {
+        display: flex;
+      }
+
+      .copy-block {
+        width: 100%;
+        min-height: 132px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--card), white 4%),
+          var(--card)
+        );
+        color: var(--text);
+        font-size: clamp(15px, 3.6vw, 17px);
+        line-height: 1.55;
+        cursor: pointer;
+        user-select: none;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        transition:
+          transform 130ms ease,
+          border-color 130ms ease,
+          background 130ms ease,
+          box-shadow 130ms ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .copy-block:hover {
+        border-color: var(--border-strong);
+      }
+      .copy-block:active {
+        transform: scale(0.995);
+      }
+
+      .copy-block.copied {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      body.editing .copy-block[contenteditable="true"] {
+        cursor: text;
+        user-select: text;
+        outline: 3px solid color-mix(in srgb, var(--accent), transparent 65%);
+        outline-offset: 3px;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent), transparent 90%);
+      }
+
+      .status {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+        text-align: right;
+        margin-top: 10px;
+      }
+
+      .status:empty {
+        display: none;
+      }
+
+      .header-delete {
+        display: none;
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .header-move-button {
+        display: none;
+        min-height: 34px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      body.editing .header-move-button {
+        display: inline-flex;
+      }
+
+      .move-button {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .move-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      body.editing .header-delete {
+        display: inline-flex;
+      }
+
+      .theme-button {
+        flex: 1;
+        min-height: 52px;
+        border-radius: 16px;
+        background: var(--soft-button);
+        color: var(--soft-button-text);
+        border: 1px solid var(--border);
+      }
+
+      .theme-button:hover {
+        background: var(--soft-button-hover);
+        border-color: var(--border-strong);
+      }
+
+      .theme-button.active {
+        background: var(--button);
+        color: var(--button-text);
+        border-color: var(--button);
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.16);
+      }
+
+      body:not(.editing) .block-title {
+        cursor: pointer;
+      }
+
+      body:not(.editing) .block-title:hover {
+        border-color: var(--accent);
+      }
+
+      .block-title.copied-title {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      dialog {
+        width: min(calc(100% - 32px), 430px);
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 0;
+        background: var(--panel);
+        color: var(--text);
+        box-shadow: var(--shadow);
+      }
+
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(3px);
+      }
+
+      .settings-panel,
+      .add-panel,
+      .delete-panel {
+        display: grid;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .settings-panel {
+        gap: 18px;
+      }
+
+      .settings-section {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--soft-button), transparent 45%);
+      }
+
+      .settings-section-title {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+
+      .settings-section-note {
+        margin: -6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .backup-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .backup-actions .btn {
+        min-width: 0;
+      }
+
+      .settings-status {
+        min-height: 0;
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .settings-status:empty {
+        display: none;
+      }
+
+      .settings-status.error {
+        color: var(--danger);
+      }
+
+      .delete-panel .dialog-actions {
+        margin-top: 2px;
+      }
+
+      .settings-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 12px;
+      }
+
+      .settings-head-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .settings-title {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: -0.03em;
+      }
+
+      .settings-note {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .setting-row {
+        display: grid;
+        gap: 8px;
+      }
+      .dialog-actions {
+        justify-content: flex-end;
+      }
+
+      @media (max-width: 620px) {
+        body {
+          padding: 10px;
+          place-items: start center;
+        }
+        .app {
+          padding: 14px;
+          border-radius: 24px;
+        }
+        .topbar {
+          flex-direction: column;
+        }
+        .top-actions {
+          width: 100%;
+        }
+        .top-actions .btn {
+          flex: 1;
+          min-height: 44px;
+        }
+
+        .top-actions .add-top-button {
+          flex: 0 0 44px;
+          width: 44px;
+        }
+        .subtitle {
+          max-width: 18rem;
+        }
+        .toolbar-row {
+          align-items: stretch;
+          flex-direction: column;
+        }
+        .block-card {
+          padding: 12px;
+          border-radius: 20px;
+        }
+        body.editing .block-title {
+          padding-right: 14px;
+          padding-top: 60px;
+        }
+        .header-actions {
+          top: 1px;
+        }
+        .header-delete {
+          min-height: 44px;
+          padding: 0 10px;
+        }
+        .arrow-button {
+          min-width: 44px;
+          width: 44px;
+          min-height: 44px;
+        }
+        .move-button {
+          min-height: 44px;
+        }
+        .text-toggle-button {
+          min-height: 44px;
+        }
+        .copy-block {
+          min-height: 150px;
+          padding: 16px;
+        }
+        .status {
+          text-align: left;
+        }
+        dialog {
+          width: min(calc(100% - 20px), 430px);
+          max-height: calc(100dvh - 20px);
+        }
+        .settings-panel,
+        .add-panel,
+        .delete-panel {
+          padding: 16px;
+        }
+        .backup-actions {
+          grid-template-columns: 1fr;
+        }
+        .dialog-actions .btn {
+          min-height: 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="app">
+        <div class="topbar">
+          <div class="title-area">
+            <h1>Copy Blocks</h1>
+            <p class="subtitle" id="modeSubtitle">
+              Tap a block (or its title) to copy its contents.
+            </p>
+          </div>
+          <div class="top-actions">
+            <button class="btn btn-primary" id="editModeButton" type="button">
+              Edit
+            </button>
+            <button
+              class="btn btn-primary add-top-button"
+              id="addBlockButton"
+              type="button"
+              aria-label="Add copy block"
+            >
+              +
+            </button>
+            <button class="btn btn-soft" id="settingsButton" type="button">
+              Settings
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar" id="editToolbar">
+          <div class="sr-only" id="reorderStatus" aria-live="polite"></div>
+        </div>
+
+        <div class="blocks" id="blocks"></div>
+        <div class="empty-state" id="emptyState">No blocks yet.</div>
+      </div>
+    </main>
+
+    <dialog id="addBlockDialog" aria-labelledby="addBlockTitle">
+      <form class="add-panel" id="addBlockForm" method="dialog">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="addBlockTitle">Add copy block</h2>
+            <p class="settings-note">Create a new saved block.</p>
+          </div>
+          <button class="btn btn-soft" id="closeAddTop" type="button">
+            Close
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="newBlockTitle">Title</label>
+          <input
+            id="newBlockTitle"
+            type="text"
+            placeholder="Follow-up message"
+            required
+          />
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="newBlockText">Text content</label>
+          <textarea
+            id="newBlockText"
+            placeholder="Paste or type the copy you want to save here."
+            required
+          ></textarea>
+        </div>
+
+        <div class="dialog-actions">
+          <button class="btn btn-soft" id="cancelAdd" type="button">
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit">Add block</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="hintsDialog" aria-labelledby="hintsTitle">
+      <div class="settings-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="hintsTitle">Hints</h2>
+            <p class="settings-note">
+              Helpful shortcuts for using Copy Blocks.
+            </p>
+          </div>
+          <button class="btn btn-soft" id="closeHintsTop" type="button">
+            Close
+          </button>
+        </div>
+
+        <ul class="hints-list">
+          <li>Press Edit to change titles, text, or add/delete blocks.</li>
+          <li>
+            In Edit mode, use Move up and Move down to rearrange blocks on a
+            phone or computer.
+          </li>
+          <li>Long text previews can be expanded before editing.</li>
+        </ul>
+
+        <button class="btn btn-primary" id="closeHints" type="button">
+          Got it
+        </button>
+      </div>
+    </dialog>
+    <dialog id="settingsDialog" aria-labelledby="settingsTitle">
+      <div class="settings-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="settingsTitle">Settings</h2>
+            <p class="settings-note">Appearance and data backup.</p>
+          </div>
+
+          <div class="settings-head-actions">
+            <button
+              class="btn btn-soft btn-icon"
+              id="hintsButton"
+              type="button"
+            >
+              <span aria-hidden="true">💡</span>
+              Hints
+            </button>
+
+            <button class="btn btn-soft" id="closeSettingsTop" type="button">
+              Close
+            </button>
+          </div>
+        </div>
+
+        <section class="settings-section" aria-labelledby="appearanceTitle">
+          <h3 class="settings-section-title" id="appearanceTitle">
+            Appearance
+          </h3>
+          <p class="settings-section-note">Choose the theme that feels best.</p>
+          <div class="theme-buttons" aria-label="Theme">
+            <button class="btn theme-button" id="lightButton" type="button">
+              Light
+            </button>
+            <button class="btn theme-button" id="darkButton" type="button">
+              Dark
+            </button>
+          </div>
+        </section>
+
+        <section class="settings-section" aria-labelledby="backupTitle">
+          <h3 class="settings-section-title" id="backupTitle">
+            Backup and transfer
+          </h3>
+          <p class="settings-section-note">
+            Back up your blocks in case you clear browser data or switch
+            devices.
+          </p>
+          <div class="backup-actions">
+            <button class="btn btn-primary" id="exportButton" type="button">
+              Export backup
+            </button>
+            <button class="btn btn-soft" id="importButton" type="button">
+              Import backup
+            </button>
+          </div>
+          <input
+            id="importFileInput"
+            type="file"
+            accept="application/json,.json"
+            hidden
+          />
+          <p class="settings-status" id="settingsStatus" aria-live="polite"></p>
+        </section>
+
+        <button class="btn btn-primary" id="closeSettings" type="button">
+          Done
+        </button>
+      </div>
+    </dialog>
+
+    <dialog id="deleteDialog" aria-labelledby="deleteTitle">
+      <div class="delete-panel">
+        <div>
+          <h2 class="settings-title" id="deleteTitle">Delete copy block?</h2>
+          <p class="settings-note" id="deleteMessage">
+            This block will be permanently removed.
+          </p>
+        </div>
+        <div class="dialog-actions">
+          <button class="btn btn-soft" id="cancelDelete" type="button">
+            Keep block
+          </button>
+          <button class="btn btn-danger" id="confirmDelete" type="button">
+            Delete block
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      const STORAGE_KEY = "copyBlocksDataV3";
+      const LEGACY_KEYS = ["copyBlockOne", "copyBlockTwo"];
+      const PREVIEW_CHARACTER_LIMIT = 1200;
+      const DEFAULT_BLOCK_TEXT = `Tap this box (or the title) to copy its contents.\n\nTo change this text:\n    1. Press Edit.\n    2. Type your own message.\n    3. Press Done.\n\nYour changes save on this device automatically.`;
+
+      const settingsButton = document.getElementById("settingsButton");
+      const settingsDialog = document.getElementById("settingsDialog");
+      const closeSettings = document.getElementById("closeSettings");
+      const closeSettingsTop = document.getElementById("closeSettingsTop");
+      const lightButton = document.getElementById("lightButton");
+      const darkButton = document.getElementById("darkButton");
+      const editModeButton = document.getElementById("editModeButton");
+      const modeSubtitle = document.getElementById("modeSubtitle");
+      const blocksContainer = document.getElementById("blocks");
+      const addBlockButton = document.getElementById("addBlockButton");
+      const addBlockDialog = document.getElementById("addBlockDialog");
+      const addBlockForm = document.getElementById("addBlockForm");
+      const closeAddTop = document.getElementById("closeAddTop");
+      const cancelAdd = document.getElementById("cancelAdd");
+      const newBlockTitle = document.getElementById("newBlockTitle");
+      const newBlockText = document.getElementById("newBlockText");
+      const deleteDialog = document.getElementById("deleteDialog");
+      const deleteMessage = document.getElementById("deleteMessage");
+      const cancelDelete = document.getElementById("cancelDelete");
+      const confirmDelete = document.getElementById("confirmDelete");
+      const hintsButton = document.getElementById("hintsButton");
+      const hintsDialog = document.getElementById("hintsDialog");
+      const closeHints = document.getElementById("closeHints");
+      const closeHintsTop = document.getElementById("closeHintsTop");
+      const reorderStatus = document.getElementById("reorderStatus");
+      const exportButton = document.getElementById("exportButton");
+      const importButton = document.getElementById("importButton");
+      const importFileInput = document.getElementById("importFileInput");
+      const settingsStatus = document.getElementById("settingsStatus");
+
+      let editing = localStorage.getItem("copyBlocksEditing") === "true";
+      let blocks = loadBlocks();
+      let pendingDeleteId = null;
+
+      function createId() {
+        return `block-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function loadBlocks() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) {
+              return parsed.map((block, index) => ({
+                id: block.id || createId(),
+                title: block.title || "Untitled",
+                text: block.text || "",
+                expanded:
+                  typeof block.expanded === "boolean"
+                    ? block.expanded
+                    : index === 0,
+                showFullText:
+                  typeof block.showFullText === "boolean"
+                    ? block.showFullText
+                    : false,
+              }));
+            }
+          } catch {
+            localStorage.removeItem(STORAGE_KEY);
+          }
+        }
+
+        return [
+          {
+            id: createId(),
+            title: "Welcome to Copy Blocks! ヅ",
+            text: DEFAULT_BLOCK_TEXT,
+            expanded: true,
+            showFullText: false,
+          },
+          {
+            id: createId(),
+            title:
+              "(Hint: Tap on the arrowhead to expand or compress a block.)",
+            text: `This page is secure using local storage. (This means only your device stores the data)
+
+      It only remembers:
+          1. Your theme (Try switching to Dark mode through settings!)
+          2. Your edited copy blocks
+
+      Thank you for using our app ✨`,
+            expanded: false,
+            showFullText: false,
+          },
+        ];
+      }
+
+      function saveBlocks() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(blocks));
+      }
+
+      function plainTextFromEditable(element) {
+        let text = "";
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
+        );
+
+        while (walker.nextNode()) {
+          const node = walker.currentNode;
+          if (node.nodeType === Node.TEXT_NODE) {
+            text += node.nodeValue;
+          } else if (node.nodeName === "BR") {
+            text += "\n";
+          } else if (node !== element && ["DIV", "P"].includes(node.nodeName)) {
+            if (text && !text.endsWith("\n")) text += "\n";
+          }
+        }
+
+        return text.replace(/^\n+|\n+$/g, "");
+      }
+
+      function updateBlock(id, changes) {
+        blocks = blocks.map((block) =>
+          block.id === id ? { ...block, ...changes } : block,
+        );
+        saveBlocks();
+      }
+
+      function moveBlockByOffset(id, offset) {
+        const fromIndex = blocks.findIndex((block) => block.id === id);
+        const toIndex = fromIndex + offset;
+        if (fromIndex < 0 || toIndex < 0 || toIndex >= blocks.length)
+          return false;
+
+        const [movedBlock] = blocks.splice(fromIndex, 1);
+        blocks.splice(toIndex, 0, movedBlock);
+        saveBlocks();
+        return true;
+      }
+
+      function setSettingsStatus(message, isError = false) {
+        settingsStatus.textContent = message;
+        settingsStatus.classList.toggle("error", isError);
+      }
+
+      function normalizeImportedBlocks(value) {
+        const importedBlocks = Array.isArray(value) ? value : value?.blocks;
+        if (!Array.isArray(importedBlocks)) {
+          throw new Error("That file is not a Copy Blocks backup.");
+        }
+        if (importedBlocks.length > 1000) {
+          throw new Error("That backup contains too many blocks.");
+        }
+
+        return importedBlocks.map((block) => {
+          if (
+            !block ||
+            typeof block !== "object" ||
+            typeof block.title !== "string" ||
+            typeof block.text !== "string"
+          ) {
+            throw new Error("That backup contains an invalid block.");
+          }
+          return {
+            id: createId(),
+            title: block.title.trim() || "Untitled",
+            text: block.text,
+            expanded:
+              typeof block.expanded === "boolean" ? block.expanded : true,
+            showFullText: false,
+          };
+        });
+      }
+
+      function exportBackup() {
+        const backup = {
+          app: "Copy Blocks",
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          theme: document.body.classList.contains("dark") ? "dark" : "light",
+          blocks,
+        };
+        const blob = new Blob([JSON.stringify(backup, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `copy-blocks-backup-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setSettingsStatus("Backup exported successfully.");
+      }
+
+      function setEditing(nextEditing) {
+        editing = nextEditing;
+        document.body.classList.toggle("editing", editing);
+        editModeButton.textContent = editing ? "Done" : "Edit";
+        modeSubtitle.textContent = editing
+          ? "Edit titles and content. Press 'Done' when complete."
+          : "Tap a block (or its title) to copy its contents.";
+        localStorage.setItem("copyBlocksEditing", String(editing));
+        render();
+      }
+
+      function makeBlockCard(blockData) {
+        const card = document.createElement("section");
+        card.className = `block-card ${blockData.expanded ? "expanded" : "collapsed"}`;
+        card.dataset.blockId = blockData.id;
+        const header = document.createElement("div");
+        header.className = "block-header";
+
+        const title = document.createElement("p");
+        title.className = "block-title";
+        title.textContent = blockData.title;
+        title.setAttribute("contenteditable", editing ? "true" : "false");
+        title.setAttribute(
+          "aria-label",
+          editing ? "Editable block title" : "Block title",
+        );
+        title.setAttribute("spellcheck", "true");
+        if (editing) {
+          title.setAttribute("role", "textbox");
+          title.setAttribute("aria-multiline", "false");
+        } else {
+          title.setAttribute("role", "button");
+          title.setAttribute("tabindex", "0");
+          title.setAttribute("aria-label", "Copy block contents");
+        }
+
+        const headerActions = document.createElement("div");
+        headerActions.className = "header-actions";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-danger header-delete";
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+
+        const arrowButton = document.createElement("button");
+        arrowButton.className = "btn arrow-button";
+        arrowButton.type = "button";
+        arrowButton.setAttribute(
+          "aria-label",
+          blockData.expanded ? "Compress copy block" : "Expand copy block",
+        );
+        arrowButton.setAttribute("aria-expanded", String(blockData.expanded));
+        arrowButton.innerHTML = `<span class="arrow" aria-hidden="true"></span>`;
+
+        const blockIndex = blocks.findIndex(
+          (block) => block.id === blockData.id,
+        );
+
+        const moveUpButton = document.createElement("button");
+        moveUpButton.className =
+          "btn btn-soft move-button move-up header-move-button";
+        moveUpButton.type = "button";
+        moveUpButton.textContent = "Move up";
+        moveUpButton.disabled = blockIndex === 0;
+        moveUpButton.setAttribute("aria-label", `Move ${blockData.title} up`);
+
+        const moveDownButton = document.createElement("button");
+        moveDownButton.className =
+          "btn btn-soft move-button move-down header-move-button";
+        moveDownButton.type = "button";
+        moveDownButton.textContent = "Move down";
+        moveDownButton.disabled = blockIndex === blocks.length - 1;
+        moveDownButton.setAttribute(
+          "aria-label",
+          `Move ${blockData.title} down`,
+        );
+
+        const body = document.createElement("div");
+        body.className = "block-body";
+
+        const isLongText = blockData.text.length > PREVIEW_CHARACTER_LIMIT;
+        const shouldCapText = isLongText && !blockData.showFullText;
+        const displayedText = blockData.text;
+        const copyShell = document.createElement("div");
+        copyShell.className = `copy-shell ${isLongText ? "long-text" : ""} ${shouldCapText ? "capped" : ""} ${isLongText && blockData.showFullText ? "showing-full" : ""}`;
+
+        const textToggleButton = document.createElement("button");
+        textToggleButton.className = "btn btn-soft text-toggle-button";
+        textToggleButton.type = "button";
+        textToggleButton.textContent = shouldCapText
+          ? "Expand Text"
+          : "Compress Text";
+        textToggleButton.style.display = isLongText ? "inline-flex" : "none";
+        headerActions.append(
+          moveUpButton,
+          moveDownButton,
+          deleteButton,
+          textToggleButton,
+          arrowButton,
+        );
+        header.append(title, headerActions);
+
+        const copyBlock = document.createElement("div");
+        copyBlock.className = "copy-block";
+        copyBlock.tabIndex = 0;
+        copyBlock.textContent = displayedText;
+        copyBlock.setAttribute("contenteditable", editing ? "true" : "false");
+        copyBlock.setAttribute("role", editing ? "textbox" : "button");
+        if (editing) {
+          copyBlock.setAttribute("aria-multiline", "true");
+        }
+        copyBlock.setAttribute(
+          "aria-label",
+          editing ? "Editable copy block contents" : "Copy block contents",
+        );
+
+        const copyFade = document.createElement("div");
+        copyFade.className = "copy-fade";
+
+        copyShell.append(copyBlock, copyFade);
+
+        const status = document.createElement("div");
+        status.className = "status";
+        status.setAttribute("aria-live", "polite");
+
+        body.append(copyShell);
+        card.append(header, body, status);
+
+        let statusTimer;
+        function showStatus(message) {
+          clearTimeout(statusTimer);
+          status.textContent = message;
+          statusTimer = setTimeout(() => {
+            status.textContent = "";
+          }, 1300);
+        }
+
+        async function copyCurrentBlock() {
+          if (editing) return;
+          const text = blockData.text;
+
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            textarea.remove();
+          }
+
+          copyBlock.classList.add("copied");
+          title.classList.add("copied-title");
+          showStatus("Copied Contents to Clipboard!");
+          setTimeout(() => {
+            copyBlock.classList.remove("copied");
+            title.classList.remove("copied-title");
+          }, 550);
+        }
+
+        arrowButton.addEventListener("click", () => {
+          updateBlock(blockData.id, { expanded: !blockData.expanded });
+          render();
+        });
+
+        title.addEventListener("input", () => {
+          if (!editing) return;
+          updateBlock(blockData.id, {
+            title: plainTextFromEditable(title) || "Untitled",
+          });
+        });
+
+        title.addEventListener("keydown", (event) => {
+          if (!editing) return;
+          if (event.key === "Enter") {
+            event.preventDefault();
+            title.blur();
+          }
+        });
+
+        title.addEventListener("blur", () => {
+          if (!editing) return;
+          title.textContent = plainTextFromEditable(title) || "Untitled";
+          updateBlock(blockData.id, { title: title.textContent });
+        });
+
+        copyBlock.addEventListener("input", () => {
+          if (!editing) return;
+          updateBlock(blockData.id, { text: plainTextFromEditable(copyBlock) });
+        });
+
+        copyBlock.addEventListener("click", copyCurrentBlock);
+
+        title.addEventListener("click", () => {
+          if (editing) return;
+          copyCurrentBlock();
+        });
+
+        title.addEventListener("keydown", (event) => {
+          if (editing) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            copyCurrentBlock();
+          }
+        });
+
+        copyBlock.addEventListener("keydown", (event) => {
+          if (!editing && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            copyCurrentBlock();
+          }
+        });
+
+        textToggleButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+          updateBlock(blockData.id, { showFullText: shouldCapText });
+          render();
+        });
+
+        deleteButton.addEventListener("click", () => {
+          pendingDeleteId = blockData.id;
+          deleteMessage.textContent = `“${blockData.title}” will be permanently removed.`;
+          deleteDialog.showModal();
+        });
+
+        function moveAndRestoreFocus(offset, focusClass) {
+          if (!moveBlockByOffset(blockData.id, offset)) return;
+          const newPosition = blocks.findIndex(
+            (block) => block.id === blockData.id,
+          );
+          render();
+          reorderStatus.textContent = `${blockData.title} moved to position ${newPosition + 1} of ${blocks.length}.`;
+          requestAnimationFrame(() => {
+            const movedCard = blocksContainer.querySelector(
+              `[data-block-id="${CSS.escape(blockData.id)}"]`,
+            );
+            const preferredButton = movedCard?.querySelector(focusClass);
+            const fallbackButton = movedCard?.querySelector(
+              focusClass === ".move-up" ? ".move-down" : ".move-up",
+            );
+            if (preferredButton && !preferredButton.disabled) {
+              preferredButton.focus();
+            } else if (fallbackButton && !fallbackButton.disabled) {
+              fallbackButton.focus();
+            } else {
+              movedCard?.querySelector(".header-delete")?.focus();
+            }
+          });
+        }
+
+        moveUpButton.addEventListener("click", () =>
+          moveAndRestoreFocus(-1, ".move-up"),
+        );
+        moveDownButton.addEventListener("click", () =>
+          moveAndRestoreFocus(1, ".move-down"),
+        );
+
+        return card;
+      }
+
+      function renderBlocks() {
+        blocksContainer.innerHTML = "";
+
+        blocks.forEach((block) =>
+          blocksContainer.appendChild(makeBlockCard(block)),
+        );
+
+        emptyState.style.display = blocks.length ? "none" : "block";
+      }
+
+      function render() {
+        renderBlocks();
+      }
+
+      function updateThemeButtons(theme) {
+        lightButton.classList.toggle("active", theme === "light");
+        darkButton.classList.toggle("active", theme === "dark");
+        lightButton.setAttribute("aria-pressed", theme === "light");
+        darkButton.setAttribute("aria-pressed", theme === "dark");
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("copyBlocksTheme", theme);
+        updateThemeButtons(theme);
+      }
+
+      editModeButton.addEventListener("click", () => setEditing(!editing));
+      hintsButton.addEventListener("click", () => hintsDialog.showModal());
+      closeHints.addEventListener("click", () => hintsDialog.close());
+      closeHintsTop.addEventListener("click", () => hintsDialog.close());
+      settingsButton.addEventListener("click", () => {
+        setSettingsStatus("");
+        settingsDialog.showModal();
+      });
+      closeSettings.addEventListener("click", () => settingsDialog.close());
+      closeSettingsTop.addEventListener("click", () => settingsDialog.close());
+      lightButton.addEventListener("click", () => setTheme("light"));
+      darkButton.addEventListener("click", () => setTheme("dark"));
+      exportButton.addEventListener("click", exportBackup);
+      importButton.addEventListener("click", () => importFileInput.click());
+      importFileInput.addEventListener("change", async () => {
+        const file = importFileInput.files?.[0];
+        if (!file) return;
+
+        try {
+          if (file.size > 5 * 1024 * 1024) {
+            throw new Error("That backup is larger than 5 MB.");
+          }
+          const backup = JSON.parse(await file.text());
+          const importedBlocks = normalizeImportedBlocks(backup);
+          blocks = importedBlocks;
+          saveBlocks();
+          if (backup?.theme === "light" || backup?.theme === "dark") {
+            setTheme(backup.theme);
+          }
+          render();
+          setSettingsStatus(
+            `${blocks.length} ${blocks.length === 1 ? "block" : "blocks"} imported successfully.`,
+          );
+        } catch (error) {
+          setSettingsStatus(
+            error instanceof Error
+              ? error.message
+              : "That backup could not be imported.",
+            true,
+          );
+        } finally {
+          importFileInput.value = "";
+        }
+      });
+
+      addBlockButton.addEventListener("click", () => {
+        newBlockTitle.value = "";
+        newBlockText.value = "";
+        addBlockDialog.showModal();
+        newBlockTitle.focus();
+      });
+
+      closeAddTop.addEventListener("click", () => addBlockDialog.close());
+      cancelAdd.addEventListener("click", () => addBlockDialog.close());
+      cancelDelete.addEventListener("click", () => {
+        pendingDeleteId = null;
+        deleteDialog.close();
+      });
+      confirmDelete.addEventListener("click", () => {
+        if (!pendingDeleteId) return;
+        blocks = blocks.filter((block) => block.id !== pendingDeleteId);
+        pendingDeleteId = null;
+        saveBlocks();
+        deleteDialog.close();
+        render();
+      });
+      deleteDialog.addEventListener("close", () => {
+        pendingDeleteId = null;
+      });
+
+      addBlockForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        blocks.unshift({
+          id: createId(),
+          title: newBlockTitle.value.trim() || "Untitled",
+          text: newBlockText.value,
+          expanded: true,
+          showFullText: false,
+        });
+
+        saveBlocks();
+        addBlockDialog.close();
+        render();
+      });
+
+      setTheme(localStorage.getItem("copyBlocksTheme") || "light");
+      document.body.classList.toggle("editing", editing);
+      editModeButton.textContent = editing ? "Done" : "Edit";
+      modeSubtitle.textContent = editing
+        ? "Edit titles and content. Press 'Done' when complete."
+        : "Tap a block (or its title) to copy its contents.";
+      saveBlocks();
+      render();
+    </script>
+  </body>
+</html>
