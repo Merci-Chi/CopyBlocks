@@ -235,6 +235,10 @@
         transition: transform 140ms ease;
       }
 
+      .arrow-button .control-label {
+        display: none;
+      }
+
       .block-card.expanded .arrow-button .arrow {
         transform: rotate(180deg);
       }
@@ -411,6 +415,10 @@
 
       .btn-icon {
         gap: 7px;
+      }
+
+      .mobile-control-icon {
+        display: none;
       }
 
       .category-tab.active {
@@ -725,35 +733,51 @@
 
       @media (max-width: 620px) {
         body {
-          padding: 10px;
+          padding: 0;
           place-items: start center;
         }
 
         .app {
-          padding: 14px;
-          border-radius: 24px;
+          min-height: 100vh;
+          min-height: 100dvh;
+          padding: 14px 12px 24px;
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
         }
 
         .topbar {
-          flex-direction: column;
+          display: grid;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+
+        h1 {
+          font-size: 26px;
         }
 
         .top-actions {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
           width: 100%;
+          gap: 7px;
         }
 
         .top-actions .btn {
-          flex: 1;
+          width: 100%;
+          padding-inline: 10px;
           min-height: 44px;
         }
 
         .top-actions .add-top-button {
-          flex: 0 0 44px;
-          width: 44px;
+          width: 48px;
+          padding: 0;
+          font-size: 22px;
         }
 
         .subtitle {
-          max-width: 18rem;
+          max-width: none;
+          font-size: 13px;
         }
 
         .toolbar-row {
@@ -762,58 +786,188 @@
         }
 
         .block-card {
-          padding: 12px;
-          border-radius: 20px;
+          gap: 9px;
+          padding: 10px;
+          border-radius: 16px;
         }
 
         .block-title {
-          padding-right: 58px;
+          min-height: 48px;
+          padding: 10px 58px 10px 12px;
+          border-radius: 12px;
+          font-size: 14px;
+          line-height: 1.3;
         }
 
-        body.editing .block-title {
-          padding-right: 14px;
-          padding-top: 60px;
+        .block-card.long-text-card .block-title {
+          padding-right: 108px;
         }
 
-        .header-actions {
-          top: 1px;
+        body.editing .block-header {
+          display: grid;
+          gap: 7px;
         }
-        .header-delete {
-          min-height: 44px;
-          padding: 0 10px;
+
+        body.editing .block-title,
+        body.editing .block-card.long-text-card .block-title {
+          padding: 10px 12px;
         }
-        .arrow-button {
+
+        body.editing .header-actions {
+          position: static;
+          display: flex;
+          width: 100%;
+          gap: 6px;
+        }
+
+        body.editing .header-actions .btn {
+          flex: 1 1 44px;
           min-width: 44px;
-          width: 44px;
-          min-height: 44px;
+          width: auto;
         }
-        .move-button {
-          min-height: 44px;
+
+        body:not(.editing) .header-actions {
+          top: 2px;
+          right: 3px;
+          gap: 2px;
         }
-        .text-toggle-button {
+
+        .mobile-icon-button {
+          min-width: 44px;
           min-height: 44px;
+          padding: 0;
+          border-radius: 11px;
         }
+
+        .mobile-control-icon {
+          display: block;
+          width: 22px;
+          height: 22px;
+          object-fit: contain;
+          transition: transform 140ms ease;
+        }
+
+        .mobile-icon-button:not(.icon-missing) .control-label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
+        .mobile-icon-button.icon-missing .mobile-control-icon {
+          display: none;
+        }
+
+        .move-up .mobile-control-icon {
+          transform: rotate(180deg);
+        }
+
+        .block-card.expanded .arrow-button .mobile-control-icon,
+        .text-toggle-button.is-compress .mobile-control-icon {
+          transform: rotate(180deg);
+        }
+
+        .arrow-button .arrow {
+          display: none;
+        }
+
+        .arrow-button.icon-missing .arrow {
+          display: inline-block;
+        }
+
+        .blocks {
+          gap: 10px;
+        }
+
+        .copy-shell.capped .copy-block {
+          max-height: 190px;
+          padding-bottom: 54px;
+        }
+
+        .copy-fade {
+          min-height: 76px;
+          padding-top: 34px;
+          border-radius: 0 0 14px 14px;
+        }
+
         .copy-block {
-          min-height: 150px;
-          padding: 16px;
+          min-height: 112px;
+          padding: 14px;
+          border-radius: 14px;
+          font-size: 15px;
+          line-height: 1.5;
         }
+
         .status {
+          margin-top: 4px;
+          font-size: 12px;
           text-align: left;
         }
-        dialog {
-          width: min(calc(100% - 20px), 430px);
-          max-height: calc(100dvh - 20px);
+
+        .settings-head {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 10px;
         }
+
+        .settings-head-actions {
+          gap: 6px;
+        }
+
+        .settings-head-actions .btn {
+          min-height: 42px;
+          padding-inline: 10px;
+        }
+
+        .settings-section {
+          padding: 12px;
+          border-radius: 14px;
+        }
+
+        .settings-panel {
+          gap: 14px;
+        }
+
+        .theme-buttons {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .theme-button {
+          min-width: 0;
+        }
+
+        dialog {
+          width: calc(100% - 16px);
+          max-height: calc(100dvh - 16px);
+          border-radius: 18px;
+        }
+
         .settings-panel,
         .add-panel,
         .delete-panel {
-          padding: 16px;
+          padding: 14px;
         }
+
         .backup-actions {
           grid-template-columns: 1fr;
         }
+
+        .dialog-actions {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          width: 100%;
+        }
+
         .dialog-actions .btn {
+          width: 100%;
           min-height: 44px;
+          padding-inline: 10px;
         }
       }
     </style>
@@ -1055,6 +1209,29 @@
         return `block-${Date.now()}-${Math.random().toString(16).slice(2)}`;
       }
 
+      function addMobileIcon(button, source, label, keepExisting = false) {
+        button.classList.add("mobile-icon-button");
+        const icon = document.createElement("img");
+        icon.className = "mobile-control-icon";
+        icon.alt = "";
+        icon.setAttribute("aria-hidden", "true");
+        icon.addEventListener("error", () => {
+          button.classList.add("icon-missing");
+        });
+        icon.src = source;
+
+        const labelElement = document.createElement("span");
+        labelElement.className = "control-label";
+        labelElement.textContent = label;
+
+        if (keepExisting) {
+          button.prepend(icon);
+          button.append(labelElement);
+        } else {
+          button.replaceChildren(icon, labelElement);
+        }
+      }
+
       function loadBlocks() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
@@ -1217,8 +1394,9 @@
       }
 
       function makeBlockCard(blockData) {
+        const isLongText = blockData.text.length > PREVIEW_CHARACTER_LIMIT;
         const card = document.createElement("section");
-        card.className = `block-card ${blockData.expanded ? "expanded" : "collapsed"}`;
+        card.className = `block-card ${isLongText ? "long-text-card" : ""} ${blockData.expanded ? "expanded" : "collapsed"}`;
         card.dataset.blockId = blockData.id;
         const header = document.createElement("div");
         header.className = "block-header";
@@ -1247,7 +1425,7 @@
         const deleteButton = document.createElement("button");
         deleteButton.className = "btn btn-danger header-delete";
         deleteButton.type = "button";
-        deleteButton.textContent = "Delete";
+        addMobileIcon(deleteButton, "icons/delete.png", "Delete");
 
         const arrowButton = document.createElement("button");
         arrowButton.className = "btn arrow-button";
@@ -1258,6 +1436,7 @@
         );
         arrowButton.setAttribute("aria-expanded", String(blockData.expanded));
         arrowButton.innerHTML = `<span class="arrow" aria-hidden="true"></span>`;
+        addMobileIcon(arrowButton, "icons/arrow.png", "", true);
 
         const blockIndex = blocks.findIndex(
           (block) => block.id === blockData.id,
@@ -1267,7 +1446,7 @@
         moveUpButton.className =
           "btn btn-soft move-button move-up header-move-button";
         moveUpButton.type = "button";
-        moveUpButton.textContent = "Move up";
+        addMobileIcon(moveUpButton, "icons/arrow.png", "Move up");
         moveUpButton.disabled = blockIndex === 0;
         moveUpButton.setAttribute("aria-label", `Move ${blockData.title} up`);
 
@@ -1275,7 +1454,7 @@
         moveDownButton.className =
           "btn btn-soft move-button move-down header-move-button";
         moveDownButton.type = "button";
-        moveDownButton.textContent = "Move down";
+        addMobileIcon(moveDownButton, "icons/arrow.png", "Move down");
         moveDownButton.disabled = blockIndex === blocks.length - 1;
         moveDownButton.setAttribute(
           "aria-label",
@@ -1285,7 +1464,6 @@
         const body = document.createElement("div");
         body.className = "block-body";
 
-        const isLongText = blockData.text.length > PREVIEW_CHARACTER_LIMIT;
         const shouldCapText = isLongText && !blockData.showFullText;
         const displayedText = blockData.text;
         const copyShell = document.createElement("div");
@@ -1294,9 +1472,12 @@
         const textToggleButton = document.createElement("button");
         textToggleButton.className = "btn btn-soft text-toggle-button";
         textToggleButton.type = "button";
-        textToggleButton.textContent = shouldCapText
-          ? "Expand Text"
-          : "Compress Text";
+        textToggleButton.classList.toggle("is-compress", !shouldCapText);
+        addMobileIcon(
+          textToggleButton,
+          "icons/expand.png",
+          shouldCapText ? "Expand Text" : "Compress Text",
+        );
         textToggleButton.style.display = isLongText ? "inline-flex" : "none";
         headerActions.append(
           moveUpButton,
