@@ -758,7 +758,7 @@
 
         .top-actions {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+          grid-template-columns: 48px 48px minmax(0, 1fr);
           width: 100%;
           gap: 7px;
         }
@@ -1211,6 +1211,7 @@
 
       function addMobileIcon(button, source, label, keepExisting = false) {
         button.classList.add("mobile-icon-button");
+        button.classList.remove("icon-missing");
         const icon = document.createElement("img");
         icon.className = "mobile-control-icon";
         icon.alt = "";
@@ -1230,6 +1231,16 @@
         } else {
           button.replaceChildren(icon, labelElement);
         }
+      }
+
+      function setEditButtonAppearance() {
+        const label = editing ? "Done" : "Edit";
+        editModeButton.setAttribute("aria-label", label);
+        addMobileIcon(
+          editModeButton,
+          editing ? "icons/check.png" : "icons/edit.png",
+          label,
+        );
       }
 
       function loadBlocks() {
@@ -1385,7 +1396,7 @@
       function setEditing(nextEditing) {
         editing = nextEditing;
         document.body.classList.toggle("editing", editing);
-        editModeButton.textContent = editing ? "Done" : "Edit";
+        setEditButtonAppearance();
         modeSubtitle.textContent = editing
           ? "Edit titles and content. Press 'Done' when complete."
           : "Tap a block (or its title) to copy its contents.";
@@ -1436,7 +1447,7 @@
         );
         arrowButton.setAttribute("aria-expanded", String(blockData.expanded));
         arrowButton.innerHTML = `<span class="arrow" aria-hidden="true"></span>`;
-        addMobileIcon(arrowButton, "icons/arrow.png", "", true);
+        addMobileIcon(arrowButton, "icons/dropdown.png", "", true);
 
         const blockIndex = blocks.findIndex(
           (block) => block.id === blockData.id,
@@ -1762,7 +1773,7 @@
 
       setTheme(localStorage.getItem("copyBlocksTheme") || "light");
       document.body.classList.toggle("editing", editing);
-      editModeButton.textContent = editing ? "Done" : "Edit";
+      setEditButtonAppearance();
       modeSubtitle.textContent = editing
         ? "Edit titles and content. Press 'Done' when complete."
         : "Tap a block (or its title) to copy its contents.";
