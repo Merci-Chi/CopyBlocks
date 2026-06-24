@@ -4,6 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Copy Blocks</title>
+    <link id="appManifest" rel="manifest" href="./manifest.webmanifest" />
+    <meta id="appThemeColor" name="theme-color" content="#d59b18" />
+    <link id="appIcon192" rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link id="appIcon512" rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Copy Blocks" />
     <style>
       * {
         box-sizing: border-box;
@@ -87,7 +95,8 @@
       }
 
       main {
-        width: min(100%, 820px);
+        width: 100%;
+        min-width: 0;
         display: grid;
         gap: 16px;
       }
@@ -1522,6 +1531,7 @@
         width: 100%;
         min-height: 100vh;
         min-height: 100dvh;
+        align-items: start;
       }
 
       .desktop-sidebar {
@@ -1813,6 +1823,10 @@
         margin-right: 8px;
       }
 
+      #blocksHeading > span {
+        color: var(--reference-muted);
+      }
+
       .section-heading-row small,
       .blocks-summary small {
         display: inline-grid;
@@ -1900,13 +1914,14 @@
         width: 44px;
         height: 44px;
         border-radius: 10px;
-        background: transparent;
+        background: var(--soft-button);
         color: var(--reference-muted);
         font-size: 32px;
         line-height: 1;
       }
 
-      .featured-card .mobile-leading {
+      .featured-card .mobile-leading,
+      .mobile-leading.featured {
         background: var(--reference-gold-soft);
         color: var(--reference-gold);
       }
@@ -2033,32 +2048,29 @@
 
       @media (max-width: 900px) {
         .layout-shell {
-          display: block;
+          display: grid;
+          grid-template-columns: 220px minmax(0, 1fr);
         }
 
         .desktop-sidebar {
-          display: none;
-        }
-
-        body.mobile-menu-open::after {
-          content: "";
-          position: fixed;
-          z-index: 29;
-          inset: 0;
-          background: rgba(7, 13, 40, 0.32);
-          backdrop-filter: blur(2px);
-        }
-
-        body.mobile-menu-open .desktop-sidebar {
-          position: fixed;
-          z-index: 30;
-          top: 0;
-          bottom: 0;
-          left: 0;
           display: flex;
-          width: min(82vw, 320px);
-          height: 100dvh;
-          box-shadow: 16px 0 40px rgba(7, 13, 40, 0.16);
+          position: sticky;
+          top: 0;
+          height: 100vh;
+        }
+
+        .main-content {
+          min-width: 0;
+          padding: 24px 20px 56px;
+        }
+
+        .mobile-appbar,
+        .mobile-bottom-nav {
+          display: none !important;
+        }
+
+        .topbar {
+          display: flex;
         }
 
         .sidebar-close {
@@ -2202,6 +2214,7 @@
           height: 64px;
           border-radius: 11px;
           font-size: 38px;
+          background: var(--soft-button);
         }
 
         .title-stack {
@@ -2461,19 +2474,6 @@
         display: flex;
       }
 
-      body:not(.editing) #blocksHeading {
-        font-size: inherit;
-      }
-
-      body:not(.editing) .blocks-summary h2::before {
-        content: "";
-        display: block;
-        width: 54px;
-        height: 4px;
-        margin: 0 0 16px;
-        border-radius: 999px;
-        background: var(--reference-blue-soft);
-      }
       .view-switch {
         display: flex;
         align-items: center;
@@ -2784,7 +2784,7 @@
         grid-template-columns: minmax(220px, 1fr) auto;
         align-items: center;
         gap: 14px;
-        margin: -20px 0 36px;
+        margin: 0 0 36px;
       }
 
       .dashboard-controls .dashboard-search {
@@ -2845,6 +2845,344 @@
         object-fit: contain;
       }
     </style>
+    <style id="gold-dashboard-polish">
+      :root {
+        --accent: #c99112;
+        --accent-soft: #fff5d7;
+        --reference-blue: #c99112;
+        --reference-blue-soft: #fff5d7;
+        --reference-gold: #d9a21d;
+      }
+
+      body.dark {
+        --accent: #e2b94f;
+        --accent-soft: #302711;
+        --reference-blue: #e2b94f;
+        --reference-blue-soft: #302711;
+        --reference-gold: #e2b94f;
+      }
+
+      .desktop-sidebar {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: color-mix(in srgb, var(--reference-gold), transparent 35%) transparent;
+      }
+
+      .desktop-sidebar::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      .desktop-sidebar::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--reference-gold), transparent 35%);
+      }
+
+      .brand-logo {
+        display: block;
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        object-fit: contain;
+        background: var(--reference-blue-soft);
+        box-shadow: 0 7px 18px rgba(154, 108, 5, 0.15);
+      }
+
+      .mobile-brand .brand-logo {
+        flex-basis: 42px;
+        width: 42px;
+        height: 42px;
+      }
+
+      .dashboard-nav-icon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+      }
+
+      .sidebar-link.active,
+      .folder-nav-button.active,
+      .view-switch button[aria-pressed="true"],
+      .sort-button.active,
+      .sort-button[aria-pressed="true"] {
+        background: var(--reference-blue-soft) !important;
+        color: var(--reference-blue) !important;
+      }
+
+      .top-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(132px, 1fr));
+        width: min(100%, 450px);
+        gap: 12px;
+      }
+
+      .top-actions .btn,
+      .top-actions .add-top-button {
+        width: 100%;
+        min-width: 0;
+        min-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        border: 1px solid var(--reference-line);
+        border-radius: 9px;
+        background: var(--panel);
+        color: var(--reference-ink);
+        box-shadow: 0 4px 12px rgba(80, 58, 6, 0.045);
+      }
+
+      .top-actions .add-top-button {
+        border-color: color-mix(in srgb, var(--reference-gold), transparent 45%);
+        background: var(--reference-gold-soft);
+        color: #8c6200;
+      }
+
+      body.dark .top-actions .add-top-button {
+        color: var(--reference-gold);
+      }
+
+      .top-actions .btn:hover,
+      .top-actions .add-top-button:hover {
+        border-color: var(--reference-gold);
+        background: var(--reference-gold-soft);
+      }
+
+      .mobile-add-button {
+        border-color: var(--reference-gold);
+        background: linear-gradient(135deg, #e2b94f, #c78a09);
+        color: #fff;
+      }
+
+      .dashboard-controls {
+        grid-template-columns: minmax(240px, 350px) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      .dashboard-controls .dashboard-search {
+        width: 100%;
+        max-width: 350px;
+      }
+
+      .dashboard-controls .list-tools {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .dashboard-controls .custom-sort-control {
+        flex: 1 1 auto;
+      }
+
+      .dashboard-controls .sort-buttons {
+        min-width: 0;
+      }
+
+      .dashboard-controls .sort-button {
+        min-width: 0;
+        padding-inline: 10px;
+      }
+
+      .folder-badges.category-pill {
+        position: static !important;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: fit-content;
+        min-height: 28px;
+        margin: 0 0 1px;
+      }
+
+      .folder-badges.category-pill span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 28px;
+        padding: 5px 11px;
+        border: 1px solid color-mix(in srgb, var(--reference-gold), transparent 58%);
+        border-radius: 9px 9px 9px 3px;
+        background: var(--reference-gold-soft);
+        color: #8d6506;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+      }
+
+      .folder-badges.category-pill span::before {
+        content: "";
+        width: 13px;
+        height: 9px;
+        border: 1.5px solid currentColor;
+        border-radius: 2px;
+        box-shadow: inset 0 3px transparent;
+      }
+
+      .folder-badges.category-pill .unfiled-badge {
+        border-color: var(--reference-line);
+        background: var(--soft-button);
+        color: var(--reference-muted);
+      }
+
+      .folder-badges.category-pill + .block-title {
+        margin-top: 1px;
+      }
+
+      .star-toggle.featured,
+      .section-heading-row h2 > span,
+      .nav-star-icon {
+        color: var(--reference-gold) !important;
+      }
+
+      .featured-card {
+        border-color: color-mix(in srgb, var(--reference-gold), transparent 55%);
+      }
+
+      .featured-card .mobile-leading {
+        background: var(--reference-gold-soft);
+      }
+
+      .mobile-bottom-nav button.active {
+        color: var(--reference-gold);
+      }
+
+      @media (max-width: 1180px) and (min-width: 901px) {
+        .dashboard-controls {
+          grid-template-columns: minmax(210px, 290px) minmax(0, 1fr);
+        }
+
+        .dashboard-controls .sort-button {
+          padding-inline: 7px;
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        html,
+        body {
+          overflow-x: hidden;
+        }
+
+        .layout-shell {
+          display: block;
+          width: 100%;
+        }
+
+        .desktop-sidebar {
+          position: fixed;
+          z-index: 60;
+          inset: 0 auto 0 0;
+          width: min(320px, 86vw);
+          height: 100dvh;
+          transform: translateX(-102%);
+          visibility: hidden;
+          box-shadow: 18px 0 42px rgba(7, 13, 40, 0.16);
+          transition:
+            transform 180ms ease,
+            visibility 180ms ease;
+        }
+
+        body.mobile-menu-open .desktop-sidebar {
+          transform: translateX(0);
+          visibility: visible;
+        }
+
+        .sidebar-close {
+          display: grid;
+        }
+
+        .main-content {
+          width: 100%;
+          min-width: 0;
+          padding: 0;
+        }
+
+        .app {
+          width: 100%;
+          padding: 24px 18px 112px;
+        }
+
+        .topbar {
+          display: none !important;
+        }
+
+        .mobile-appbar {
+          display: grid !important;
+        }
+
+        .mobile-bottom-nav {
+          display: grid !important;
+        }
+
+        .dashboard-controls {
+          grid-template-columns: minmax(130px, 0.8fr) minmax(0, 1.2fr);
+          align-items: center;
+          gap: 10px;
+          margin: -10px 0 28px;
+        }
+
+        .dashboard-controls .dashboard-search {
+          max-width: none;
+        }
+
+        .dashboard-controls .list-tools {
+          justify-content: flex-end;
+          overflow-x: auto;
+        }
+
+        .dashboard-controls .sort-label {
+          display: none;
+        }
+
+        .dashboard-controls .sort-buttons {
+          display: none;
+        }
+
+        .dashboard-controls .sort-select-hidden {
+          position: static !important;
+          width: 112px !important;
+          height: 46px !important;
+          min-height: 46px !important;
+          margin: 0 !important;
+          padding: 0 28px 0 10px !important;
+          overflow: visible;
+          clip: auto !important;
+          white-space: normal;
+          border: 1px solid var(--reference-line) !important;
+          border-radius: 8px;
+          background: var(--panel);
+          color: var(--reference-muted);
+        }
+
+        .dashboard-controls .view-switch {
+          display: none;
+        }
+
+        .mobile-brand .brand-logo {
+          flex-basis: 38px;
+          width: 38px;
+          height: 38px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .app {
+          padding-inline: 16px;
+        }
+
+        .dashboard-controls {
+          grid-template-columns: minmax(120px, 1fr) auto;
+        }
+
+        .dashboard-controls .dashboard-search input {
+          padding-right: 8px;
+          font-size: 12px;
+        }
+
+        .dashboard-controls .sort-select-hidden {
+          width: 108px !important;
+          font-size: 11px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="layout-shell">
@@ -2863,7 +3201,7 @@
           type="button"
           aria-label="Copy Blocks home"
         >
-          <span class="brand-mark" aria-hidden="true"></span>
+          <img class="brand-logo" src="icons/copy-block-logo.png" alt="" aria-hidden="true" />
           <span>Copy Blocks</span>
         </button>
 
@@ -2874,8 +3212,8 @@
             type="button"
             data-view="all"
           >
-            <span class="nav-grid-icon" aria-hidden="true"></span>
-            <span>All Blocks</span>
+            <img class="dashboard-nav-icon" src="icons/dashboard-interface.png" alt="" aria-hidden="true" />
+            <span>Dashboard</span>
             <small id="allBlocksNavCount"></small>
           </button>
           <button
@@ -2887,10 +3225,6 @@
             <span class="nav-star-icon" aria-hidden="true">★</span>
             <span>Starred</span>
             <small id="starredNavCount"></small>
-          </button>
-          <button class="sidebar-link" id="foldersToggle" type="button">
-            <span class="nav-folder-icon" aria-hidden="true"></span>
-            <span>Folders</span>
           </button>
           <button
             class="sidebar-link"
@@ -2942,7 +3276,7 @@
               <span></span><span></span><span></span>
             </button>
             <div class="mobile-brand">
-              <span class="brand-mark" aria-hidden="true"></span>
+              <img class="brand-logo" src="icons/copy-block-logo.png" alt="" aria-hidden="true" />
               <span>Copy Blocks</span>
             </div>
             <button
@@ -3004,17 +3338,17 @@
           </div>
 
           <div class="dashboard-controls">
-              <div class="dashboard-search">
-                <label class="sr-only" for="blockSearch">Search blocks</label>
-                <span aria-hidden="true">⌕</span>
-                <input
-                  id="blockSearch"
-                  type="search"
-                  placeholder="Search blocks by title or content"
-                />
-              </div>
+            <div class="dashboard-search">
+              <label class="sr-only" for="blockSearch">Search blocks</label>
+              <span aria-hidden="true">⌕</span>
+              <input
+                id="blockSearch"
+                type="search"
+                placeholder="Search blocks by title or content"
+              />
+            </div>
 
-              <div class="list-tools" aria-label="Block display controls">
+            <div class="list-tools" aria-label="Block display controls">
                 <div
                   class="sort-control custom-sort-control"
                   aria-label="Sort blocks"
@@ -3075,10 +3409,6 @@
                     <img src="icons/list.png" alt="List view" />
                   </button>
                 </span>
-              </div>
-            </div>
-
-            <div class="list-tools" aria-label="Block display controls">
             </div>
           </div>
 
@@ -3091,10 +3421,10 @@
             </div>
             <div class="starred-blocks" id="starredBlocks"></div>
           </section>
-          <div class="blocks-summary">
-            <h2>
-              <span id="blocksHeading">Unstarred</span>
-              <small class="blocks-count" id="blocksCount"></small>
+          <div class="section-heading-row blocks-summary">
+            <h2 id="blocksHeading">
+              <span aria-hidden="true">☆</span> Not Starred
+              <small id="blocksCount"></small>
             </h2>
           </div>
           <div class="blocks" id="blocks"></div>
@@ -3114,7 +3444,7 @@
 
     <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
       <button class="active" id="mobileAllNav" type="button" data-view="all">
-        <span class="nav-grid-icon"></span><span>All Blocks</span>
+        <img class="dashboard-nav-icon" src="icons/dashboard-interface.png" alt="" /><span>Dashboard</span>
       </button>
       <button id="mobileFoldersNav" type="button">
         <span class="nav-folder-icon"></span><span>Folders</span>
@@ -3969,6 +4299,12 @@
             badge.textContent = folder.name;
             container.append(badge);
           });
+          if (!container.childElementCount) {
+            const badge = document.createElement("span");
+            badge.className = "unfiled-badge";
+            badge.textContent = "Unfiled";
+            container.append(badge);
+          }
           return container;
         }
 
@@ -4054,7 +4390,7 @@
           const categoryBadge = folderBadges(block);
           categoryBadge.classList.add("category-pill");
 
-          stack.append(title, hint, updated);
+          stack.append(categoryBadge, title, hint, updated);
 
           const caret = createButton("", "arrow-button caret-toggle");
           caret.setAttribute(
@@ -4079,7 +4415,7 @@
             dragDots.append(document.createElement("span"));
           }
 
-          header.append(star, stack, caret, dragDots, categoryBadge);
+          header.append(star, stack, caret, dragDots);
 
           const body = document.createElement("div");
           body.className = "block-body";
@@ -4259,11 +4595,21 @@
           refs.subtitle.textContent = editing
             ? "Edit mode is active. Copy-on-click is paused."
             : subtitleText;
-          refs.heading.textContent = refs.search.value.trim()
+          const headingText = refs.search.value.trim()
             ? "Search Results"
             : titleText === "Copy Blocks"
-              ? "Unstarred"
+              ? "Not Starred"
               : titleText;
+          refs.heading.textContent = "";
+          if (headingText === "Not Starred") {
+            const star = document.createElement("span");
+            star.setAttribute("aria-hidden", "true");
+            star.textContent = "☆";
+            refs.heading.append(star, " Not Starred");
+          } else {
+            refs.heading.append(headingText);
+          }
+          refs.heading.append(refs.count);
           refs.edit.setAttribute("aria-label", editing ? "Done" : "Edit");
           const editLabel = refs.edit.querySelector(".control-label");
           if (editLabel) editLabel.textContent = editing ? "Done" : "Edit";
@@ -4458,6 +4804,20 @@
           refs.dark.classList.toggle("active", theme === "dark");
           refs.light.setAttribute("aria-pressed", String(theme === "light"));
           refs.dark.setAttribute("aria-pressed", String(theme === "dark"));
+          const darkMode = theme === "dark";
+          $("appManifest").href = darkMode
+            ? "./dark-manifest.webmanifest"
+            : "./manifest.webmanifest";
+          $("appIcon192").href = darkMode
+            ? "./icons/dark-icon-192.png"
+            : "./icons/icon-192.png";
+          $("appIcon512").href = darkMode
+            ? "./icons/dark-icon-512.png"
+            : "./icons/icon-512.png";
+          $("appleTouchIcon").href = darkMode
+            ? "./icons/dark-icon-192.png"
+            : "./icons/icon-192.png";
+          $("appThemeColor").content = darkMode ? "#dcae42" : "#d59b18";
           saveSettings();
         }
 
@@ -4480,7 +4840,7 @@
         refs.mobileFolders.addEventListener("click", () =>
           refs.body.classList.add("mobile-menu-open"),
         );
-        refs.foldersToggle.addEventListener("click", () => {
+        refs.foldersToggle?.addEventListener("click", () => {
           refs.folderSection.classList.toggle("collapsed");
           renderFolders();
         });
@@ -4513,16 +4873,19 @@
         refs.search.addEventListener("input", () => {
           visibleLimit = PAGE_SIZE;
           renderCards();
-          refs.heading.textContent = refs.search.value.trim()
-            ? "Search Results"
-            : viewMeta()[0] === "Copy Blocks"
-              ? "All Blocks"
-              : viewMeta()[0];
+          refs.heading.innerHTML = refs.search.value.trim()
+            ? `Search Results <small id="blocksCount"></small>`
+            : titleText === "Copy Blocks"
+              ? `<span aria-hidden="true">☆</span> Not Starred <small id="blocksCount"></small>`
+              : `${titleText} <small id="blocksCount"></small>`;
+
+          refs.count = document.getElementById("blocksCount");
         });
         refs.sort.addEventListener("change", () => {
           settings.sort = refs.sort.value;
           visibleLimit = PAGE_SIZE;
           saveSettings();
+          syncSortButtons();
           render();
         });
         refs.grid.addEventListener("click", () => {
@@ -4791,7 +5154,24 @@
             refs.importFile.value = "";
           }
         });
+        const sortButtons = Array.from(
+          document.querySelectorAll(".sort-button"),
+        );
 
+        function syncSortButtons() {
+          sortButtons.forEach((button) => {
+            const isActive = button.dataset.sort === refs.sort.value;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-pressed", String(isActive));
+          });
+        }
+
+        sortButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            refs.sort.value = button.dataset.sort;
+            refs.sort.dispatchEvent(new Event("change", { bubbles: true }));
+          });
+        });
         document
           .querySelectorAll(".view-switch img")
           .forEach((image) =>
@@ -4799,30 +5179,21 @@
               image.classList.add("missing"),
             ),
           );
+        syncSortButtons();
         applyTheme(settings.theme);
         saveData();
         render();
       })();
-      const sortButtons = Array.from(document.querySelectorAll(".sort-button"));
+    </script>
 
-      function syncSortButtons() {
-        sortButtons.forEach((button) => {
-          const isActive = button.dataset.sort === refs.sort.value;
-          button.classList.toggle("active", isActive);
-          button.setAttribute("aria-pressed", String(isActive));
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./copy-blocks-sw.js").catch((error) => {
+            console.error("Service worker registration failed:", error);
+          });
         });
       }
-
-      sortButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          refs.sort.value = button.dataset.sort;
-          syncSortButtons();
-          render();
-        });
-      });
-
-      refs.sort.addEventListener("change", syncSortButtons);
-      syncSortButtons();
     </script>
   </body>
 </html>
