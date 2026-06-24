@@ -1188,6 +1188,350 @@
         }
       }
     </style>
+    <style id="functionality-ui">
+      .home-button {
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .sidebar-link small {
+        color: var(--reference-muted);
+        font-size: 12px;
+      }
+
+      #folderList {
+        display: grid;
+        gap: 2px;
+      }
+
+      .folder-nav-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 34px;
+        align-items: center;
+      }
+
+      .folder-nav-button {
+        display: grid !important;
+        grid-template-columns: 28px minmax(0, 1fr) auto !important;
+      }
+
+      .folder-nav-button.active {
+        background: var(--reference-blue-soft) !important;
+        color: var(--reference-blue) !important;
+      }
+
+      .folder-actions-button {
+        display: grid !important;
+        place-items: center;
+        min-height: 34px !important;
+        padding: 0 !important;
+        color: var(--reference-muted) !important;
+        letter-spacing: 1px;
+      }
+
+      .sidebar-folders.collapsed,
+      .sidebar-folders[hidden] {
+        display: none !important;
+      }
+
+      .dashboard-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        max-width: 520px;
+        margin: -20px 0 36px;
+      }
+
+      .dashboard-search > span {
+        position: absolute;
+        left: 15px;
+        color: var(--reference-muted);
+        font-size: 22px;
+        pointer-events: none;
+      }
+
+      .dashboard-search input {
+        min-height: 46px;
+        padding-left: 44px;
+        border-color: var(--reference-line);
+        border-radius: 10px;
+        background: var(--panel);
+      }
+
+      .sort-control {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+      }
+
+      .sort-control select {
+        width: auto;
+        min-height: 38px;
+        padding: 0 30px 0 8px;
+        border: 0;
+        background: transparent;
+        color: var(--reference-muted);
+        font-weight: 700;
+      }
+
+      .view-switch {
+        gap: 4px;
+        padding: 4px;
+      }
+
+      .view-switch button {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: var(--reference-muted);
+      }
+
+      .view-switch button[aria-pressed="true"] {
+        background: var(--reference-blue-soft);
+        color: var(--reference-blue);
+      }
+
+      .view-switch img {
+        display: block;
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+
+      .view-switch img + b {
+        display: none;
+      }
+
+      .view-switch img.missing {
+        display: none;
+      }
+
+      .view-switch img.missing + b {
+        display: inline-grid;
+      }
+
+      .blocks.list-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .star-toggle {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        transition: transform 150ms ease, background 150ms ease, color 150ms ease;
+      }
+
+      .star-toggle:hover {
+        transform: scale(1.06);
+      }
+
+      .star-toggle:active {
+        transform: scale(0.93);
+      }
+
+      .star-toggle:disabled {
+        cursor: default;
+        opacity: 0.65;
+      }
+
+      .folder-badges {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+
+      .folder-badges:empty {
+        display: none;
+      }
+
+      .folder-badges span {
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: var(--reference-blue-soft);
+        color: var(--reference-blue);
+        font-size: 10px;
+        font-weight: 750;
+      }
+
+      .inline-card-controls {
+        display: flex;
+        grid-column: 1 / -1;
+        gap: 7px;
+        flex-wrap: wrap;
+      }
+
+      .inline-card-controls .btn {
+        min-height: 34px;
+        padding-inline: 10px;
+        font-size: 12px;
+      }
+
+      .block-card.dragging {
+        opacity: 0.52;
+      }
+
+      .block-card.drag-over {
+        border-color: var(--reference-blue);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--reference-blue), transparent 78%);
+      }
+
+      .empty-state {
+        margin-top: 10px;
+        background: var(--panel);
+      }
+
+      .load-more-button[hidden] {
+        display: none;
+      }
+
+      .toast {
+        position: fixed;
+        z-index: 100;
+        left: 50%;
+        bottom: 28px;
+        max-width: calc(100% - 32px);
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: var(--reference-ink);
+        color: white;
+        font-size: 14px;
+        font-weight: 750;
+        opacity: 0;
+        transform: translate(-50%, 18px);
+        pointer-events: none;
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .toggle-row,
+      .folder-check-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 40px;
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      .toggle-row input,
+      .folder-check-row input {
+        width: 18px;
+        min-height: 18px;
+        accent-color: var(--reference-blue);
+      }
+
+      .folder-picker-fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .folder-checkboxes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px 10px;
+      }
+
+      .optional-label {
+        color: var(--reference-muted);
+        font-size: 10px;
+        font-weight: 600;
+      }
+
+      .form-error {
+        min-height: 0;
+        margin: 0;
+        color: var(--danger);
+        font-size: 12px;
+      }
+
+      .form-error:empty {
+        display: none;
+      }
+
+      .action-menu-panel {
+        display: grid;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .action-menu-list {
+        display: grid;
+        gap: 6px;
+      }
+
+      .action-menu-list button {
+        min-height: 44px;
+        padding: 0 13px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        background: var(--soft-button);
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        text-align: left;
+      }
+
+      .action-menu-list .danger-action {
+        color: var(--danger);
+        background: var(--danger-soft);
+      }
+
+      body.editing .card-menu-button {
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .dashboard-search {
+          max-width: none;
+          margin: -10px 0 28px;
+        }
+
+        .blocks-summary {
+          align-items: flex-end;
+          gap: 12px;
+        }
+
+        .list-tools {
+          gap: 8px;
+        }
+
+        .sort-control {
+          display: grid;
+          gap: 0;
+          font-size: 10px;
+        }
+
+        .sort-control select {
+          max-width: 120px;
+          min-height: 30px;
+          padding-left: 0;
+          font-size: 12px;
+        }
+
+        .folder-checkboxes {
+          grid-template-columns: 1fr;
+        }
+
+        .toast {
+          bottom: 100px;
+        }
+      }
+    </style>
     <style id="reference-layout">
       :root {
         --reference-blue: #5865f2;
@@ -1217,6 +1561,7 @@
       .layout-shell {
         display: grid;
         grid-template-columns: 260px minmax(0, 1fr);
+        width: 100%;
         min-height: 100vh;
         min-height: 100dvh;
       }
@@ -2101,27 +2446,30 @@
     <div class="layout-shell">
       <aside class="desktop-sidebar" id="desktopSidebar">
         <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">×</button>
-        <div class="sidebar-brand">
+        <button class="sidebar-brand home-button" id="homeButton" type="button" aria-label="Copy Blocks home">
           <span class="brand-mark" aria-hidden="true"></span>
           <span>Copy Blocks</span>
-        </div>
+        </button>
 
         <nav class="sidebar-nav" aria-label="Main navigation">
-          <button class="sidebar-link active" type="button">
+          <button class="sidebar-link active" id="allBlocksNav" type="button" data-view="all">
             <span class="nav-grid-icon" aria-hidden="true"></span>
             <span>All Blocks</span>
+            <small id="allBlocksNavCount"></small>
           </button>
-          <button class="sidebar-link" type="button">
+          <button class="sidebar-link" id="starredNav" type="button" data-view="starred">
             <span class="nav-star-icon" aria-hidden="true">★</span>
             <span>Starred</span>
+            <small id="starredNavCount"></small>
           </button>
-          <button class="sidebar-link" type="button">
+          <button class="sidebar-link" id="foldersToggle" type="button">
             <span class="nav-folder-icon" aria-hidden="true"></span>
             <span>Folders</span>
           </button>
-          <button class="sidebar-link" type="button">
+          <button class="sidebar-link" id="trashNav" type="button" data-view="trash">
             <span class="nav-trash-icon" aria-hidden="true"></span>
             <span>Trash</span>
+            <small id="trashNavCount"></small>
           </button>
         </nav>
 
@@ -2130,15 +2478,12 @@
           <button id="mobileSettingsProxy" type="button">Settings</button>
         </div>
 
-        <div class="sidebar-folders">
+        <div class="sidebar-folders" id="sidebarFoldersSection">
           <div class="sidebar-section-head">
             <span>Folders</span>
-            <button type="button" aria-label="Add folder">+</button>
+            <button id="addFolderButton" type="button" aria-label="Add folder">+</button>
           </div>
-          <button type="button"><span class="nav-folder-icon"></span><span>Onboarding</span><small>8</small></button>
-          <button type="button"><span class="nav-folder-icon"></span><span>Support</span><small>12</small></button>
-          <button type="button"><span class="nav-folder-icon"></span><span>Sales</span><small>15</small></button>
-          <button type="button"><span class="nav-folder-icon"></span><span>Internal</span><small>6</small></button>
+          <div id="folderList"></div>
         </div>
 
         <p class="sidebar-tip">
@@ -2195,24 +2540,46 @@
           <div class="sr-only" id="reorderStatus" aria-live="polite"></div>
         </div>
 
+        <div class="dashboard-search">
+          <label class="sr-only" for="blockSearch">Search blocks</label>
+          <span aria-hidden="true">⌕</span>
+          <input id="blockSearch" type="search" placeholder="Search blocks by title or content" />
+        </div>
+
         <section class="starred-section" aria-labelledby="starredHeading">
           <div class="section-heading-row">
             <h2 id="starredHeading"><span aria-hidden="true">★</span> Starred <small id="starredCount"></small></h2>
-            <button type="button">View all</button>
+            <button id="viewAllStarred" type="button">View all</button>
           </div>
           <div class="starred-blocks" id="starredBlocks"></div>
         </section>
 
         <div class="blocks-summary">
-          <h2>All Blocks <small class="blocks-count" id="blocksCount"></small></h2>
+          <h2><span id="blocksHeading">All Blocks</span> <small class="blocks-count" id="blocksCount"></small></h2>
           <div class="list-tools" aria-label="Block display controls">
-            <span>Sort by: Updated⌄</span>
-            <span class="view-switch" aria-hidden="true"><b class="nav-grid-icon"></b><b class="list-view-icon"></b></span>
+            <label class="sort-control" for="sortSelect">Sort by:
+              <select id="sortSelect">
+                <option value="updated">Last Updated</option>
+                <option value="used">Last Used</option>
+                <option value="alpha">Alphabetical</option>
+                <option value="count">Most Used</option>
+              </select>
+            </label>
+            <span class="view-switch">
+              <button id="gridViewButton" type="button" aria-label="Grid view" aria-pressed="true">
+                <img src="icons/squares-ui.png" alt="" />
+                <b class="nav-grid-icon" aria-hidden="true"></b>
+              </button>
+              <button id="listViewButton" type="button" aria-label="List view" aria-pressed="false">
+                <img src="icons/list.png" alt="" />
+                <b class="list-view-icon" aria-hidden="true"></b>
+              </button>
+            </span>
           </div>
         </div>
         <div class="blocks" id="blocks"></div>
         <div class="empty-state" id="emptyState">No blocks yet.</div>
-        <button class="load-more-button" type="button">Load more blocks <span aria-hidden="true">⌄</span></button>
+        <button class="load-more-button" id="loadMoreButton" type="button">Load more blocks <span aria-hidden="true">⌄</span></button>
         <p class="mobile-reorder-note">
           <span class="info-icon" aria-hidden="true">i</span>
           <span>Use Move up and Move down in Edit mode to reorder blocks.</span>
@@ -2222,11 +2589,13 @@
     </div>
 
     <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
-      <button class="active" type="button"><span class="nav-grid-icon"></span><span>All Blocks</span></button>
-      <button type="button"><span class="nav-folder-icon"></span><span>Folders</span></button>
-      <button type="button"><span class="nav-star-outline">☆</span><span>Starred</span></button>
-      <button type="button"><span class="nav-trash-icon"></span><span>Trash</span></button>
+      <button class="active" id="mobileAllNav" type="button" data-view="all"><span class="nav-grid-icon"></span><span>All Blocks</span></button>
+      <button id="mobileFoldersNav" type="button"><span class="nav-folder-icon"></span><span>Folders</span></button>
+      <button id="mobileStarredNav" type="button" data-view="starred"><span class="nav-star-outline">☆</span><span>Starred</span></button>
+      <button id="mobileTrashNav" type="button" data-view="trash"><span class="nav-trash-icon"></span><span>Trash</span></button>
     </nav>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <dialog id="addBlockDialog" aria-labelledby="addBlockTitle">
       <form class="add-panel" id="addBlockForm" method="dialog">
@@ -2258,6 +2627,26 @@
             required
           ></textarea>
         </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="newBlockDescription">Description <span class="optional-label">Optional</span></label>
+          <input id="newBlockDescription" type="text" placeholder="Short note about this block" />
+        </div>
+
+        <div class="setting-row">
+          <label class="setting-label" for="newBlockTags">Tags <span class="optional-label">Optional</span></label>
+          <input id="newBlockTags" type="text" placeholder="support, policy, email" />
+        </div>
+
+        <fieldset class="setting-row folder-picker-fieldset">
+          <legend class="setting-label">Folders</legend>
+          <div class="folder-checkboxes" id="newBlockFolders"></div>
+        </fieldset>
+
+        <label class="toggle-row" for="newBlockStarred">
+          <input id="newBlockStarred" type="checkbox" />
+          <span>Star this block</span>
+        </label>
 
         <div class="dialog-actions">
           <button class="btn btn-soft" id="cancelAdd" type="button">
@@ -2334,6 +2723,29 @@
           </div>
         </section>
 
+        <section class="settings-section" aria-labelledby="preferencesTitle">
+          <h3 class="settings-section-title" id="preferencesTitle">Preferences</h3>
+          <label class="setting-row">
+            <span class="setting-label">Default sort</span>
+            <select id="defaultSortSelect">
+              <option value="updated">Last Updated</option>
+              <option value="used">Last Used</option>
+              <option value="alpha">Alphabetical</option>
+              <option value="count">Most Used</option>
+            </select>
+          </label>
+          <label class="setting-row">
+            <span class="setting-label">Default layout</span>
+            <select id="defaultLayoutSelect">
+              <option value="grid">Grid</option>
+              <option value="list">List</option>
+            </select>
+          </label>
+          <label class="toggle-row"><input id="confirmDeleteSetting" type="checkbox" checked /><span>Confirm before deleting blocks</span></label>
+          <label class="toggle-row"><input id="dragSetting" type="checkbox" checked /><span>Enable drag-and-drop ordering</span></label>
+          <label class="toggle-row"><input id="showFoldersSetting" type="checkbox" checked /><span>Show folders in sidebar</span></label>
+        </section>
+
         <section class="settings-section" aria-labelledby="backupTitle">
           <h3 class="settings-section-title" id="backupTitle">
             Backup and transfer
@@ -2357,6 +2769,7 @@
             hidden
           />
           <p class="settings-status" id="settingsStatus" aria-live="polite"></p>
+          <button class="btn btn-danger" id="clearTrashButton" type="button">Clear trash</button>
         </section>
 
         <button class="btn btn-primary" id="closeSettings" type="button">
@@ -2365,12 +2778,86 @@
       </div>
     </dialog>
 
+    <dialog id="folderDialog" aria-labelledby="folderDialogTitle">
+      <form class="add-panel" id="folderForm" method="dialog">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="folderDialogTitle">Create folder</h2>
+            <p class="settings-note" id="folderDialogNote">Add a new place to organize blocks.</p>
+          </div>
+          <button class="btn btn-soft" id="closeFolderDialog" type="button">Close</button>
+        </div>
+        <div class="setting-row">
+          <label class="setting-label" for="folderNameInput">Folder name</label>
+          <input id="folderNameInput" type="text" required maxlength="60" placeholder="Support" />
+          <p class="form-error" id="folderFormError" aria-live="polite"></p>
+        </div>
+        <div class="dialog-actions">
+          <button class="btn btn-soft" id="cancelFolder" type="button">Cancel</button>
+          <button class="btn btn-primary" id="saveFolderButton" type="submit">Create</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="blockMenuDialog" aria-labelledby="blockMenuTitle">
+      <div class="action-menu-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="blockMenuTitle">Block actions</h2>
+            <p class="settings-note" id="blockMenuSubtitle"></p>
+          </div>
+          <button class="btn btn-soft" id="closeBlockMenu" type="button">Close</button>
+        </div>
+        <div class="action-menu-list">
+          <button type="button" data-block-action="edit">Edit block</button>
+          <button type="button" data-block-action="duplicate">Duplicate block</button>
+          <button type="button" data-block-action="folders">Add or remove folders</button>
+          <button type="button" data-block-action="star">Star block</button>
+          <button type="button" data-block-action="expand">Expand content</button>
+          <button class="danger-action" type="button" data-block-action="delete">Move to Trash</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="folderAssignmentDialog" aria-labelledby="folderAssignmentTitle">
+      <div class="add-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="folderAssignmentTitle">Add to folders</h2>
+            <p class="settings-note">Choose every folder this block belongs to.</p>
+          </div>
+          <button class="btn btn-soft" id="closeFolderAssignment" type="button">Close</button>
+        </div>
+        <div class="folder-checkboxes" id="assignmentFolderCheckboxes"></div>
+        <div class="dialog-actions">
+          <button class="btn btn-soft" id="cancelFolderAssignment" type="button">Cancel</button>
+          <button class="btn btn-primary" id="saveFolderAssignment" type="button">Save</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="folderActionsDialog" aria-labelledby="folderActionsTitle">
+      <div class="action-menu-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="folderActionsTitle">Folder actions</h2>
+            <p class="settings-note" id="folderActionsSubtitle"></p>
+          </div>
+          <button class="btn btn-soft" id="closeFolderActions" type="button">Close</button>
+        </div>
+        <div class="action-menu-list">
+          <button type="button" data-folder-action="rename">Rename folder</button>
+          <button class="danger-action" type="button" data-folder-action="delete">Delete folder</button>
+        </div>
+      </div>
+    </dialog>
+
     <dialog id="deleteDialog" aria-labelledby="deleteTitle">
       <div class="delete-panel">
         <div>
-          <h2 class="settings-title" id="deleteTitle">Delete copy block?</h2>
+          <h2 class="settings-title" id="deleteTitle">Move block to Trash?</h2>
           <p class="settings-note" id="deleteMessage">
-            This block will be permanently removed.
+            You can restore it later from Trash.
           </p>
         </div>
         <div class="dialog-actions">
@@ -2378,13 +2865,13 @@
             Keep block
           </button>
           <button class="btn btn-danger" id="confirmDelete" type="button">
-            Delete block
+            Move to Trash
           </button>
         </div>
       </div>
     </dialog>
 
-    <script>
+    <script type="application/x-old-copyblocks">
       const STORAGE_KEY = "copyBlocksDataV3";
       const LEGACY_KEYS = ["copyBlockOne", "copyBlockTwo"];
       const PREVIEW_CHARACTER_LIMIT = 1200;
@@ -3065,6 +3552,1007 @@
         : "Create, organize, and reuse content anywhere.";
       saveBlocks();
       render();
+    </script>
+    <script>
+      (() => {
+        const DATA_KEY = "copyBlocksDashboardV4";
+        const OLD_KEY = "copyBlocksDataV3";
+        const SETTINGS_KEY = "copyBlocksDashboardSettingsV1";
+        const PAGE_SIZE = 8;
+
+        const $ = (id) => document.getElementById(id);
+        const refs = {
+          body: document.body,
+          app: document.querySelector(".app"),
+          sidebar: $("desktopSidebar"),
+          home: $("homeButton"),
+          allNav: $("allBlocksNav"),
+          starredNav: $("starredNav"),
+          foldersToggle: $("foldersToggle"),
+          trashNav: $("trashNav"),
+          allNavCount: $("allBlocksNavCount"),
+          starredNavCount: $("starredNavCount"),
+          trashNavCount: $("trashNavCount"),
+          folderSection: $("sidebarFoldersSection"),
+          folderList: $("folderList"),
+          addFolder: $("addFolderButton"),
+          pageTitle: document.querySelector("h1"),
+          subtitle: $("modeSubtitle"),
+          edit: $("editModeButton"),
+          add: $("addBlockButton"),
+          settings: $("settingsButton"),
+          search: $("blockSearch"),
+          starredSection: document.querySelector(".starred-section"),
+          starredBlocks: $("starredBlocks"),
+          starredCount: $("starredCount"),
+          viewAllStarred: $("viewAllStarred"),
+          heading: $("blocksHeading"),
+          count: $("blocksCount"),
+          blocks: $("blocks"),
+          empty: $("emptyState"),
+          sort: $("sortSelect"),
+          grid: $("gridViewButton"),
+          list: $("listViewButton"),
+          loadMore: $("loadMoreButton"),
+          toast: $("toast"),
+          reorderStatus: $("reorderStatus"),
+          mobileMenu: $("mobileMenuButton"),
+          mobileAdd: $("mobileAddButton"),
+          mobileAll: $("mobileAllNav"),
+          mobileFolders: $("mobileFoldersNav"),
+          mobileStarred: $("mobileStarredNav"),
+          mobileTrash: $("mobileTrashNav"),
+          sidebarClose: $("sidebarClose"),
+          mobileEditProxy: $("mobileEditProxy"),
+          mobileSettingsProxy: $("mobileSettingsProxy"),
+          addDialog: $("addBlockDialog"),
+          addForm: $("addBlockForm"),
+          addTitleHeading: $("addBlockTitle"),
+          addTitle: $("newBlockTitle"),
+          addText: $("newBlockText"),
+          addDescription: $("newBlockDescription"),
+          addTags: $("newBlockTags"),
+          addFolders: $("newBlockFolders"),
+          addStarred: $("newBlockStarred"),
+          settingsDialog: $("settingsDialog"),
+          light: $("lightButton"),
+          dark: $("darkButton"),
+          defaultSort: $("defaultSortSelect"),
+          defaultLayout: $("defaultLayoutSelect"),
+          confirmDelete: $("confirmDeleteSetting"),
+          dragSetting: $("dragSetting"),
+          showFolders: $("showFoldersSetting"),
+          clearTrash: $("clearTrashButton"),
+          exportButton: $("exportButton"),
+          importButton: $("importButton"),
+          importFile: $("importFileInput"),
+          settingsStatus: $("settingsStatus"),
+          folderDialog: $("folderDialog"),
+          folderForm: $("folderForm"),
+          folderDialogTitle: $("folderDialogTitle"),
+          folderDialogNote: $("folderDialogNote"),
+          folderName: $("folderNameInput"),
+          folderError: $("folderFormError"),
+          saveFolder: $("saveFolderButton"),
+          blockMenu: $("blockMenuDialog"),
+          blockMenuSubtitle: $("blockMenuSubtitle"),
+          assignmentDialog: $("folderAssignmentDialog"),
+          assignmentFolders: $("assignmentFolderCheckboxes"),
+          folderActions: $("folderActionsDialog"),
+          folderActionsSubtitle: $("folderActionsSubtitle"),
+          deleteDialog: $("deleteDialog"),
+          deleteTitle: $("deleteTitle"),
+          deleteMessage: $("deleteMessage"),
+          confirmDeleteButton: $("confirmDelete"),
+        };
+
+        const now = () => new Date().toISOString();
+        const id = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        const defaultFolders = () => ["Onboarding", "Support", "Sales", "Internal"].map((name) => ({
+          id: name.toLowerCase(),
+          name,
+          createdAt: now(),
+        }));
+        const sampleTitles = [
+          "Welcome to Copy Blocks! ヅ",
+          "Frequently Asked Questions",
+          "Test",
+          "Support Contact Information",
+          "(Hint: Tap on the arrowhead to expand or compress a block.)",
+          "Thank You!",
+          "Shipping & Delivery Policy",
+          "Return Policy",
+        ];
+        const sampleText = [
+          "Tap this box to copy everything inside it. Your changes save automatically on this device.",
+          "Here are answers to the questions customers ask most often.",
+          "This is a test copy block.",
+          "Contact our support team and we will be happy to help.",
+          "Use the three-dot menu to edit, duplicate, organize, expand, or delete a block.",
+          "Thank you for your message. We appreciate your time.",
+          "Orders are processed promptly and delivery times depend on destination.",
+          "Returns are accepted according to the terms in this saved response.",
+        ];
+
+        function normalizeBlock(block, index = 0) {
+          const updatedAt = block.updatedAt || now();
+          return {
+            id: block.id || id("block"),
+            title: String(block.title || "Untitled"),
+            text: String(block.text ?? block.content ?? ""),
+            description: String(block.description || ""),
+            tags: Array.isArray(block.tags) ? block.tags.map(String) : [],
+            starred: typeof block.starred === "boolean" ? block.starred : index < 2,
+            folderIds: Array.isArray(block.folderIds) ? block.folderIds.map(String) : [],
+            updatedAt,
+            lastUsedAt: block.lastUsedAt || null,
+            useCount: Number.isFinite(block.useCount) ? block.useCount : 0,
+            deleted: Boolean(block.deleted),
+            deletedAt: block.deletedAt || null,
+            expanded: Boolean(block.expanded),
+            showFullText: Boolean(block.showFullText),
+          };
+        }
+
+        function defaultData() {
+          const folders = defaultFolders();
+          const blocks = sampleTitles.map((title, index) =>
+            normalizeBlock(
+              {
+                title,
+                text: sampleText[index],
+                starred: index < 2,
+                folderIds:
+                  index === 2 ? ["onboarding"] : index === 3 ? ["support"] : index === 6 ? ["sales"] : [],
+                updatedAt: new Date(Date.now() - index * 86400000).toISOString(),
+              },
+              index,
+            ),
+          );
+          return { version: 4, blocks, folders };
+        }
+
+        function loadData() {
+          try {
+            const saved = JSON.parse(localStorage.getItem(DATA_KEY) || "null");
+            if (saved && Array.isArray(saved.blocks) && Array.isArray(saved.folders)) {
+              return {
+                version: 4,
+                blocks: saved.blocks.map(normalizeBlock),
+                folders: saved.folders.map((folder) => ({
+                  id: String(folder.id || id("folder")),
+                  name: String(folder.name || "Untitled folder"),
+                  createdAt: folder.createdAt || now(),
+                })),
+              };
+            }
+          } catch {}
+          try {
+            const legacy = JSON.parse(localStorage.getItem(OLD_KEY) || "null");
+            if (Array.isArray(legacy) && legacy.length) {
+              return {
+                version: 4,
+                blocks: legacy.map(normalizeBlock),
+                folders: defaultFolders(),
+              };
+            }
+          } catch {}
+          return defaultData();
+        }
+
+        function loadSettings() {
+          const defaults = {
+            sort: "updated",
+            layout: "grid",
+            confirmDelete: true,
+            dragEnabled: true,
+            showFolders: true,
+            theme: localStorage.getItem("copyBlocksTheme") || "light",
+          };
+          try {
+            return { ...defaults, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") };
+          } catch {
+            return defaults;
+          }
+        }
+
+        let data = loadData();
+        let settings = loadSettings();
+        let activeView = { type: "all", folderId: null };
+        let editing = false;
+        let visibleLimit = PAGE_SIZE;
+        let editingBlockId = null;
+        let activeBlockId = null;
+        let activeFolderId = null;
+        let folderDialogMode = "create";
+        let pendingDelete = null;
+        let draggedId = null;
+        let toastTimer;
+
+        const activeBlocks = () => data.blocks.filter((block) => !block.deleted);
+        const trashedBlocks = () => data.blocks.filter((block) => block.deleted);
+        const getBlock = (blockId) => data.blocks.find((block) => block.id === blockId);
+        const getFolder = (folderId) => data.folders.find((folder) => folder.id === folderId);
+
+        function saveData() {
+          localStorage.setItem(DATA_KEY, JSON.stringify(data));
+        }
+
+        function saveSettings() {
+          localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+          localStorage.setItem("copyBlocksTheme", settings.theme);
+        }
+
+        function showToast(message) {
+          clearTimeout(toastTimer);
+          refs.toast.textContent = message;
+          refs.toast.classList.add("show");
+          toastTimer = setTimeout(() => refs.toast.classList.remove("show"), 1800);
+        }
+
+        function escapeText(value) {
+          return String(value || "").trim();
+        }
+
+        function relativeTime(iso) {
+          if (!iso) return "Never used";
+          const seconds = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+          if (seconds < 60) return "just now";
+          const minutes = Math.floor(seconds / 60);
+          if (minutes < 60) return `${minutes} min ago`;
+          const hours = Math.floor(minutes / 60);
+          if (hours < 24) return `${hours} hr ago`;
+          const days = Math.floor(hours / 24);
+          if (days < 7) return `${days} ${days === 1 ? "day" : "days"} ago`;
+          const weeks = Math.floor(days / 7);
+          if (weeks < 5) return `${weeks} ${weeks === 1 ? "week" : "weeks"} ago`;
+          return new Date(iso).toLocaleDateString();
+        }
+
+        function viewMeta() {
+          if (activeView.type === "starred") return ["Starred Blocks", "Your favorite blocks for quick access."];
+          if (activeView.type === "trash") return ["Trash", "Restore deleted blocks or remove them permanently."];
+          if (activeView.type === "folder") {
+            const folder = getFolder(activeView.folderId);
+            return [folder?.name || "Folder", `Blocks saved in ${folder?.name || "this folder"}.`];
+          }
+          return ["Copy Blocks", "Create, organize, and reuse content anywhere."];
+        }
+
+        function setView(type, folderId = null) {
+          activeView = { type, folderId };
+          visibleLimit = PAGE_SIZE;
+          editing = false;
+          refs.search.value = "";
+          refs.body.classList.remove("editing", "mobile-menu-open");
+          render();
+        }
+
+        function filteredBlocks() {
+          let blocks = activeView.type === "trash" ? trashedBlocks() : activeBlocks();
+          if (activeView.type === "starred") blocks = blocks.filter((block) => block.starred);
+          if (activeView.type === "folder") blocks = blocks.filter((block) => block.folderIds.includes(activeView.folderId));
+          const query = refs.search.value.trim().toLocaleLowerCase();
+          if (query) {
+            blocks = blocks.filter((block) =>
+              [block.title, block.text, block.description, block.tags.join(" ")]
+                .join(" ")
+                .toLocaleLowerCase()
+                .includes(query),
+            );
+          }
+          return [...blocks].sort((a, b) => {
+            if (settings.sort === "alpha") return a.title.localeCompare(b.title);
+            if (settings.sort === "count") return b.useCount - a.useCount;
+            if (settings.sort === "used") return new Date(b.lastUsedAt || 0) - new Date(a.lastUsedAt || 0);
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+          });
+        }
+
+        function renderFolderCheckboxes(container, selected = []) {
+          container.innerHTML = "";
+          if (!data.folders.length) {
+            const empty = document.createElement("p");
+            empty.className = "settings-note";
+            empty.textContent = "No folders yet.";
+            container.append(empty);
+            return;
+          }
+          data.folders.forEach((folder) => {
+            const label = document.createElement("label");
+            label.className = "folder-check-row";
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.value = folder.id;
+            input.checked = selected.includes(folder.id);
+            label.append(input, document.createTextNode(folder.name));
+            container.append(label);
+          });
+        }
+
+        function renderFolders() {
+          refs.folderList.innerHTML = "";
+          data.folders.forEach((folder) => {
+            const row = document.createElement("div");
+            row.className = "folder-nav-row";
+            const open = document.createElement("button");
+            open.type = "button";
+            open.className = "folder-nav-button";
+            open.classList.toggle("active", activeView.type === "folder" && activeView.folderId === folder.id);
+            const count = activeBlocks().filter((block) => block.folderIds.includes(folder.id)).length;
+            open.innerHTML = `<span class="nav-folder-icon" aria-hidden="true"></span><span></span><small>${count}</small>`;
+            open.children[1].textContent = folder.name;
+            open.addEventListener("click", () => setView("folder", folder.id));
+            const actions = document.createElement("button");
+            actions.className = "folder-actions-button";
+            actions.type = "button";
+            actions.setAttribute("aria-label", `${folder.name} folder actions`);
+            actions.textContent = "•••";
+            actions.addEventListener("click", () => openFolderActions(folder.id));
+            row.append(open, actions);
+            refs.folderList.append(row);
+          });
+          refs.folderSection.hidden = !settings.showFolders || refs.folderSection.classList.contains("collapsed");
+        }
+
+        function updateNavigation() {
+          const active = activeBlocks();
+          refs.allNavCount.textContent = active.length;
+          refs.starredNavCount.textContent = active.filter((block) => block.starred).length;
+          refs.trashNavCount.textContent = trashedBlocks().length;
+          [refs.allNav, refs.starredNav, refs.trashNav].forEach((button) =>
+            button.classList.toggle("active", button.dataset.view === activeView.type),
+          );
+          [refs.mobileAll, refs.mobileStarred, refs.mobileTrash].forEach((button) =>
+            button.classList.toggle("active", button.dataset.view === activeView.type),
+          );
+          renderFolders();
+        }
+
+        function createButton(label, className = "") {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = className;
+          button.textContent = label;
+          return button;
+        }
+
+        async function copyBlock(block) {
+          if (editing || block.deleted) return;
+          try {
+            await navigator.clipboard.writeText(block.text);
+          } catch {
+            const textarea = document.createElement("textarea");
+            textarea.value = block.text;
+            document.body.append(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            textarea.remove();
+          }
+          block.lastUsedAt = now();
+          block.useCount += 1;
+          saveData();
+          if (settings.sort === "used" || settings.sort === "count") render();
+          showToast("Copied to clipboard.");
+        }
+
+        function toggleStar(blockId) {
+          const block = getBlock(blockId);
+          if (!block || block.deleted) return;
+          block.starred = !block.starred;
+          saveData();
+          render();
+          showToast(block.starred ? "Added to Starred." : "Removed from Starred.");
+        }
+
+        function folderBadges(block) {
+          const container = document.createElement("div");
+          container.className = "folder-badges";
+          block.folderIds.forEach((folderId) => {
+            const folder = getFolder(folderId);
+            if (!folder) return;
+            const badge = document.createElement("span");
+            badge.textContent = folder.name;
+            container.append(badge);
+          });
+          return container;
+        }
+
+        function moveBlock(blockId, offset) {
+          const from = data.blocks.findIndex((block) => block.id === blockId);
+          const to = from + offset;
+          if (from < 0 || to < 0 || to >= data.blocks.length) return;
+          const [block] = data.blocks.splice(from, 1);
+          data.blocks.splice(to, 0, block);
+          saveData();
+          render();
+          refs.reorderStatus.textContent = `${block.title} moved to position ${to + 1}.`;
+        }
+
+        function makeCard(block, { preview = false } = {}) {
+          const card = document.createElement("article");
+          card.className = `block-card ${preview ? "featured-card" : ""} ${block.expanded || editing ? "expanded" : "collapsed"}`;
+          card.dataset.blockId = block.id;
+          card.draggable = editing && settings.dragEnabled && !block.deleted;
+
+          const header = document.createElement("div");
+          header.className = "block-header";
+          const star = createButton(block.starred ? "★" : "☆", `mobile-leading star-toggle ${block.starred ? "featured" : ""}`);
+          star.setAttribute("aria-label", block.starred ? `Unstar ${block.title}` : `Star ${block.title}`);
+          star.disabled = block.deleted;
+          star.addEventListener("click", (event) => {
+            event.stopPropagation();
+            toggleStar(block.id);
+          });
+
+          const stack = document.createElement("div");
+          stack.className = "title-stack card-copy-target";
+          const title = document.createElement("p");
+          title.className = "block-title";
+          title.textContent = block.title;
+          title.contentEditable = editing && !block.deleted ? "true" : "false";
+          title.setAttribute("role", editing ? "textbox" : "button");
+          title.tabIndex = 0;
+          const hint = document.createElement("p");
+          hint.className = "mobile-card-hint";
+          hint.textContent = block.description || "Tap to copy this block’s contents.";
+          const updated = document.createElement("span");
+          updated.className = "updated-label";
+          updated.textContent = `Updated ${relativeTime(block.updatedAt)}`;
+          stack.append(title, hint, folderBadges(block), updated);
+
+          const menu = createButton("", "arrow-button card-menu-button");
+          menu.setAttribute("aria-label", `${block.title} actions`);
+          menu.hidden = block.deleted;
+          menu.addEventListener("click", (event) => {
+            event.stopPropagation();
+            openBlockMenu(block.id);
+          });
+          header.append(star, stack, menu);
+
+          const body = document.createElement("div");
+          body.className = "block-body";
+          const content = document.createElement("div");
+          content.className = "copy-block card-copy-target";
+          content.textContent = block.text;
+          content.contentEditable = editing && !block.deleted ? "true" : "false";
+          content.setAttribute("role", editing ? "textbox" : "button");
+          content.tabIndex = 0;
+          body.append(content);
+
+          const controls = document.createElement("div");
+          controls.className = "inline-card-controls";
+          if (block.deleted) {
+            const restore = createButton("Restore", "btn btn-soft");
+            restore.addEventListener("click", () => {
+              block.deleted = false;
+              block.deletedAt = null;
+              saveData();
+              render();
+              showToast("Block restored.");
+            });
+            const permanent = createButton("Delete permanently", "btn btn-danger");
+            permanent.addEventListener("click", () => requestDelete("permanent", block.id));
+            controls.append(restore, permanent);
+          } else if (editing) {
+            const up = createButton("Move up", "btn btn-soft");
+            const down = createButton("Move down", "btn btn-soft");
+            const duplicate = createButton("Duplicate", "btn btn-soft");
+            const folders = createButton("Folders", "btn btn-soft");
+            const remove = createButton("Trash", "btn btn-danger");
+            const index = data.blocks.findIndex((item) => item.id === block.id);
+            up.disabled = index === 0;
+            down.disabled = index === data.blocks.length - 1;
+            up.addEventListener("click", () => moveBlock(block.id, -1));
+            down.addEventListener("click", () => moveBlock(block.id, 1));
+            duplicate.addEventListener("click", () => duplicateBlock(block.id));
+            folders.addEventListener("click", () => openFolderAssignment(block.id));
+            remove.addEventListener("click", () => requestDelete("block", block.id));
+            controls.append(up, down, duplicate, folders, remove);
+          }
+
+          if (controls.childElementCount) card.append(header, body, controls);
+          else card.append(header, body);
+
+          const copyHandler = (event) => {
+            if (event.target.closest("button, [contenteditable='true']")) return;
+            copyBlock(block);
+          };
+          card.addEventListener("click", copyHandler);
+          card.addEventListener("keydown", (event) => {
+            if ((event.key === "Enter" || event.key === " ") && event.target.classList.contains("card-copy-target")) {
+              event.preventDefault();
+              copyBlock(block);
+            }
+          });
+
+          if (editing && !block.deleted) {
+            const saveEdits = () => {
+              const nextTitle = title.textContent.trim() || "Untitled";
+              const nextText = content.innerText;
+              if (nextTitle !== block.title || nextText !== block.text) {
+                block.title = nextTitle;
+                block.text = nextText;
+                block.updatedAt = now();
+                saveData();
+              }
+            };
+            title.addEventListener("input", saveEdits);
+            content.addEventListener("input", saveEdits);
+            title.addEventListener("keydown", (event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                title.blur();
+              }
+            });
+          }
+
+          if (card.draggable) {
+            card.addEventListener("dragstart", () => {
+              draggedId = block.id;
+              card.classList.add("dragging");
+            });
+            card.addEventListener("dragend", () => {
+              draggedId = null;
+              card.classList.remove("dragging");
+            });
+            card.addEventListener("dragover", (event) => {
+              if (!draggedId || draggedId === block.id) return;
+              event.preventDefault();
+              card.classList.add("drag-over");
+            });
+            card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
+            card.addEventListener("drop", (event) => {
+              event.preventDefault();
+              card.classList.remove("drag-over");
+              const from = data.blocks.findIndex((item) => item.id === draggedId);
+              const to = data.blocks.findIndex((item) => item.id === block.id);
+              if (from >= 0 && to >= 0) {
+                const [moved] = data.blocks.splice(from, 1);
+                data.blocks.splice(to, 0, moved);
+                saveData();
+                render();
+              }
+            });
+          }
+          return card;
+        }
+
+        function renderCards() {
+          refs.blocks.innerHTML = "";
+          refs.starredBlocks.innerHTML = "";
+          const active = activeBlocks();
+          const starred = active.filter((block) => block.starred);
+          refs.starredCount.textContent = starred.length;
+          refs.starredSection.hidden = activeView.type !== "all" || editing;
+          starred.slice(0, 2).forEach((block) => refs.starredBlocks.append(makeCard(block, { preview: true })));
+
+          const filtered = filteredBlocks();
+          const shown = filtered.slice(0, visibleLimit);
+          shown.forEach((block) => refs.blocks.append(makeCard(block)));
+          refs.blocks.classList.toggle("list-layout", settings.layout === "list");
+          refs.count.textContent = filtered.length;
+          refs.empty.style.display = filtered.length ? "none" : "block";
+          if (!filtered.length) {
+            refs.empty.textContent =
+              activeView.type === "starred"
+                ? "You have no starred blocks yet. Click the star on any block to add it here."
+                : activeView.type === "trash"
+                  ? "Trash is empty."
+                  : activeView.type === "folder"
+                    ? "This folder has no blocks yet."
+                    : "No blocks match this view.";
+          }
+          refs.loadMore.hidden = filtered.length <= shown.length;
+          refs.loadMore.textContent = filtered.length <= shown.length ? "All blocks loaded" : "Load more blocks ⌄";
+        }
+
+        function render() {
+          const [titleText, subtitleText] = viewMeta();
+          refs.pageTitle.textContent = titleText;
+          refs.subtitle.textContent = editing ? "Edit mode is active. Copy-on-click is paused." : subtitleText;
+          refs.heading.textContent = refs.search.value.trim() ? "Search Results" : titleText === "Copy Blocks" ? "All Blocks" : titleText;
+          refs.edit.setAttribute("aria-label", editing ? "Done" : "Edit");
+          const editLabel = refs.edit.querySelector(".control-label");
+          if (editLabel) editLabel.textContent = editing ? "Done" : "Edit";
+          else refs.edit.textContent = editing ? "Done" : "Edit";
+          refs.mobileEditProxy.textContent = editing ? "Finish editing" : "Edit blocks";
+          refs.body.classList.toggle("editing", editing);
+          refs.sort.value = settings.sort;
+          refs.grid.setAttribute("aria-pressed", String(settings.layout === "grid"));
+          refs.list.setAttribute("aria-pressed", String(settings.layout === "list"));
+          updateNavigation();
+          renderCards();
+        }
+
+        function openAddDialog(blockId = null) {
+          editingBlockId = blockId;
+          const block = blockId ? getBlock(blockId) : null;
+          refs.addTitleHeading.textContent = block ? "Edit copy block" : "Add copy block";
+          refs.addTitle.value = block?.title || "";
+          refs.addText.value = block?.text || "";
+          refs.addDescription.value = block?.description || "";
+          refs.addTags.value = block?.tags.join(", ") || "";
+          refs.addStarred.checked = Boolean(block?.starred);
+          renderFolderCheckboxes(refs.addFolders, block?.folderIds || (activeView.type === "folder" ? [activeView.folderId] : []));
+          refs.addForm.querySelector("button[type='submit']").textContent = block ? "Save changes" : "Add block";
+          refs.addDialog.showModal();
+          refs.addTitle.focus();
+        }
+
+        function duplicateBlock(blockId) {
+          const source = getBlock(blockId);
+          if (!source) return;
+          const copy = normalizeBlock({
+            ...source,
+            id: id("block"),
+            title: `${source.title} Copy`,
+            updatedAt: now(),
+            lastUsedAt: null,
+            useCount: 0,
+            deleted: false,
+          });
+          data.blocks.unshift(copy);
+          saveData();
+          refs.blockMenu.close();
+          render();
+          showToast("Block duplicated.");
+        }
+
+        function openBlockMenu(blockId) {
+          const block = getBlock(blockId);
+          if (!block) return;
+          activeBlockId = blockId;
+          refs.blockMenuSubtitle.textContent = block.title;
+          const starAction = refs.blockMenu.querySelector('[data-block-action="star"]');
+          starAction.textContent = block.starred ? "Unstar block" : "Star block";
+          const expandAction = refs.blockMenu.querySelector('[data-block-action="expand"]');
+          expandAction.textContent = block.expanded ? "Collapse content" : "Expand content";
+          refs.blockMenu.showModal();
+        }
+
+        function openFolderAssignment(blockId) {
+          const block = getBlock(blockId);
+          if (!block) return;
+          activeBlockId = blockId;
+          renderFolderCheckboxes(refs.assignmentFolders, block.folderIds);
+          refs.blockMenu.close();
+          refs.assignmentDialog.showModal();
+        }
+
+        function openFolderDialog(mode = "create", folderId = null) {
+          folderDialogMode = mode;
+          activeFolderId = folderId;
+          const folder = folderId ? getFolder(folderId) : null;
+          refs.folderDialogTitle.textContent = mode === "rename" ? "Rename folder" : "Create folder";
+          refs.folderDialogNote.textContent = mode === "rename" ? "Choose a new name for this folder." : "Add a new place to organize blocks.";
+          refs.saveFolder.textContent = mode === "rename" ? "Save" : "Create";
+          refs.folderName.value = folder?.name || "";
+          refs.folderError.textContent = "";
+          refs.folderDialog.showModal();
+          refs.folderName.focus();
+        }
+
+        function openFolderActions(folderId) {
+          const folder = getFolder(folderId);
+          if (!folder) return;
+          activeFolderId = folderId;
+          refs.folderActionsSubtitle.textContent = folder.name;
+          refs.folderActions.showModal();
+        }
+
+        function requestDelete(type, targetId = null) {
+          if (type === "block" && !settings.confirmDelete) {
+            const block = getBlock(targetId);
+            if (block) {
+              block.deleted = true;
+              block.deletedAt = now();
+              saveData();
+              render();
+              showToast("Block moved to Trash.");
+            }
+            return;
+          }
+          pendingDelete = { type, targetId };
+          if (type === "block") {
+            refs.deleteTitle.textContent = "Move block to Trash?";
+            refs.deleteMessage.textContent = "You can restore it later from Trash.";
+            refs.confirmDeleteButton.textContent = "Move to Trash";
+          } else if (type === "permanent") {
+            refs.deleteTitle.textContent = "Delete permanently?";
+            refs.deleteMessage.textContent = "This action cannot be undone.";
+            refs.confirmDeleteButton.textContent = "Delete permanently";
+          } else if (type === "folder") {
+            refs.deleteTitle.textContent = "Delete this folder?";
+            refs.deleteMessage.textContent = "Blocks inside this folder will stay in All Blocks.";
+            refs.confirmDeleteButton.textContent = "Delete folder";
+          } else {
+            refs.deleteTitle.textContent = "Clear Trash?";
+            refs.deleteMessage.textContent = "Every trashed block will be permanently deleted.";
+            refs.confirmDeleteButton.textContent = "Clear Trash";
+          }
+          refs.deleteDialog.showModal();
+        }
+
+        function performDelete() {
+          if (!pendingDelete) return;
+          const { type, targetId } = pendingDelete;
+          if (type === "block") {
+            const block = getBlock(targetId);
+            if (block) {
+              block.deleted = true;
+              block.deletedAt = now();
+            }
+          } else if (type === "permanent") {
+            data.blocks = data.blocks.filter((block) => block.id !== targetId);
+          } else if (type === "folder") {
+            data.folders = data.folders.filter((folder) => folder.id !== targetId);
+            data.blocks.forEach((block) => {
+              block.folderIds = block.folderIds.filter((folderId) => folderId !== targetId);
+            });
+            if (activeView.type === "folder" && activeView.folderId === targetId) activeView = { type: "all", folderId: null };
+          } else if (type === "clear-trash") {
+            data.blocks = data.blocks.filter((block) => !block.deleted);
+          }
+          pendingDelete = null;
+          saveData();
+          refs.deleteDialog.close();
+          render();
+          showToast("Changes saved.");
+        }
+
+        function applyTheme(theme) {
+          settings.theme = theme;
+          refs.body.classList.toggle("dark", theme === "dark");
+          refs.light.classList.toggle("active", theme === "light");
+          refs.dark.classList.toggle("active", theme === "dark");
+          refs.light.setAttribute("aria-pressed", String(theme === "light"));
+          refs.dark.setAttribute("aria-pressed", String(theme === "dark"));
+          saveSettings();
+        }
+
+        function syncSettingsDialog() {
+          refs.defaultSort.value = settings.sort;
+          refs.defaultLayout.value = settings.layout;
+          refs.confirmDelete.checked = settings.confirmDelete;
+          refs.dragSetting.checked = settings.dragEnabled;
+          refs.showFolders.checked = settings.showFolders;
+          refs.settingsStatus.textContent = "";
+        }
+
+        refs.home.addEventListener("click", () => setView("all"));
+        refs.allNav.addEventListener("click", () => setView("all"));
+        refs.starredNav.addEventListener("click", () => setView("starred"));
+        refs.trashNav.addEventListener("click", () => setView("trash"));
+        refs.mobileAll.addEventListener("click", () => setView("all"));
+        refs.mobileStarred.addEventListener("click", () => setView("starred"));
+        refs.mobileTrash.addEventListener("click", () => setView("trash"));
+        refs.mobileFolders.addEventListener("click", () => refs.body.classList.add("mobile-menu-open"));
+        refs.viewAllStarred.addEventListener("click", () => setView("starred"));
+        refs.foldersToggle.addEventListener("click", () => {
+          refs.folderSection.classList.toggle("collapsed");
+          renderFolders();
+        });
+        refs.addFolder.addEventListener("click", () => openFolderDialog());
+        refs.edit.addEventListener("click", () => {
+          editing = !editing;
+          render();
+        });
+        refs.add.addEventListener("click", () => openAddDialog());
+        refs.mobileAdd.addEventListener("click", () => openAddDialog());
+        refs.settings.addEventListener("click", () => {
+          syncSettingsDialog();
+          refs.settingsDialog.showModal();
+        });
+        refs.mobileMenu.addEventListener("click", () => refs.body.classList.add("mobile-menu-open"));
+        refs.sidebarClose.addEventListener("click", () => refs.body.classList.remove("mobile-menu-open"));
+        refs.mobileEditProxy.addEventListener("click", () => {
+          refs.body.classList.remove("mobile-menu-open");
+          refs.edit.click();
+        });
+        refs.mobileSettingsProxy.addEventListener("click", () => {
+          refs.body.classList.remove("mobile-menu-open");
+          syncSettingsDialog();
+          refs.settingsDialog.showModal();
+        });
+        refs.search.addEventListener("input", () => {
+          visibleLimit = PAGE_SIZE;
+          renderCards();
+          refs.heading.textContent = refs.search.value.trim() ? "Search Results" : viewMeta()[0] === "Copy Blocks" ? "All Blocks" : viewMeta()[0];
+        });
+        refs.sort.addEventListener("change", () => {
+          settings.sort = refs.sort.value;
+          visibleLimit = PAGE_SIZE;
+          saveSettings();
+          render();
+        });
+        refs.grid.addEventListener("click", () => {
+          settings.layout = "grid";
+          saveSettings();
+          render();
+        });
+        refs.list.addEventListener("click", () => {
+          settings.layout = "list";
+          saveSettings();
+          render();
+        });
+        refs.loadMore.addEventListener("click", () => {
+          visibleLimit += PAGE_SIZE;
+          renderCards();
+        });
+
+        refs.addForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const folderIds = [...refs.addFolders.querySelectorAll("input:checked")].map((input) => input.value);
+          const title = escapeText(refs.addTitle.value) || "Untitled";
+          const text = refs.addText.value;
+          const description = escapeText(refs.addDescription.value);
+          const tags = refs.addTags.value.split(",").map(escapeText).filter(Boolean);
+          if (editingBlockId) {
+            const block = getBlock(editingBlockId);
+            Object.assign(block, { title, text, description, tags, folderIds, starred: refs.addStarred.checked, updatedAt: now() });
+          } else {
+            data.blocks.unshift(normalizeBlock({ title, text, description, tags, folderIds, starred: refs.addStarred.checked, updatedAt: now() }));
+          }
+          saveData();
+          refs.addDialog.close();
+          render();
+          showToast(editingBlockId ? "Block updated." : "Block added.");
+          editingBlockId = null;
+        });
+        $("closeAddTop").addEventListener("click", () => refs.addDialog.close());
+        $("cancelAdd").addEventListener("click", () => refs.addDialog.close());
+
+        refs.blockMenu.querySelectorAll("[data-block-action]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const block = getBlock(activeBlockId);
+            if (!block) return;
+            const action = button.dataset.blockAction;
+            if (action === "edit") {
+              refs.blockMenu.close();
+              openAddDialog(block.id);
+            } else if (action === "duplicate") duplicateBlock(block.id);
+            else if (action === "folders") openFolderAssignment(block.id);
+            else if (action === "star") {
+              refs.blockMenu.close();
+              toggleStar(block.id);
+            } else if (action === "expand") {
+              block.expanded = !block.expanded;
+              saveData();
+              refs.blockMenu.close();
+              render();
+            } else if (action === "delete") {
+              refs.blockMenu.close();
+              requestDelete("block", block.id);
+            }
+          });
+        });
+        $("closeBlockMenu").addEventListener("click", () => refs.blockMenu.close());
+
+        $("saveFolderAssignment").addEventListener("click", () => {
+          const block = getBlock(activeBlockId);
+          if (!block) return;
+          block.folderIds = [...refs.assignmentFolders.querySelectorAll("input:checked")].map((input) => input.value);
+          block.updatedAt = now();
+          saveData();
+          refs.assignmentDialog.close();
+          render();
+          showToast("Folder assignments updated.");
+        });
+        $("closeFolderAssignment").addEventListener("click", () => refs.assignmentDialog.close());
+        $("cancelFolderAssignment").addEventListener("click", () => refs.assignmentDialog.close());
+
+        refs.folderForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const name = escapeText(refs.folderName.value);
+          if (!name) {
+            refs.folderError.textContent = "Enter a folder name.";
+            return;
+          }
+          const duplicate = data.folders.some((folder) => folder.name.toLocaleLowerCase() === name.toLocaleLowerCase() && folder.id !== activeFolderId);
+          if (duplicate) {
+            refs.folderError.textContent = "A folder with that name already exists.";
+            return;
+          }
+          if (folderDialogMode === "rename") getFolder(activeFolderId).name = name;
+          else data.folders.push({ id: id("folder"), name, createdAt: now() });
+          saveData();
+          refs.folderDialog.close();
+          render();
+          showToast(folderDialogMode === "rename" ? "Folder renamed." : "Folder created.");
+        });
+        $("closeFolderDialog").addEventListener("click", () => refs.folderDialog.close());
+        $("cancelFolder").addEventListener("click", () => refs.folderDialog.close());
+        refs.folderActions.querySelectorAll("[data-folder-action]").forEach((button) => {
+          button.addEventListener("click", () => {
+            refs.folderActions.close();
+            if (button.dataset.folderAction === "rename") openFolderDialog("rename", activeFolderId);
+            else requestDelete("folder", activeFolderId);
+          });
+        });
+        $("closeFolderActions").addEventListener("click", () => refs.folderActions.close());
+
+        refs.confirmDeleteButton.addEventListener("click", performDelete);
+        $("cancelDelete").addEventListener("click", () => {
+          pendingDelete = null;
+          refs.deleteDialog.close();
+        });
+
+        refs.light.addEventListener("click", () => applyTheme("light"));
+        refs.dark.addEventListener("click", () => applyTheme("dark"));
+        refs.defaultSort.addEventListener("change", () => {
+          settings.sort = refs.defaultSort.value;
+          saveSettings();
+          render();
+        });
+        refs.defaultLayout.addEventListener("change", () => {
+          settings.layout = refs.defaultLayout.value;
+          saveSettings();
+          render();
+        });
+        refs.confirmDelete.addEventListener("change", () => {
+          settings.confirmDelete = refs.confirmDelete.checked;
+          saveSettings();
+        });
+        refs.dragSetting.addEventListener("change", () => {
+          settings.dragEnabled = refs.dragSetting.checked;
+          saveSettings();
+          render();
+        });
+        refs.showFolders.addEventListener("change", () => {
+          settings.showFolders = refs.showFolders.checked;
+          saveSettings();
+          render();
+        });
+        refs.clearTrash.addEventListener("click", () => requestDelete("clear-trash"));
+        $("closeSettingsTop").addEventListener("click", () => refs.settingsDialog.close());
+        $("closeSettings").addEventListener("click", () => refs.settingsDialog.close());
+        $("hintsButton").addEventListener("click", () => $("hintsDialog").showModal());
+        $("closeHintsTop").addEventListener("click", () => $("hintsDialog").close());
+        $("closeHints").addEventListener("click", () => $("hintsDialog").close());
+
+        refs.exportButton.addEventListener("click", () => {
+          const blob = new Blob([JSON.stringify({ app: "Copy Blocks", version: 4, exportedAt: now(), data, settings }, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `copy-blocks-backup-${now().slice(0, 10)}.json`;
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          refs.settingsStatus.textContent = "Backup exported successfully.";
+        });
+        refs.importButton.addEventListener("click", () => refs.importFile.click());
+        refs.importFile.addEventListener("change", async () => {
+          const file = refs.importFile.files?.[0];
+          if (!file) return;
+          try {
+            const backup = JSON.parse(await file.text());
+            const imported = backup.data || backup;
+            if (!Array.isArray(imported.blocks) || !Array.isArray(imported.folders)) throw new Error("That file is not a valid Copy Blocks backup.");
+            data = {
+              version: 4,
+              blocks: imported.blocks.map(normalizeBlock),
+              folders: imported.folders.map((folder) => ({ id: String(folder.id || id("folder")), name: String(folder.name || "Untitled folder"), createdAt: folder.createdAt || now() })),
+            };
+            if (backup.settings) settings = { ...settings, ...backup.settings };
+            saveData();
+            saveSettings();
+            render();
+            refs.settingsStatus.textContent = "Backup imported successfully.";
+          } catch (error) {
+            refs.settingsStatus.textContent = error.message || "Import failed.";
+          } finally {
+            refs.importFile.value = "";
+          }
+        });
+
+        document.querySelectorAll(".view-switch img").forEach((image) =>
+          image.addEventListener("error", () => image.classList.add("missing")),
+        );
+        applyTheme(settings.theme);
+        saveData();
+        render();
+      })();
     </script>
   </body>
 </html>
