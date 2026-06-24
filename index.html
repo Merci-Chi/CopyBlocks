@@ -1644,45 +1644,11 @@
           9px 0 0 0 currentColor;
       }
 
-      .nav-folder-icon {
-        position: relative;
-        display: inline-block;
-        width: 19px;
-        height: 14px;
-        border: 2px solid currentColor;
-        border-radius: 3px;
-        color: var(--reference-muted);
-      }
-
-      .nav-folder-icon::before {
-        content: "";
-        position: absolute;
-        top: -6px;
-        left: 1px;
-        width: 8px;
-        height: 5px;
-        border: 2px solid currentColor;
-        border-bottom: 0;
-        border-radius: 3px 3px 0 0;
-      }
-
-      .nav-trash-icon {
-        position: relative;
-        display: inline-block;
-        width: 15px;
-        height: 17px;
-        border: 2px solid currentColor;
-        border-radius: 2px;
-        color: var(--reference-muted);
-      }
-
-      .nav-trash-icon::before {
-        content: "";
-        position: absolute;
-        top: -6px;
-        left: -3px;
-        width: 17px;
-        border-top: 2px solid currentColor;
+      .folder-state-icon {
+        display: block;
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
       }
 
       .sidebar-folders {
@@ -2654,6 +2620,7 @@
         display: -webkit-box;
         white-space: normal;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2663,6 +2630,7 @@
         display: -webkit-box;
         white-space: normal;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2692,6 +2660,7 @@
       }
 
       body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        line-clamp: 1;
         -webkit-line-clamp: 1;
       }
       body:not(.editing) .arrow-button {
@@ -2869,6 +2838,12 @@
           font-size: 12px;
         }
       }
+      .nav-trash-img {
+        display: block;
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+      }
     </style>
   </head>
   <body>
@@ -2923,7 +2898,12 @@
             type="button"
             data-view="trash"
           >
-            <span class="nav-trash-icon" aria-hidden="true"></span>
+            <img
+              class="nav-trash-img"
+              src="icons/bin.png"
+              alt=""
+              aria-hidden="true"
+            />
             <span>Trash</span>
             <small id="trashNavCount"></small>
           </button>
@@ -3881,14 +3861,25 @@
             const open = document.createElement("button");
             open.type = "button";
             open.className = "folder-nav-button";
-            open.classList.toggle(
-              "active",
-              activeView.type === "folder" && activeView.folderId === folder.id,
-            );
             const count = activeBlocks().filter((block) =>
               block.folderIds.includes(folder.id),
             ).length;
-            open.innerHTML = `<span class="nav-folder-icon" aria-hidden="true"></span><span></span><small>${count}</small>`;
+
+            const isOpen =
+              activeView.type === "folder" && activeView.folderId === folder.id;
+
+            open.classList.toggle("active", isOpen);
+
+            open.innerHTML = `
+              <img
+                class="folder-state-icon"
+                src="${isOpen ? "icons/folder.png" : "icons/folder-2.png"}"
+                alt=""
+                aria-hidden="true"
+              />
+              <span></span>
+              <small>${count}</small>
+            `;
             open.children[1].textContent = folder.name;
             open.addEventListener("click", () => setView("folder", folder.id));
             const actions = document.createElement("button");
