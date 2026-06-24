@@ -1188,15 +1188,983 @@
         }
       }
     </style>
+    <style id="reference-layout">
+      :root {
+        --reference-blue: #5865f2;
+        --reference-blue-soft: #f1f1ff;
+        --reference-ink: #070d28;
+        --reference-muted: #737a94;
+        --reference-line: #e6e8f0;
+        --reference-gold: #fbbf24;
+        --reference-gold-soft: #fffaf0;
+      }
+
+      body {
+        display: block;
+        padding: 0;
+        background: #fbfbfd;
+      }
+
+      body.dark {
+        --reference-ink: var(--text);
+        --reference-muted: var(--muted);
+        --reference-line: var(--border);
+        --reference-blue-soft: #20213d;
+        --reference-gold-soft: #292316;
+        background: var(--bg);
+      }
+
+      .layout-shell {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+
+      .desktop-sidebar {
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        padding: 28px 18px 24px;
+        border-right: 1px solid var(--reference-line);
+        background: color-mix(in srgb, var(--panel), transparent 8%);
+      }
+
+      .sidebar-close,
+      .sidebar-mobile-actions {
+        display: none;
+      }
+
+      .sidebar-brand,
+      .mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--reference-ink);
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+      }
+
+      .brand-mark {
+        position: relative;
+        display: inline-block;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: linear-gradient(145deg, #6b75ff, #4d5ae9);
+        box-shadow: 0 7px 18px rgba(88, 101, 242, 0.25);
+      }
+
+      .brand-mark::before,
+      .brand-mark::after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border: 2px solid white;
+        border-radius: 4px;
+      }
+
+      .brand-mark::before {
+        top: 8px;
+        left: 8px;
+      }
+
+      .brand-mark::after {
+        right: 7px;
+        bottom: 7px;
+        border-top: 0;
+        border-left: 0;
+        border-radius: 0 0 4px 0;
+      }
+
+      .sidebar-nav {
+        display: grid;
+        gap: 6px;
+        margin-top: 34px;
+      }
+
+      .sidebar-link,
+      .sidebar-folders button {
+        appearance: none;
+        display: grid;
+        grid-template-columns: 28px minmax(0, 1fr) auto;
+        align-items: center;
+        width: 100%;
+        min-height: 46px;
+        padding: 0 14px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--reference-ink);
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .sidebar-link.active {
+        background: var(--reference-blue-soft);
+        color: var(--reference-blue);
+      }
+
+      .sidebar-link span:last-child,
+      .sidebar-folders button span:nth-child(2) {
+        font-weight: 650;
+      }
+
+      .nav-star-icon {
+        color: var(--reference-gold);
+        font-size: 23px;
+      }
+
+      .nav-grid-icon {
+        display: inline-grid;
+        grid-template-columns: repeat(2, 6px);
+        gap: 3px;
+        width: 16px;
+        height: 16px;
+      }
+
+      .nav-grid-icon::before,
+      .nav-grid-icon::after {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border: 2px solid currentColor;
+        border-radius: 1px;
+        box-shadow: 9px 0 0 -2px transparent, 9px 0 0 0 currentColor;
+      }
+
+      .nav-folder-icon {
+        position: relative;
+        display: inline-block;
+        width: 19px;
+        height: 14px;
+        border: 2px solid currentColor;
+        border-radius: 3px;
+        color: var(--reference-muted);
+      }
+
+      .nav-folder-icon::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: 1px;
+        width: 8px;
+        height: 5px;
+        border: 2px solid currentColor;
+        border-bottom: 0;
+        border-radius: 3px 3px 0 0;
+      }
+
+      .nav-trash-icon {
+        position: relative;
+        display: inline-block;
+        width: 15px;
+        height: 17px;
+        border: 2px solid currentColor;
+        border-radius: 2px;
+        color: var(--reference-muted);
+      }
+
+      .nav-trash-icon::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: -3px;
+        width: 17px;
+        border-top: 2px solid currentColor;
+      }
+
+      .sidebar-folders {
+        display: grid;
+        gap: 2px;
+        margin-top: 24px;
+        padding-top: 22px;
+        border-top: 1px solid var(--reference-line);
+      }
+
+      .sidebar-section-head {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 8px 10px;
+        color: var(--reference-muted);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .sidebar-section-head button {
+        display: inline-grid;
+        width: 24px;
+        min-height: 24px;
+        padding: 0;
+        place-items: center;
+        color: var(--reference-muted);
+        font-size: 22px;
+      }
+
+      .sidebar-folders small {
+        color: var(--reference-muted);
+      }
+
+      .sidebar-tip {
+        display: flex;
+        gap: 10px;
+        margin: auto 0 0;
+        padding: 16px;
+        border: 1px solid var(--reference-line);
+        border-radius: 10px;
+        color: var(--reference-muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .info-icon {
+        display: inline-grid;
+        place-items: center;
+        flex: 0 0 18px;
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid currentColor;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .main-content {
+        width: 100%;
+        min-width: 0;
+        padding: 38px 42px 56px;
+      }
+
+      .app {
+        width: min(100%, 1120px);
+        margin: 0 auto;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .mobile-appbar,
+      .mobile-bottom-nav {
+        display: none;
+      }
+
+      .topbar {
+        align-items: center;
+        margin-bottom: 42px;
+      }
+
+      h1 {
+        color: var(--reference-ink);
+        font-size: clamp(36px, 4vw, 46px);
+        letter-spacing: -0.055em;
+      }
+
+      .subtitle {
+        margin-top: 10px;
+        color: var(--reference-muted);
+        font-size: 17px;
+      }
+
+      .top-actions {
+        flex-wrap: nowrap;
+        gap: 12px;
+      }
+
+      .top-actions .btn {
+        min-width: 130px;
+        min-height: 48px;
+        gap: 9px;
+        border: 1px solid var(--reference-line);
+        border-radius: 9px;
+        background: var(--panel);
+        color: var(--reference-ink);
+        box-shadow: none;
+      }
+
+      .top-actions .add-top-button {
+        width: auto;
+        min-width: 170px;
+        padding: 0 22px;
+        border-color: var(--reference-blue);
+        background: linear-gradient(135deg, #6672ff, #5160e9);
+        color: white;
+      }
+
+      .top-actions .add-top-button .control-label {
+        display: inline;
+      }
+
+      .top-actions .mobile-control-icon {
+        display: block;
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+
+      .top-actions .add-top-button .mobile-add-icon {
+        font-size: 25px;
+        font-weight: 300;
+      }
+
+      .starred-section {
+        margin-bottom: 38px;
+      }
+
+      .section-heading-row,
+      .blocks-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .section-heading-row h2,
+      .blocks-summary h2 {
+        margin: 0;
+        color: var(--reference-ink);
+        font-size: 23px;
+        letter-spacing: -0.035em;
+      }
+
+      .section-heading-row h2 > span {
+        color: var(--reference-gold);
+        margin-right: 8px;
+      }
+
+      .section-heading-row small,
+      .blocks-summary small {
+        display: inline-grid;
+        place-items: center;
+        min-width: 30px;
+        min-height: 26px;
+        margin-left: 8px;
+        padding: 0 8px;
+        border-radius: 8px;
+        background: var(--soft-button);
+        color: var(--reference-muted);
+        font-size: 14px;
+        font-weight: 700;
+        vertical-align: middle;
+      }
+
+      .section-heading-row > button {
+        border: 0;
+        background: transparent;
+        color: var(--reference-blue);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .starred-blocks,
+      .blocks {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 22px;
+      }
+
+      .blocks-summary {
+        margin-bottom: 20px;
+      }
+
+      .list-tools {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--reference-muted);
+        font-size: 14px;
+      }
+
+      .view-switch {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        height: 44px;
+        padding: 0 13px;
+        border: 1px solid var(--reference-line);
+        border-radius: 9px;
+      }
+
+      .view-switch .nav-grid-icon {
+        color: var(--reference-blue);
+      }
+
+      .list-view-icon {
+        width: 18px;
+        height: 14px;
+        border-top: 2px solid var(--reference-muted);
+        border-bottom: 2px solid var(--reference-muted);
+        position: relative;
+      }
+
+      .list-view-icon::after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 0;
+        width: 18px;
+        border-top: 2px solid var(--reference-muted);
+      }
+
+      .block-card {
+        display: grid;
+        gap: 14px;
+        min-width: 0;
+        padding: 18px;
+        border: 1px solid var(--reference-line);
+        border-radius: 11px;
+        background: var(--card);
+        box-shadow: 0 7px 20px rgba(18, 25, 55, 0.045);
+      }
+
+      .featured-card {
+        border-color: color-mix(in srgb, var(--reference-gold), transparent 65%);
+      }
+
+      .block-header {
+        position: static;
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 20px;
+      }
+
+      .mobile-leading {
+        display: grid;
+        place-items: center;
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
+        background: var(--reference-blue-soft);
+        color: var(--reference-muted);
+        font-size: 42px;
+        line-height: 1;
+      }
+
+      .featured-card .mobile-leading {
+        background: var(--reference-gold-soft);
+        color: var(--reference-gold);
+      }
+
+      .title-stack {
+        display: grid;
+        gap: 9px;
+        padding-top: 6px;
+      }
+
+      .block-title {
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: var(--reference-ink);
+        box-shadow: none;
+        font-size: 17px;
+        line-height: 1.28;
+        letter-spacing: -0.02em;
+        text-transform: none;
+      }
+
+      .mobile-card-hint {
+        display: block;
+        margin: 0;
+        color: var(--reference-muted);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .updated-label {
+        display: block;
+        margin-top: 8px;
+        color: var(--reference-muted);
+        font-size: 13px;
+      }
+
+      .header-actions {
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 7px;
+      }
+
+      .arrow-button {
+        position: relative;
+        min-width: 34px;
+        width: 34px;
+        min-height: 34px;
+        border-radius: 8px;
+      }
+
+      .arrow-button .arrow,
+      .arrow-button .mobile-control-icon,
+      .arrow-button .control-label {
+        display: none !important;
+      }
+
+      .arrow-button::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--reference-muted);
+        box-shadow: -7px 0 var(--reference-muted), 7px 0 var(--reference-muted);
+      }
+
+      .drag-dots {
+        display: none;
+      }
+
+      body.editing .block-title {
+        padding: 9px 11px;
+        border: 1px solid var(--accent);
+        border-radius: 9px;
+        background: var(--panel);
+      }
+
+      body.editing .starred-section {
+        display: none;
+      }
+
+      body.editing .block-header {
+        grid-template-columns: 70px minmax(0, 1fr);
+      }
+
+      body.editing .header-actions {
+        grid-column: 1 / -1;
+        flex-wrap: wrap;
+      }
+
+      .block-body {
+        grid-column: 1 / -1;
+      }
+
+      .block-card.collapsed .block-body {
+        display: none;
+      }
+
+      .copy-block {
+        min-height: 118px;
+      }
+
+      .status {
+        margin-top: 0;
+      }
+
+      .load-more-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-width: 220px;
+        min-height: 50px;
+        margin: 18px auto 0;
+        padding: 0 24px;
+        border: 1px solid var(--reference-line);
+        border-radius: 9px;
+        background: var(--panel);
+        color: var(--reference-muted);
+        font: inherit;
+        font-weight: 650;
+        box-shadow: 0 7px 18px rgba(18, 25, 55, 0.04);
+      }
+
+      .mobile-reorder-note {
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .layout-shell {
+          display: block;
+        }
+
+        .desktop-sidebar {
+          display: none;
+        }
+
+        body.mobile-menu-open::after {
+          content: "";
+          position: fixed;
+          z-index: 29;
+          inset: 0;
+          background: rgba(7, 13, 40, 0.32);
+          backdrop-filter: blur(2px);
+        }
+
+        body.mobile-menu-open .desktop-sidebar {
+          position: fixed;
+          z-index: 30;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          display: flex;
+          width: min(82vw, 320px);
+          height: 100dvh;
+          box-shadow: 16px 0 40px rgba(7, 13, 40, 0.16);
+        }
+
+        .sidebar-close {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          display: grid;
+          place-items: center;
+          width: 36px;
+          height: 36px;
+          border: 0;
+          border-radius: 9px;
+          background: var(--soft-button);
+          color: var(--reference-muted);
+          font-size: 25px;
+        }
+
+        .sidebar-mobile-actions {
+          display: grid;
+          gap: 8px;
+          margin-top: 18px;
+        }
+
+        .sidebar-mobile-actions button {
+          min-height: 44px;
+          border: 1px solid var(--reference-line);
+          border-radius: 9px;
+          background: var(--panel);
+          color: var(--reference-ink);
+          font: inherit;
+          font-weight: 700;
+        }
+
+        .main-content {
+          padding: 0;
+        }
+
+        .app {
+          width: 100%;
+          min-height: 100vh;
+          min-height: 100dvh;
+          padding: 32px 20px 116px;
+          background: var(--bg);
+        }
+
+        .topbar {
+          display: none;
+        }
+
+        .mobile-appbar {
+          display: grid;
+          grid-template-columns: 48px minmax(0, 1fr) 48px;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 36px;
+        }
+
+        .mobile-menu-button,
+        .mobile-add-button {
+          display: grid;
+          place-items: center;
+          width: 48px;
+          height: 48px;
+          padding: 0;
+          border: 1px solid var(--reference-line);
+          border-radius: 10px;
+          background: var(--panel);
+          color: var(--reference-muted);
+          box-shadow: 0 5px 14px rgba(18, 25, 55, 0.05);
+        }
+
+        .mobile-menu-button {
+          gap: 5px;
+          align-content: center;
+        }
+
+        .mobile-menu-button span {
+          width: 21px;
+          border-top: 2px solid currentColor;
+        }
+
+        .mobile-add-button {
+          border-color: var(--reference-blue);
+          background: linear-gradient(135deg, #6874ff, #5160e9);
+          color: white;
+          font-size: 30px;
+          font-weight: 300;
+        }
+
+        .mobile-brand {
+          font-size: 22px;
+        }
+
+        .mobile-brand .brand-mark {
+          width: 42px;
+          height: 42px;
+          flex-basis: 42px;
+        }
+
+        .starred-section {
+          margin-bottom: 34px;
+        }
+
+        .section-heading-row h2,
+        .blocks-summary h2 {
+          font-size: 22px;
+        }
+
+        .section-heading-row,
+        .blocks-summary {
+          margin: 0 4px 18px;
+        }
+
+        .starred-blocks,
+        .blocks {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .featured-card {
+          border-color: color-mix(in srgb, var(--reference-gold), transparent 62%);
+        }
+
+        .block-card {
+          padding: 14px;
+          border-radius: 10px;
+        }
+
+        .block-header {
+          grid-template-columns: 72px minmax(0, 1fr) 34px;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .mobile-leading {
+          width: 64px;
+          height: 64px;
+          border-radius: 11px;
+          font-size: 38px;
+        }
+
+        .title-stack {
+          gap: 7px;
+          padding-top: 0;
+        }
+
+        .block-title {
+          font-size: 17px;
+        }
+
+        .mobile-card-hint {
+          font-size: 14px;
+        }
+
+        .updated-label {
+          display: none;
+        }
+
+        body.editing .block-header {
+          grid-template-columns: 64px minmax(0, 1fr);
+        }
+
+        body.editing .mobile-leading {
+          display: grid;
+        }
+
+        .list-tools {
+          gap: 12px;
+          font-size: 13px;
+        }
+
+        .view-switch {
+          gap: 13px;
+          height: 42px;
+          padding: 0 11px;
+        }
+
+        .load-more-button {
+          width: min(100%, 290px);
+        }
+
+        .mobile-reorder-note {
+          display: none;
+        }
+
+        .mobile-bottom-nav {
+          position: fixed;
+          z-index: 20;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          min-height: 86px;
+          padding: 10px 10px max(10px, env(safe-area-inset-bottom));
+          border-top: 1px solid var(--reference-line);
+          background: color-mix(in srgb, var(--panel), transparent 4%);
+          backdrop-filter: blur(18px);
+        }
+
+        .mobile-bottom-nav button {
+          display: grid;
+          place-items: center;
+          align-content: center;
+          gap: 7px;
+          border: 0;
+          background: transparent;
+          color: var(--reference-muted);
+          font: inherit;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .mobile-bottom-nav button > span:first-child {
+          font-size: 28px;
+          line-height: 1;
+        }
+
+        .mobile-bottom-nav button.active {
+          color: var(--reference-blue);
+        }
+      }
+
+      @media (max-width: 430px) {
+        .app {
+          padding: 28px 16px 108px;
+        }
+
+        .mobile-appbar {
+          grid-template-columns: 44px minmax(0, 1fr) 44px;
+          gap: 10px;
+          margin-bottom: 32px;
+        }
+
+        .mobile-menu-button,
+        .mobile-add-button {
+          width: 44px;
+          height: 44px;
+        }
+
+        .mobile-brand {
+          gap: 9px;
+          font-size: 20px;
+        }
+
+        .mobile-brand .brand-mark {
+          width: 38px;
+          height: 38px;
+          flex-basis: 38px;
+        }
+
+        .section-heading-row h2,
+        .blocks-summary h2 {
+          font-size: 20px;
+        }
+
+        .block-card {
+          padding: 12px;
+        }
+
+        .block-header {
+          grid-template-columns: 60px minmax(0, 1fr) 32px;
+          gap: 11px;
+        }
+
+        .mobile-leading {
+          width: 54px;
+          height: 54px;
+          font-size: 32px;
+        }
+
+        .block-title {
+          font-size: 16px;
+        }
+
+        .mobile-card-hint {
+          font-size: 13px;
+        }
+
+        .list-tools > span:first-child {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <main>
+    <div class="layout-shell">
+      <aside class="desktop-sidebar" id="desktopSidebar">
+        <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close menu">×</button>
+        <div class="sidebar-brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Copy Blocks</span>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+          <button class="sidebar-link active" type="button">
+            <span class="nav-grid-icon" aria-hidden="true"></span>
+            <span>All Blocks</span>
+          </button>
+          <button class="sidebar-link" type="button">
+            <span class="nav-star-icon" aria-hidden="true">★</span>
+            <span>Starred</span>
+          </button>
+          <button class="sidebar-link" type="button">
+            <span class="nav-folder-icon" aria-hidden="true"></span>
+            <span>Folders</span>
+          </button>
+          <button class="sidebar-link" type="button">
+            <span class="nav-trash-icon" aria-hidden="true"></span>
+            <span>Trash</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-mobile-actions">
+          <button id="mobileEditProxy" type="button">Edit blocks</button>
+          <button id="mobileSettingsProxy" type="button">Settings</button>
+        </div>
+
+        <div class="sidebar-folders">
+          <div class="sidebar-section-head">
+            <span>Folders</span>
+            <button type="button" aria-label="Add folder">+</button>
+          </div>
+          <button type="button"><span class="nav-folder-icon"></span><span>Onboarding</span><small>8</small></button>
+          <button type="button"><span class="nav-folder-icon"></span><span>Support</span><small>12</small></button>
+          <button type="button"><span class="nav-folder-icon"></span><span>Sales</span><small>15</small></button>
+          <button type="button"><span class="nav-folder-icon"></span><span>Internal</span><small>6</small></button>
+        </div>
+
+        <p class="sidebar-tip">
+          <span class="info-icon" aria-hidden="true">i</span>
+          <span>Tip: Use Edit mode to reorder your blocks.</span>
+        </p>
+      </aside>
+
+      <main class="main-content">
       <div class="app">
+        <div class="mobile-appbar">
+          <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="mobile-brand">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>Copy Blocks</span>
+          </div>
+          <button class="mobile-add-button" id="mobileAddButton" type="button" aria-label="Add copy block">+</button>
+        </div>
+
         <div class="topbar">
           <div class="title-area">
             <h1>Copy Blocks</h1>
             <p class="subtitle" id="modeSubtitle">
-              Tap a block (or its title) to copy its contents.
+              Create, organize, and reuse content anywhere.
             </p>
           </div>
           <div class="top-actions">
@@ -1227,18 +2195,38 @@
           <div class="sr-only" id="reorderStatus" aria-live="polite"></div>
         </div>
 
+        <section class="starred-section" aria-labelledby="starredHeading">
+          <div class="section-heading-row">
+            <h2 id="starredHeading"><span aria-hidden="true">★</span> Starred <small id="starredCount"></small></h2>
+            <button type="button">View all</button>
+          </div>
+          <div class="starred-blocks" id="starredBlocks"></div>
+        </section>
+
         <div class="blocks-summary">
-          <h2>Your Blocks</h2>
-          <span class="blocks-count" id="blocksCount"></span>
+          <h2>All Blocks <small class="blocks-count" id="blocksCount"></small></h2>
+          <div class="list-tools" aria-label="Block display controls">
+            <span>Sort by: Updated⌄</span>
+            <span class="view-switch" aria-hidden="true"><b class="nav-grid-icon"></b><b class="list-view-icon"></b></span>
+          </div>
         </div>
         <div class="blocks" id="blocks"></div>
         <div class="empty-state" id="emptyState">No blocks yet.</div>
+        <button class="load-more-button" type="button">Load more blocks <span aria-hidden="true">⌄</span></button>
         <p class="mobile-reorder-note">
           <span class="info-icon" aria-hidden="true">i</span>
           <span>Use Move up and Move down in Edit mode to reorder blocks.</span>
         </p>
       </div>
-    </main>
+      </main>
+    </div>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+      <button class="active" type="button"><span class="nav-grid-icon"></span><span>All Blocks</span></button>
+      <button type="button"><span class="nav-folder-icon"></span><span>Folders</span></button>
+      <button type="button"><span class="nav-star-outline">☆</span><span>Starred</span></button>
+      <button type="button"><span class="nav-trash-icon"></span><span>Trash</span></button>
+    </nav>
 
     <dialog id="addBlockDialog" aria-labelledby="addBlockTitle">
       <form class="add-panel" id="addBlockForm" method="dialog">
@@ -1412,6 +2400,13 @@
       const modeSubtitle = document.getElementById("modeSubtitle");
       const blocksContainer = document.getElementById("blocks");
       const blocksCount = document.getElementById("blocksCount");
+      const starredBlocksContainer = document.getElementById("starredBlocks");
+      const starredCount = document.getElementById("starredCount");
+      const mobileAddButton = document.getElementById("mobileAddButton");
+      const mobileMenuButton = document.getElementById("mobileMenuButton");
+      const sidebarClose = document.getElementById("sidebarClose");
+      const mobileEditProxy = document.getElementById("mobileEditProxy");
+      const mobileSettingsProxy = document.getElementById("mobileSettingsProxy");
       const addBlockButton = document.getElementById("addBlockButton");
       const addBlockDialog = document.getElementById("addBlockDialog");
       const addBlockForm = document.getElementById("addBlockForm");
@@ -1468,6 +2463,7 @@
       function setEditButtonAppearance() {
         const label = editing ? "Done" : "Edit";
         editModeButton.setAttribute("aria-label", label);
+        mobileEditProxy.textContent = editing ? "Finish editing" : "Edit blocks";
         addMobileIcon(
           editModeButton,
           editing ? "icons/check.png" : "icons/edit.png",
@@ -1631,15 +2627,15 @@
         setEditButtonAppearance();
         modeSubtitle.textContent = editing
           ? "Edit titles and content. Press 'Done' when complete."
-          : "Tap a block (or its title) to copy its contents.";
+          : "Create, organize, and reuse content anywhere.";
         localStorage.setItem("copyBlocksEditing", String(editing));
         render();
       }
 
-      function makeBlockCard(blockData) {
+      function makeBlockCard(blockData, { featured = false } = {}) {
         const isLongText = blockData.text.length > PREVIEW_CHARACTER_LIMIT;
         const card = document.createElement("section");
-        card.className = `block-card ${isLongText ? "long-text-card" : ""} ${blockData.expanded ? "expanded" : "collapsed"}`;
+        card.className = `block-card ${featured ? "featured-card" : ""} ${isLongText ? "long-text-card" : ""} ${blockData.expanded ? "expanded" : "collapsed"}`;
         card.dataset.blockId = blockData.id;
         const header = document.createElement("div");
         header.className = "block-header";
@@ -1686,9 +2682,9 @@
         );
 
         const mobileLeading = document.createElement("span");
-        mobileLeading.className = `mobile-leading ${blockIndex === 0 ? "featured" : ""}`;
+        mobileLeading.className = `mobile-leading ${featured ? "featured" : ""}`;
         mobileLeading.setAttribute("aria-hidden", "true");
-        mobileLeading.textContent = blockIndex === 0 ? "★" : "☆";
+        mobileLeading.textContent = featured ? "★" : "☆";
 
         const titleStack = document.createElement("div");
         titleStack.className = "title-stack";
@@ -1696,7 +2692,13 @@
         const mobileCardHint = document.createElement("p");
         mobileCardHint.className = "mobile-card-hint";
         mobileCardHint.textContent = "Tap to copy this block’s contents.";
-        titleStack.append(title, mobileCardHint);
+        const updatedLabel = document.createElement("span");
+        updatedLabel.className = "updated-label";
+        updatedLabel.textContent =
+          blockIndex === 0
+            ? "Updated just now"
+            : `Updated ${blockIndex + 1} days ago`;
+        titleStack.append(title, mobileCardHint, updatedLabel);
 
         const dragDots = document.createElement("span");
         dragDots.className = "drag-dots";
@@ -1912,13 +2914,28 @@
 
       function renderBlocks() {
         blocksContainer.innerHTML = "";
-        blocksCount.textContent = `${blocks.length} ${blocks.length === 1 ? "block" : "blocks"}`;
+        starredBlocksContainer.innerHTML = "";
+        blocksCount.textContent = String(blocks.length);
+        const starredBlocks = blocks.slice(0, 2);
+        starredCount.textContent = String(starredBlocks.length);
 
-        blocks.forEach((block) =>
+        starredBlocks.forEach((block) =>
+          starredBlocksContainer.appendChild(
+            makeBlockCard(block, { featured: true }),
+          ),
+        );
+
+        const regularBlocks = editing
+          ? blocks
+          : blocks.length > 2
+            ? blocks.slice(2)
+            : blocks;
+
+        regularBlocks.forEach((block) =>
           blocksContainer.appendChild(makeBlockCard(block)),
         );
 
-        emptyState.style.display = blocks.length ? "none" : "block";
+        emptyState.style.display = regularBlocks.length ? "none" : "block";
       }
 
       function render() {
@@ -1939,6 +2956,20 @@
       }
 
       editModeButton.addEventListener("click", () => setEditing(!editing));
+      mobileMenuButton.addEventListener("click", () =>
+        document.body.classList.add("mobile-menu-open"),
+      );
+      sidebarClose.addEventListener("click", () =>
+        document.body.classList.remove("mobile-menu-open"),
+      );
+      mobileEditProxy.addEventListener("click", () => {
+        document.body.classList.remove("mobile-menu-open");
+        editModeButton.click();
+      });
+      mobileSettingsProxy.addEventListener("click", () => {
+        document.body.classList.remove("mobile-menu-open");
+        settingsButton.click();
+      });
       hintsButton.addEventListener("click", () => hintsDialog.showModal());
       closeHints.addEventListener("click", () => hintsDialog.close());
       closeHintsTop.addEventListener("click", () => hintsDialog.close());
@@ -1989,6 +3020,7 @@
         addBlockDialog.showModal();
         newBlockTitle.focus();
       });
+      mobileAddButton.addEventListener("click", () => addBlockButton.click());
 
       closeAddTop.addEventListener("click", () => addBlockDialog.close());
       cancelAdd.addEventListener("click", () => addBlockDialog.close());
@@ -2030,7 +3062,7 @@
       addMobileIcon(settingsButton, "icons/settings.png", "Settings");
       modeSubtitle.textContent = editing
         ? "Edit titles and content. Press 'Done' when complete."
-        : "Tap a block (or its title) to copy its contents.";
+        : "Create, organize, and reuse content anywhere.";
       saveBlocks();
       render();
     </script>
