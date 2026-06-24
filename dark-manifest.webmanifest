@@ -1,0 +1,24 @@
+{
+  "name": "Copy Blocks",
+  "short_name": "Copy Blocks",
+  "description": "Create, organize, and reuse saved text blocks.",
+  "start_url": "./CopyBlocks.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#dcae42",
+  "icons": [
+    {
+      "src": "./icons/dark-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/dark-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
