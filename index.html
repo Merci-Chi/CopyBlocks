@@ -6,9 +6,25 @@
     <title>Copy Blocks</title>
     <link id="appManifest" rel="manifest" href="./manifest.webmanifest" />
     <meta id="appThemeColor" name="theme-color" content="#d59b18" />
-    <link id="appIcon192" rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
-    <link id="appIcon512" rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png" />
-    <link id="appleTouchIcon" rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link
+      id="appIcon192"
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./icons/icon-192.png"
+    />
+    <link
+      id="appIcon512"
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="./icons/icon-512.png"
+    />
+    <link
+      id="appleTouchIcon"
+      rel="apple-touch-icon"
+      href="./icons/icon-192.png"
+    />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Copy Blocks" />
@@ -2866,7 +2882,12 @@
         overflow-y: auto;
         overscroll-behavior: contain;
         scrollbar-width: thin;
-        scrollbar-color: color-mix(in srgb, var(--reference-gold), transparent 35%) transparent;
+        scrollbar-color: color-mix(
+            in srgb,
+            var(--reference-gold),
+            transparent 35%
+          )
+          transparent;
       }
 
       .desktop-sidebar::-webkit-scrollbar {
@@ -2933,7 +2954,11 @@
       }
 
       .top-actions .add-top-button {
-        border-color: color-mix(in srgb, var(--reference-gold), transparent 45%);
+        border-color: color-mix(
+          in srgb,
+          var(--reference-gold),
+          transparent 45%
+        );
         background: var(--reference-gold-soft);
         color: #8c6200;
       }
@@ -2998,7 +3023,8 @@
         gap: 7px;
         min-height: 28px;
         padding: 5px 11px;
-        border: 1px solid color-mix(in srgb, var(--reference-gold), transparent 58%);
+        border: 1px solid
+          color-mix(in srgb, var(--reference-gold), transparent 58%);
         border-radius: 9px 9px 9px 3px;
         background: var(--reference-gold-soft);
         color: #8d6506;
@@ -3033,7 +3059,11 @@
       }
 
       .featured-card {
-        border-color: color-mix(in srgb, var(--reference-gold), transparent 55%);
+        border-color: color-mix(
+          in srgb,
+          var(--reference-gold),
+          transparent 55%
+        );
       }
 
       .featured-card .mobile-leading {
@@ -3201,7 +3231,12 @@
           type="button"
           aria-label="Copy Blocks home"
         >
-          <img class="brand-logo" src="icons/copy-block-logo.png" alt="" aria-hidden="true" />
+          <img
+            class="brand-logo"
+            src="icons/copy-block-logo.png"
+            alt=""
+            aria-hidden="true"
+          />
           <span>Copy Blocks</span>
         </button>
 
@@ -3212,7 +3247,12 @@
             type="button"
             data-view="all"
           >
-            <img class="dashboard-nav-icon" src="icons/dashboard-interface.png" alt="" aria-hidden="true" />
+            <img
+              class="dashboard-nav-icon"
+              src="icons/dashboard-interface.png"
+              alt=""
+              aria-hidden="true"
+            />
             <span>Dashboard</span>
             <small id="allBlocksNavCount"></small>
           </button>
@@ -3234,7 +3274,7 @@
           >
             <img
               class="nav-trash-img"
-              src="icons/bin.png"
+              src="icons/delete.png"
               alt=""
               aria-hidden="true"
             />
@@ -3276,7 +3316,12 @@
               <span></span><span></span><span></span>
             </button>
             <div class="mobile-brand">
-              <img class="brand-logo" src="icons/copy-block-logo.png" alt="" aria-hidden="true" />
+              <img
+                class="brand-logo"
+                src="icons/copy-block-logo.png"
+                alt=""
+                aria-hidden="true"
+              />
               <span>Copy Blocks</span>
             </div>
             <button
@@ -3349,66 +3394,66 @@
             </div>
 
             <div class="list-tools" aria-label="Block display controls">
+              <div
+                class="sort-control custom-sort-control"
+                aria-label="Sort blocks"
+              >
+                <span class="sort-label">Sort by:</span>
+
                 <div
-                  class="sort-control custom-sort-control"
-                  aria-label="Sort blocks"
+                  class="sort-buttons"
+                  role="group"
+                  aria-label="Sort options"
                 >
-                  <span class="sort-label">Sort by:</span>
-
-                  <div
-                    class="sort-buttons"
-                    role="group"
-                    aria-label="Sort options"
+                  <button
+                    class="sort-button active"
+                    type="button"
+                    data-sort="updated"
                   >
-                    <button
-                      class="sort-button active"
-                      type="button"
-                      data-sort="updated"
-                    >
-                      Last Updated
-                    </button>
-                    <button class="sort-button" type="button" data-sort="used">
-                      Last Used
-                    </button>
-                    <button class="sort-button" type="button" data-sort="alpha">
-                      Alphabetical
-                    </button>
-                    <button class="sort-button" type="button" data-sort="count">
-                      Most Used
-                    </button>
-                  </div>
-
-                  <select
-                    id="sortSelect"
-                    class="sort-select-hidden"
-                    aria-label="Sort blocks"
-                  >
-                    <option value="updated">Last Updated</option>
-                    <option value="used">Last Used</option>
-                    <option value="alpha">Alphabetical</option>
-                    <option value="count">Most Used</option>
-                  </select>
+                    Last Updated
+                  </button>
+                  <button class="sort-button" type="button" data-sort="used">
+                    Last Used
+                  </button>
+                  <button class="sort-button" type="button" data-sort="alpha">
+                    Alphabetical
+                  </button>
+                  <button class="sort-button" type="button" data-sort="count">
+                    Most Used
+                  </button>
                 </div>
 
-                <span class="view-switch">
-                  <button
-                    id="gridViewButton"
-                    type="button"
-                    aria-label="Grid view"
-                    aria-pressed="true"
-                  >
-                    <img src="icons/squares-ui.png" alt="Grid view" />
-                  </button>
+                <select
+                  id="sortSelect"
+                  class="sort-select-hidden"
+                  aria-label="Sort blocks"
+                >
+                  <option value="updated">Last Updated</option>
+                  <option value="used">Last Used</option>
+                  <option value="alpha">Alphabetical</option>
+                  <option value="count">Most Used</option>
+                </select>
+              </div>
 
-                  <button
-                    id="listViewButton"
-                    type="button"
-                    aria-label="List view"
-                    aria-pressed="false"
-                  >
-                    <img src="icons/list.png" alt="List view" />
-                  </button>
-                </span>
+              <span class="view-switch">
+                <button
+                  id="gridViewButton"
+                  type="button"
+                  aria-label="Grid view"
+                  aria-pressed="true"
+                >
+                  <img src="icons/squares-ui.png" alt="Grid view" />
+                </button>
+
+                <button
+                  id="listViewButton"
+                  type="button"
+                  aria-label="List view"
+                  aria-pressed="false"
+                >
+                  <img src="icons/list.png" alt="List view" />
+                </button>
+              </span>
             </div>
           </div>
 
@@ -3444,7 +3489,11 @@
 
     <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
       <button class="active" id="mobileAllNav" type="button" data-view="all">
-        <img class="dashboard-nav-icon" src="icons/dashboard-interface.png" alt="" /><span>Dashboard</span>
+        <img
+          class="dashboard-nav-icon"
+          src="icons/dashboard-interface.png"
+          alt=""
+        /><span>Dashboard</span>
       </button>
       <button id="mobileFoldersNav" type="button">
         <span class="nav-folder-icon"></span><span>Folders</span>
@@ -5189,9 +5238,11 @@
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-          navigator.serviceWorker.register("./copy-blocks-sw.js").catch((error) => {
-            console.error("Service worker registration failed:", error);
-          });
+          navigator.serviceWorker
+            .register("./copy-blocks-sw.js")
+            .catch((error) => {
+              console.error("Service worker registration failed:", error);
+            });
         });
       }
     </script>
