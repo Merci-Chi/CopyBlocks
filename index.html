@@ -454,6 +454,16 @@
         display: none;
       }
 
+      body.dark img.mobile-control-icon,
+      body.dark img.folder-state-icon,
+      body.dark img.nav-trash-img,
+      body.dark img.dashboard-nav-icon,
+      body.dark .view-switch img,
+      body.dark img[src*="dashboard"] {
+        filter: brightness(0) saturate(100%) invert(74%) sepia(7%)
+          saturate(319%) hue-rotate(202deg) brightness(91%) contrast(87%);
+      }
+
       .category-tab.active {
         background: var(--button);
         color: var(--button-text);
@@ -610,8 +620,9 @@
       }
 
       dialog::backdrop {
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(3px);
+        background: rgba(0, 0, 0, 0.38);
+        backdrop-filter: grayscale(1) blur(8px);
+        -webkit-backdrop-filter: grayscale(1) blur(8px);
       }
 
       .settings-panel,
@@ -1155,6 +1166,35 @@
         }
       }
     </style>
+    <style id="collapsed-card-centering-fix">
+      body:not(.editing) .block-card.collapsed {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        align-content: center;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-header {
+        align-self: center;
+      }
+
+      body:not(.editing) .block-card.collapsed .title-stack {
+        align-self: center;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title,
+      body:not(.editing) .block-card.collapsed .mobile-card-hint {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      body:not(.editing) .block-card.expanded {
+        align-content: start;
+      }
+
+      body:not(.editing) .block-card.expanded .block-header {
+        align-self: start;
+      }
+    </style>
     <style id="functionality-ui">
       .home-button {
         width: 100%;
@@ -1173,6 +1213,30 @@
       #folderList {
         display: grid;
         gap: 2px;
+      }
+
+      .privacy-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        display: none;
+        place-items: center;
+        background: #ffffff;
+        pointer-events: none;
+      }
+
+      body.dark .privacy-screen {
+        background: #000000;
+      }
+
+      .privacy-screen.is-visible {
+        display: grid;
+      }
+
+      .privacy-screen img {
+        width: min(34vw, 180px);
+        height: auto;
+        object-fit: contain;
       }
 
       .folder-nav-row {
@@ -1319,6 +1383,12 @@
         color: var(--reference-blue);
         font-size: 10px;
         font-weight: 750;
+      }
+
+      .folder-badges span.no-category-badge {
+        background: var(--soft-button);
+        color: var(--reference-muted);
+        border: 1px solid var(--reference-line);
       }
 
       .inline-card-controls {
@@ -2376,26 +2446,28 @@
         }
       }
       .arrow-button .arrow,
-      .arrow-button .mobile-control-icon,
       .arrow-button .control-label {
         display: none !important;
       }
 
-      .arrow-button::before {
-        content: "";
-        display: inline-block;
-        width: 42px;
-        height: 42px;
-        background: currentColor;
-        mask: url("icons/dropdown.png") center / contain no-repeat;
-        -webkit-mask: url("icons/dropdown.png") center / contain no-repeat;
-        color: var(--reference-muted);
+      .arrow-button .mobile-control-icon {
+        display: block !important;
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        opacity: 1;
+        visibility: visible;
         transform: rotate(0deg);
         transition: transform 140ms ease;
       }
 
-      .block-card.expanded .arrow-button::before {
+      .block-card.expanded .arrow-button .mobile-control-icon {
         transform: rotate(180deg);
+      }
+
+      .arrow-button::before {
+        content: none !important;
+        display: none !important;
       }
 
       body:not(.editing) .blocks-summary {
@@ -2410,32 +2482,38 @@
         position: relative;
       }
 
-      .category-pill {
-        position: absolute;
-        top: 8px;
-        right: 12px;
-        max-width: 38%;
-        justify-content: flex-end;
-        z-index: 2;
+      .card-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
       }
 
-      .category-pill span {
-        max-width: 100%;
+      .card-meta-row .updated-label {
+        margin-top: 0;
+      }
+
+      .category-inline {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        min-width: 0;
+      }
+
+      .category-inline span {
+        max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      .category-pill:empty {
+      .category-inline:empty {
         display: none;
       }
 
       body.editing .block-card {
         padding-top: 14px;
-      }
-
-      body.editing .category-pill {
-        display: none;
       }
 
       .starred-blocks,
@@ -2642,14 +2720,36 @@
         text-overflow: ellipsis;
       }
 
+      body:not(.editing) .block-card.collapsed .block-header {
+        align-items: center;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-leading,
+      body:not(.editing) .block-card.collapsed .title-stack,
+      body:not(.editing) .block-card.collapsed .header-actions,
+      body:not(.editing) .block-card.collapsed .drag-dots {
+        align-self: center;
+      }
+
+      body:not(.editing) .block-card.collapsed .title-stack {
+        transform: translateY(-6px);
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-leading,
+      body:not(.editing) .block-card.collapsed .header-actions,
+      body:not(.editing) .block-card.collapsed .drag-dots {
+        transform: translateY(-6px);
+      }
+
       body:not(.editing) .block-card.collapsed .mobile-card-hint {
         display: -webkit-box;
         white-space: normal;
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin: 0;
       }
 
       body:not(.editing) .block-card.expanded .mobile-card-hint {
@@ -2750,11 +2850,386 @@
 
       body:not(.editing) .block-card.expanded .copy-block {
         width: 100%;
-        min-height: 118px;
+        min-height: 0;
         max-height: none;
-        display: grid;
-        align-content: center;
+        display: block;
+        align-content: initial;
       }
+
+      .copy-shell {
+        position: relative;
+        width: 100%;
+        border-radius: 18px;
+      }
+
+      .copy-shell .copy-block {
+        height: 178px;
+        min-height: 178px;
+        max-height: 178px;
+        padding-right: 54px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+      }
+
+      .copy-shell.content-expanded .copy-block {
+        height: min(58vh, 520px);
+        min-height: 178px;
+        max-height: min(58vh, 520px);
+      }
+
+      .copy-shell:not(.has-overflow) .copy-fade,
+      .copy-shell:not(.has-overflow) .content-expand-button,
+      .copy-shell.scrolled-end .copy-fade,
+      .copy-shell.content-expanded .copy-fade {
+        display: none;
+      }
+
+      .copy-fade {
+        position: absolute;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        height: 72px;
+        border-radius: 0 0 17px 17px;
+        pointer-events: none;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0.94)
+        );
+      }
+
+      body.dark .copy-fade {
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0),
+          rgba(0, 0, 0, 0.9)
+        );
+      }
+
+      .content-expand-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        min-height: 34px;
+        padding: 0;
+        border: 1px solid var(--reference-line);
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--panel), transparent 8%);
+        color: var(--reference-muted);
+        box-shadow: 0 6px 16px rgba(18, 25, 55, 0.08);
+      }
+
+      .content-expand-button img {
+        display: block;
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        transition: transform 140ms ease;
+      }
+
+      .copy-shell.content-expanded .content-expand-button img {
+        transform: rotate(180deg);
+      }
+
+      body.dark .content-expand-button img {
+        filter: brightness(0) saturate(100%) invert(74%) sepia(7%)
+          saturate(319%) hue-rotate(202deg) brightness(91%) contrast(87%);
+      }
+
+      body.editing .card-menu-button {
+        display: grid;
+      }
+
+      .card-action-stack {
+        display: grid;
+        place-items: center;
+        gap: 2px;
+        width: 52px;
+        margin-left: auto;
+      }
+
+      .card-menu-button {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        min-width: 36px;
+        height: 24px;
+        min-height: 24px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--reference-muted);
+        cursor: pointer;
+      }
+
+      .card-menu-button:hover,
+      .card-menu-button:focus-visible {
+        background: var(--reference-blue-soft);
+        color: var(--reference-blue);
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          transparent 78%
+        );
+      }
+
+      .card-menu-dots {
+        display: grid;
+        grid-template-columns: repeat(3, 4px);
+        gap: 3px;
+      }
+
+      .card-menu-dots span {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .block-action-popover {
+        width: min(calc(100% - 32px), 320px);
+      }
+
+      .block-action-popover::backdrop {
+        background: rgba(0, 0, 0, 0.34);
+        backdrop-filter: grayscale(1) blur(10px);
+        -webkit-backdrop-filter: grayscale(1) blur(10px);
+      }
+
+      .block-action-popover .action-menu-panel {
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .block-action-popover .settings-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 10px;
+      }
+
+      .block-action-popover .settings-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .block-action-popover .settings-note {
+        margin-top: 3px;
+      }
+
+      .block-menu-close {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        min-width: 34px;
+        height: 34px;
+        min-height: 34px;
+        padding: 0;
+        border-radius: 999px;
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .block-action-popover .action-menu-list {
+        gap: 5px;
+      }
+
+      .block-action-popover .action-menu-list button {
+        min-height: 42px;
+        border-radius: 11px;
+      }
+
+      #addBlockDialog.edit-dialog {
+        width: min(calc(100% - 32px), 680px);
+      }
+
+      #addBlockDialog.edit-dialog .add-panel {
+        gap: 18px;
+        padding: 22px;
+        background:
+          radial-gradient(
+            circle at top right,
+            color-mix(in srgb, var(--reference-blue), transparent 84%),
+            transparent 18rem
+          ),
+          var(--panel);
+      }
+
+      #addBlockDialog.edit-dialog textarea {
+        min-height: 260px;
+        border-radius: 16px;
+        font-size: 15px;
+      }
+
+      #addBlockDialog.edit-dialog input {
+        min-height: 46px;
+        border-radius: 14px;
+      }
+
+      #addBlockDialog.edit-dialog .setting-row,
+      #addBlockDialog.edit-dialog .folder-picker-fieldset,
+      #addBlockDialog.edit-dialog .toggle-row {
+        padding: 12px;
+        border: 1px solid var(--reference-line);
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--soft-button), transparent 58%);
+      }
+
+      #addBlockDialog.edit-dialog .dialog-actions {
+        padding-top: 4px;
+      }
+
+      #addBlockDialog.edit-dialog #blockDescriptionRow {
+        display: none;
+      }
+
+      .folder-checkboxes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+
+      .folder-check-card {
+        position: relative;
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        min-height: 58px;
+        padding: 10px 12px;
+        border: 1px solid var(--reference-line);
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--panel), var(--soft-button) 34%);
+        color: var(--reference-ink);
+        cursor: pointer;
+        transition:
+          transform 130ms ease,
+          border-color 130ms ease,
+          background 130ms ease,
+          box-shadow 130ms ease;
+      }
+
+      .folder-check-card:hover {
+        transform: translateY(-1px);
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          transparent 58%
+        );
+        box-shadow: 0 10px 22px rgba(18, 25, 55, 0.07);
+      }
+
+      .folder-check-card input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        min-height: 1px;
+        margin: -1px;
+        padding: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .folder-card-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 11px;
+        background: var(--reference-blue-soft);
+        color: var(--reference-blue);
+      }
+
+      .folder-card-icon img {
+        display: block;
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+      }
+
+      body.dark .folder-card-icon img {
+        filter: brightness(0) saturate(100%) invert(74%) sepia(7%)
+          saturate(319%) hue-rotate(202deg) brightness(91%) contrast(87%);
+      }
+
+      .folder-card-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .folder-card-state {
+        display: inline-grid;
+        place-items: center;
+        min-width: 54px;
+        min-height: 26px;
+        padding: 0 9px;
+        border-radius: 999px;
+        background: var(--soft-button);
+        color: var(--reference-muted);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.02em;
+      }
+
+      .folder-check-card.selected,
+      .folder-check-card:has(input:checked) {
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          transparent 25%
+        );
+        background: linear-gradient(
+          135deg,
+          var(--reference-blue-soft),
+          color-mix(in srgb, var(--panel), var(--reference-blue-soft) 45%)
+        );
+        box-shadow: 0 0 0 3px
+          color-mix(in srgb, var(--reference-blue), transparent 84%);
+      }
+
+      .folder-check-card.selected .folder-card-state,
+      .folder-check-card:has(input:checked) .folder-card-state {
+        background: var(--reference-blue);
+        color: white;
+      }
+
+      .folder-check-card.selected .folder-card-state::before,
+      .folder-check-card:has(input:checked) .folder-card-state::before {
+        content: "Added";
+      }
+
+      .folder-check-card:not(.selected):not(:has(input:checked))
+        .folder-card-state::before {
+        content: "Add";
+      }
+
+      .folder-nav-row {
+        gap: 6px;
+      }
+
+      .folder-actions-button {
+        border-radius: 10px !important;
+      }
+
+      .folder-actions-button:hover {
+        background: var(--reference-blue-soft) !important;
+        color: var(--reference-blue) !important;
+      }
+
       body:not(.editing) .block-card,
       body:not(.editing) .block-card.collapsed,
       body:not(.editing) .block-card.expanded {
@@ -2934,9 +3409,10 @@
 
       .top-actions {
         display: grid;
-        grid-template-columns: repeat(3, minmax(132px, 1fr));
-        width: min(100%, 450px);
+        grid-template-columns: repeat(2, minmax(132px, 1fr));
+        width: min(100%, 300px);
         gap: 12px;
+        justify-self: end;
       }
 
       .top-actions .btn,
@@ -3042,7 +3518,7 @@
         box-shadow: inset 0 3px transparent;
       }
 
-      .folder-badges.category-pill .unfiled-badge {
+      .folder-badges.category-pill .no-category-badge {
         border-color: var(--reference-line);
         background: var(--soft-button);
         color: var(--reference-muted);
@@ -3212,9 +3688,1265 @@
           font-size: 11px;
         }
       }
+
+      .folder-badges.category-pill .no-category-badge,
+      .folder-badges .no-category-badge {
+        border-color: var(--reference-line) !important;
+        background: var(--soft-button) !important;
+        color: var(--reference-muted) !important;
+      }
+
+      .folder-badges.category-pill .no-category-badge::before,
+      .folder-badges .no-category-badge::before {
+        border-color: currentColor !important;
+      }
+
+      /* Folder picker: keep edit-mode folders neutral until selected. */
+      body.editing .folder-check-card {
+        border-color: var(--reference-line);
+        background: color-mix(in srgb, var(--panel), var(--soft-button) 42%);
+        box-shadow: none;
+      }
+
+      body.editing .folder-check-card .folder-card-icon {
+        background: transparent;
+        color: var(--reference-muted);
+      }
+
+      body.editing .folder-check-card .folder-card-state {
+        background: color-mix(in srgb, var(--soft-button), var(--panel) 14%);
+        color: var(--reference-muted);
+      }
+
+      body.editing .folder-check-card:hover {
+        border-color: var(--border-strong);
+        background: color-mix(in srgb, var(--panel), var(--soft-button) 54%);
+        box-shadow: 0 10px 22px rgba(18, 25, 55, 0.06);
+      }
+
+      body.editing .folder-check-card.selected,
+      body.editing .folder-check-card:has(input:checked) {
+        border-color: var(--reference-line);
+        background: color-mix(in srgb, var(--panel), var(--soft-button) 42%);
+        box-shadow: none;
+      }
+
+      body.editing .folder-check-card.selected .folder-card-icon,
+      body.editing .folder-check-card:has(input:checked) .folder-card-icon {
+        background: transparent;
+        color: var(--reference-muted);
+      }
+
+      body.editing .folder-check-card.selected .folder-card-state,
+      body.editing .folder-check-card:has(input:checked) .folder-card-state {
+        background: var(--reference-muted);
+        color: #fff;
+      }
+      /* Remove yellow box behind folder icons in the add/edit copy block dialog */
+      #addBlockDialog .folder-card-icon,
+      #addBlockDialog.edit-dialog .folder-card-icon,
+      body.editing #addBlockDialog .folder-card-icon,
+      body.editing
+        #addBlockDialog
+        .folder-check-card.selected
+        .folder-card-icon,
+      body.editing
+        #addBlockDialog
+        .folder-check-card:has(input:checked)
+        .folder-card-icon {
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      #addBlockDialog .folder-card-icon img {
+        background: transparent !important;
+      }
+
+      body:not(.editing) .starred-blocks,
+      body:not(.editing) .blocks {
+        --card-row-height: 120px;
+        --card-row-gap: 16px;
+        align-items: stretch;
+        grid-auto-flow: row;
+        grid-auto-rows: var(--card-row-height);
+        row-gap: var(--card-row-gap);
+      }
+
+      body:not(.editing) .block-card,
+      body:not(.editing) .block-card.collapsed {
+        height: 100%;
+        min-height: 0;
+        grid-row: span 1;
+        overflow: hidden;
+      }
+
+      body:not(.editing) .block-card.expanded {
+        height: 100%;
+        min-height: 0;
+        grid-row: span 3;
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
+      }
+
+      body:not(.editing) .block-card.expanded .block-body {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      body:not(.editing) .block-card.expanded .copy-shell {
+        height: 100%;
+        min-height: 0;
+      }
+
+      body:not(.editing) .block-card.expanded .copy-shell .copy-block,
+      body:not(.editing)
+        .block-card.expanded
+        .copy-shell.content-expanded
+        .copy-block {
+        height: 100%;
+        min-height: 0;
+        max-height: none;
+      }
+
+      @media (max-width: 900px) {
+        body:not(.editing) .starred-blocks,
+        body:not(.editing) .blocks {
+          --card-row-gap: 12px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        body:not(.editing) .starred-blocks,
+        body:not(.editing) .blocks {
+          --card-row-height: 112px;
+        }
+      }
+
+      .import-preview-panel {
+        display: grid;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .import-summary-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .import-choice {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 38px;
+        gap: 8px;
+        align-items: stretch;
+      }
+
+      .import-choice .btn {
+        width: 100%;
+        min-height: 48px;
+      }
+
+      .import-choice-main[aria-pressed="true"] {
+        background: var(--button);
+        color: var(--button-text);
+        border-color: var(--button);
+      }
+
+      .import-help-button {
+        min-width: 38px;
+        width: 38px;
+        padding: 0;
+        border-radius: 50%;
+        font-weight: 900;
+      }
+
+      .import-help-button:disabled,
+      .import-choice-main:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .import-detail-panel {
+        display: none;
+        gap: 10px;
+        max-height: 48vh;
+        overflow: auto;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--panel);
+      }
+
+      .import-detail-panel.open {
+        display: grid;
+      }
+
+      .import-detail-heading {
+        margin: 0;
+        font-size: 14px;
+        color: var(--reference-ink);
+      }
+
+      .import-preview-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--card);
+        overflow: hidden;
+      }
+
+      .import-preview-toggle {
+        appearance: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        min-height: 46px;
+        padding: 0 12px;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        font: inherit;
+        font-weight: 800;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .import-preview-toggle span:first-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .import-preview-body {
+        display: none;
+        gap: 10px;
+        padding: 0 12px 12px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .import-preview-item.open .import-preview-body {
+        display: grid;
+      }
+
+      .import-field-label {
+        color: var(--reference-muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .import-block-context,
+      .import-diff {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--soft-button), transparent 45%);
+      }
+
+      .diff-remove {
+        background: color-mix(in srgb, #ef4444, transparent 78%);
+        color: #991b1b;
+        text-decoration: line-through;
+      }
+
+      .diff-add {
+        background: color-mix(in srgb, #22c55e, transparent 78%);
+        color: #166534;
+      }
+
+      body.dark .diff-remove {
+        color: #fecaca;
+      }
+
+      body.dark .diff-add {
+        color: #bbf7d0;
+      }
+
+      .import-result-box {
+        display: none;
+        padding: 12px;
+        border: 1px solid color-mix(in srgb, var(--accent), transparent 68%);
+        border-radius: 14px;
+        background: var(--accent-soft);
+        color: var(--text);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .import-result-box.show {
+        display: block;
+      }
+
+      @media (max-width: 620px) {
+        .import-summary-actions {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <style id="stable-collapsed-card-controls-fix">
+      /* Keep collapsed-card controls in the exact same place regardless of title wrapping.
+         Only the title changes size/position between one-line and two-line states. */
+      body:not(.editing) .block-card.collapsed .block-header {
+        align-items: start;
+        min-height: 52px;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-leading,
+      body:not(.editing) .block-card.collapsed .header-actions,
+      body:not(.editing) .block-card.collapsed .drag-dots {
+        align-self: start !important;
+        transform: none !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .title-stack {
+        align-self: start !important;
+        transform: none !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title {
+        font-size: 17px;
+        line-height: 1.28;
+        transform: translateY(2px);
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        font-size: 22px;
+        line-height: 1.08;
+        transform: translateY(13px);
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-card-hint {
+        margin: 0;
+      }
+    </style>
+
+    <style id="uniform-copy-card-cleanup">
+      /* Final card cleanup: every collapsed copy block uses the same fixed layout.
+         Star, hint, and updated text stay in identical positions; only the title text changes. */
+      body:not(.editing) .block-card.collapsed {
+        min-height: 136px !important;
+        padding: 14px 16px !important;
+        align-content: center !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-header {
+        grid-template-columns: 52px minmax(0, 1fr) 52px !important;
+        grid-template-rows: 92px !important;
+        align-items: center !important;
+        gap: 10px !important;
+        min-height: 92px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-leading,
+      body:not(.editing) .block-card.collapsed .header-actions,
+      body:not(.editing) .block-card.collapsed .drag-dots {
+        align-self: center !important;
+        transform: none !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .title-stack {
+        display: grid !important;
+        grid-template-rows: 42px 20px 18px !important;
+        gap: 4px !important;
+        align-self: center !important;
+        transform: none !important;
+        min-height: 84px !important;
+        overflow: hidden !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title,
+      body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        align-self: start !important;
+        min-height: 42px !important;
+        max-height: 42px !important;
+        margin: 0 !important;
+        font-size: 15px !important;
+        line-height: 1.32 !important;
+        transform: none !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        overflow-wrap: anywhere !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-card-hint {
+        align-self: start !important;
+        min-height: 20px !important;
+        max-height: 20px !important;
+        margin: 0 !important;
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        -webkit-line-clamp: unset !important;
+        line-clamp: unset !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .card-meta-row {
+        align-self: start !important;
+        min-height: 18px !important;
+        max-height: 18px !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .updated-label {
+        display: block !important;
+        margin: 0 !important;
+        font-size: 13px !important;
+        line-height: 18px !important;
+        white-space: nowrap !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .category-inline,
+      body:not(.editing) .block-card.collapsed .folder-badges {
+        display: none !important;
+      }
+
+      @media (max-width: 900px) {
+        body:not(.editing) .block-card.collapsed .updated-label {
+          display: block !important;
+        }
+      }
+    </style>
+
+    <style id="single-line-title-size-and-spacing-fix">
+      /* Single-line copy-block titles get their own larger treatment.
+         Two-line titles stay smaller, capped at two lines, and ellipsize safely. */
+      body:not(.editing) .block-card.collapsed .title-stack {
+        grid-template-rows: 42px 20px 18px !important;
+        gap: 4px !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .title-stack.single-line-title-stack {
+        grid-template-rows: 32px 20px 18px !important;
+        gap: 2px !important;
+        justify-content: start !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title {
+        min-height: 42px !important;
+        max-height: 42px !important;
+        font-size: 15px !important;
+        line-height: 1.3 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        min-height: 32px !important;
+        max-height: 32px !important;
+        font-size: 20px !important;
+        line-height: 1.12 !important;
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        -webkit-line-clamp: unset !important;
+        line-clamp: unset !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .title-stack.single-line-title-stack
+        .mobile-card-hint {
+        margin-top: -1px !important;
+      }
+    </style>
+
+    <style id="true-single-line-copy-title-final-fix">
+      /* Larger title only when the title truly fits on one line.
+         Two-line titles keep the existing smaller two-line clamp. */
+      body:not(.editing) .block-card.collapsed .title-stack {
+        grid-template-rows: 42px 20px 18px !important;
+        gap: 4px !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .title-stack.single-line-title-stack {
+        grid-template-rows: 24px 20px 18px !important;
+        gap: 1px !important;
+        align-content: center !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .block-title:not(.single-line-title) {
+        min-height: 42px !important;
+        max-height: 42px !important;
+        font-size: 15px !important;
+        line-height: 1.3 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        white-space: normal !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        overflow-wrap: anywhere !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        min-height: 24px !important;
+        max-height: 24px !important;
+        font-size: 20px !important;
+        line-height: 1.08 !important;
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        -webkit-line-clamp: unset !important;
+        line-clamp: unset !important;
+        transform: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .title-stack.single-line-title-stack
+        .mobile-card-hint {
+        margin-top: 0 !important;
+      }
+    </style>
+
+    <style id="copy-card-spacing-and-height-final">
+      /* More space between cards, with a shorter collapsed copy-block card. */
+      body:not(.editing) .starred-blocks,
+      body:not(.editing) .blocks {
+        --card-row-height: 112px !important;
+        --card-row-gap: 22px !important;
+        row-gap: 22px !important;
+        column-gap: 24px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed {
+        min-height: 112px !important;
+        padding: 10px 14px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-header {
+        grid-template-columns: 48px minmax(0, 1fr) 48px !important;
+        grid-template-rows: 88px !important;
+        min-height: 88px !important;
+        gap: 10px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-leading {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 31px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .arrow-button {
+        width: 48px !important;
+        min-width: 48px !important;
+        height: 48px !important;
+        min-height: 48px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .title-stack {
+        grid-template-rows: 40px 18px 16px !important;
+        gap: 3px !important;
+        min-height: 77px !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .title-stack.single-line-title-stack {
+        grid-template-rows: 24px 18px 16px !important;
+        gap: 1px !important;
+        min-height: 59px !important;
+        align-content: center !important;
+      }
+
+      body:not(.editing)
+        .block-card.collapsed
+        .block-title:not(.single-line-title) {
+        min-height: 40px !important;
+        max-height: 40px !important;
+        font-size: 14px !important;
+        line-height: 1.28 !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .block-title.single-line-title {
+        min-height: 24px !important;
+        max-height: 24px !important;
+        font-size: 20px !important;
+        line-height: 1.08 !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .mobile-card-hint {
+        min-height: 18px !important;
+        max-height: 18px !important;
+        font-size: 13px !important;
+        line-height: 18px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .card-meta-row {
+        min-height: 16px !important;
+        max-height: 16px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .updated-label {
+        font-size: 12px !important;
+        line-height: 16px !important;
+      }
+
+      @media (max-width: 900px) {
+        body:not(.editing) .starred-blocks,
+        body:not(.editing) .blocks {
+          --card-row-height: 108px !important;
+          --card-row-gap: 18px !important;
+          row-gap: 18px !important;
+        }
+      }
+
+      @media (max-width: 620px) {
+        body:not(.editing) .starred-blocks,
+        body:not(.editing) .blocks {
+          --card-row-height: 104px !important;
+          --card-row-gap: 16px !important;
+          row-gap: 16px !important;
+        }
+
+        body:not(.editing) .block-card.collapsed {
+          min-height: 104px !important;
+          padding: 9px 12px !important;
+        }
+
+        body:not(.editing) .block-card.collapsed .block-header {
+          grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+          grid-template-rows: 84px !important;
+          min-height: 84px !important;
+          gap: 9px !important;
+        }
+
+        body:not(.editing) .block-card.collapsed .mobile-leading,
+        body:not(.editing) .block-card.collapsed .arrow-button {
+          width: 44px !important;
+          min-width: 44px !important;
+          height: 44px !important;
+          min-height: 44px !important;
+        }
+      }
+    </style>
+
+    <style id="unified-add-edit-dialog-final">
+      /* Add and edit use the same compact popup. Only the primary button text changes. */
+      #addBlockDialog,
+      #addBlockDialog.edit-dialog {
+        width: min(calc(100% - 32px), 460px) !important;
+        max-height: calc(100dvh - 28px) !important;
+      }
+
+      #addBlockDialog .add-panel,
+      #addBlockDialog.edit-dialog .add-panel {
+        gap: 12px !important;
+        padding: 16px !important;
+        background:
+          radial-gradient(
+            circle at top right,
+            color-mix(in srgb, var(--reference-blue), transparent 84%),
+            transparent 17rem
+          ),
+          linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--panel), var(--reference-blue-soft) 14%),
+            var(--panel)
+          ) !important;
+      }
+
+      #addBlockDialog .settings-head,
+      #addBlockDialog.edit-dialog .settings-head {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 4px !important;
+      }
+
+      #addBlockDialog .dialog-top-close,
+      #addBlockDialog.edit-dialog .dialog-top-close {
+        display: none !important;
+      }
+
+      #blockDescriptionRow,
+      #addBlockDialog #blockDescriptionRow,
+      #addBlockDialog.edit-dialog #blockDescriptionRow {
+        display: none !important;
+      }
+
+      #addBlockDialog .settings-title,
+      #addBlockDialog.edit-dialog .settings-title {
+        font-size: 19px !important;
+        line-height: 1.15 !important;
+      }
+
+      #addBlockDialog .settings-note,
+      #addBlockDialog.edit-dialog .settings-note {
+        margin-top: 3px !important;
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+      }
+
+      #addBlockDialog .setting-row,
+      #addBlockDialog.edit-dialog .setting-row,
+      #addBlockDialog .folder-picker-fieldset,
+      #addBlockDialog.edit-dialog .folder-picker-fieldset {
+        padding: 10px !important;
+        border: 1px solid var(--reference-line) !important;
+        border-radius: 14px !important;
+        background: color-mix(
+          in srgb,
+          var(--soft-button),
+          transparent 62%
+        ) !important;
+      }
+
+      #addBlockDialog input,
+      #addBlockDialog.edit-dialog input {
+        min-height: 42px !important;
+        border-radius: 12px !important;
+      }
+
+      #addBlockDialog textarea,
+      #addBlockDialog.edit-dialog textarea {
+        min-height: 150px !important;
+        max-height: 32dvh !important;
+        border-radius: 13px !important;
+        font-size: 14px !important;
+        line-height: 1.42 !important;
+      }
+
+      #addBlockDialog .folder-checkboxes,
+      #addBlockDialog.edit-dialog .folder-checkboxes {
+        grid-template-columns: 1fr !important;
+        gap: 7px !important;
+      }
+
+      #addBlockDialog .folder-check-card,
+      #addBlockDialog.edit-dialog .folder-check-card {
+        grid-template-columns: 28px minmax(0, 1fr) 48px !important;
+        min-height: 46px !important;
+        padding: 8px 9px !important;
+        gap: 8px !important;
+        border-radius: 12px !important;
+      }
+
+      #addBlockDialog .folder-card-icon,
+      #addBlockDialog.edit-dialog .folder-card-icon {
+        width: 28px !important;
+        height: 28px !important;
+      }
+
+      #addBlockDialog .folder-card-icon img,
+      #addBlockDialog.edit-dialog .folder-card-icon img {
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      #addBlockDialog .folder-card-name,
+      #addBlockDialog.edit-dialog .folder-card-name {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        overflow-wrap: anywhere !important;
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+      }
+
+      #addBlockDialog .folder-card-state,
+      #addBlockDialog.edit-dialog .folder-card-state {
+        min-width: 46px !important;
+        min-height: 24px !important;
+        padding: 0 7px !important;
+        font-size: 10px !important;
+      }
+
+      #addBlockDialog .dialog-actions,
+      #addBlockDialog.edit-dialog .dialog-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        padding-top: 2px !important;
+      }
+
+      #addBlockDialog .dialog-actions .btn,
+      #addBlockDialog.edit-dialog .dialog-actions .btn {
+        width: 100% !important;
+        min-height: 44px !important;
+      }
+
+      #addBlockButton.add-top-button,
+      #addBlockButton.add-top-button .mobile-add-icon,
+      #addBlockButton.add-top-button .control-label {
+        line-height: 1 !important;
+      }
+
+      #addBlockButton.add-top-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 7px !important;
+        text-align: center !important;
+      }
+
+      #addBlockButton.add-top-button .mobile-add-icon {
+        display: inline-grid !important;
+        place-items: center !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        background: transparent !important;
+        font-size: 20px !important;
+        transform: translateY(-1px) !important;
+      }
+
+      #addBlockButton.add-top-button .control-label {
+        display: inline !important;
+      }
+    </style>
+
+    <style id="settings-dialog-match-add-edit-and-short-add">
+      /* Settings now matches the compact gradient add/edit popup style. */
+      #settingsDialog {
+        width: min(calc(100% - 32px), 460px) !important;
+        max-height: calc(100dvh - 28px) !important;
+      }
+
+      #settingsDialog .settings-panel {
+        gap: 12px !important;
+        padding: 16px !important;
+        background:
+          radial-gradient(
+            circle at top right,
+            color-mix(in srgb, var(--reference-blue), transparent 84%),
+            transparent 17rem
+          ),
+          linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--panel), var(--reference-blue-soft) 14%),
+            var(--panel)
+          ) !important;
+      }
+
+      #settingsDialog .settings-head {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 8px !important;
+      }
+
+      #settingsDialog .settings-head-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
+        justify-content: stretch !important;
+      }
+
+      #settingsDialog .settings-head-actions .btn {
+        width: 100% !important;
+        min-height: 40px !important;
+        border-radius: 12px !important;
+      }
+
+      #settingsDialog .settings-title {
+        font-size: 19px !important;
+        line-height: 1.15 !important;
+      }
+
+      #settingsDialog .settings-note {
+        margin-top: 3px !important;
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+      }
+
+      #settingsDialog .settings-section {
+        gap: 10px !important;
+        padding: 10px !important;
+        border: 1px solid var(--reference-line) !important;
+        border-radius: 14px !important;
+        background: color-mix(
+          in srgb,
+          var(--soft-button),
+          transparent 62%
+        ) !important;
+      }
+
+      #settingsDialog .settings-section-title {
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+      }
+
+      #settingsDialog .settings-section-note {
+        margin-top: -3px !important;
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+      }
+
+      #settingsDialog .theme-buttons,
+      #settingsDialog .backup-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+
+      #settingsDialog .theme-button,
+      #settingsDialog .backup-actions .btn,
+      #settingsDialog #clearTrashButton,
+      #settingsDialog #closeSettings {
+        width: 100% !important;
+        min-height: 42px !important;
+        border-radius: 12px !important;
+      }
+
+      #settingsDialog #clearTrashButton {
+        min-height: 40px !important;
+      }
+
+      #settingsDialog #closeSettings {
+        margin-top: 0 !important;
+      }
+
+      #settingsDialog .settings-status {
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+      }
+
+      /* Keep + Add centered, but make the button shorter horizontally. */
+      #addBlockButton.add-top-button {
+        min-width: 118px !important;
+        width: auto !important;
+        padding-inline: 16px !important;
+      }
+
+      @media (min-width: 901px) {
+        .top-actions #addBlockButton.add-top-button {
+          min-width: 118px !important;
+        }
+      }
+
+      @media (max-width: 620px) {
+        #settingsDialog .settings-panel {
+          padding: 14px !important;
+        }
+
+        #settingsDialog .settings-head-actions,
+        #settingsDialog .theme-buttons,
+        #settingsDialog .backup-actions {
+          grid-template-columns: 1fr 1fr !important;
+        }
+      }
+    </style>
+
+    <style id="polished-inner-panel-colors-final">
+      /* Softer inner-card colors for Settings and Add/Edit dialogs. */
+      #addBlockDialog .setting-row,
+      #addBlockDialog.edit-dialog .setting-row,
+      #addBlockDialog .folder-picker-fieldset,
+      #addBlockDialog.edit-dialog .folder-picker-fieldset,
+      #settingsDialog .settings-section {
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          var(--reference-line) 78%
+        ) !important;
+        background: linear-gradient(
+          145deg,
+          color-mix(in srgb, var(--panel), var(--reference-blue-soft) 42%),
+          color-mix(in srgb, var(--panel), white 10%)
+        ) !important;
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, white, transparent 38%),
+          0 8px 20px rgba(18, 25, 55, 0.045) !important;
+      }
+
+      #addBlockDialog .setting-row:nth-of-type(2),
+      #addBlockDialog.edit-dialog .setting-row:nth-of-type(2),
+      #settingsDialog .settings-section:nth-of-type(2) {
+        background: linear-gradient(
+          145deg,
+          color-mix(in srgb, var(--panel), #fff7d6 30%),
+          color-mix(in srgb, var(--panel), white 12%)
+        ) !important;
+        border-color: color-mix(
+          in srgb,
+          var(--reference-gold),
+          var(--reference-line) 76%
+        ) !important;
+      }
+
+      #settingsDialog .settings-section:nth-of-type(3),
+      #settingsDialog .settings-section:nth-of-type(4) {
+        background: linear-gradient(
+          145deg,
+          color-mix(in srgb, var(--panel), #f2f0ff 32%),
+          color-mix(in srgb, var(--panel), white 11%)
+        ) !important;
+        border-color: color-mix(
+          in srgb,
+          #8b7cf6,
+          var(--reference-line) 78%
+        ) !important;
+      }
+
+      #addBlockDialog input,
+      #addBlockDialog.edit-dialog input,
+      #addBlockDialog textarea,
+      #addBlockDialog.edit-dialog textarea {
+        background: color-mix(in srgb, var(--panel), white 16%) !important;
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          var(--reference-line) 76%
+        ) !important;
+        box-shadow: inset 0 1px 2px rgba(18, 25, 55, 0.045) !important;
+      }
+
+      #addBlockDialog input:focus,
+      #addBlockDialog.edit-dialog input:focus,
+      #addBlockDialog textarea:focus,
+      #addBlockDialog.edit-dialog textarea:focus {
+        background: var(--panel) !important;
+        border-color: var(--reference-blue) !important;
+        box-shadow:
+          0 0 0 4px color-mix(in srgb, var(--reference-blue), transparent 82%),
+          inset 0 1px 2px rgba(18, 25, 55, 0.045) !important;
+      }
+
+      #addBlockDialog .folder-check-card,
+      #addBlockDialog.edit-dialog .folder-check-card {
+        border: 1px solid
+          color-mix(in srgb, var(--reference-blue), var(--reference-line) 82%) !important;
+        background: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--panel), white 14%),
+          color-mix(in srgb, var(--reference-blue-soft), var(--panel) 74%)
+        ) !important;
+        box-shadow: 0 5px 14px rgba(18, 25, 55, 0.04) !important;
+      }
+
+      #addBlockDialog .folder-check-card:has(input:checked),
+      #addBlockDialog.edit-dialog .folder-check-card:has(input:checked) {
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          transparent 18%
+        ) !important;
+        background: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--reference-blue-soft), var(--panel) 20%),
+          color-mix(in srgb, var(--reference-blue), var(--panel) 88%)
+        ) !important;
+      }
+
+      #addBlockDialog .folder-card-icon,
+      #addBlockDialog.edit-dialog .folder-card-icon {
+        background: color-mix(
+          in srgb,
+          var(--reference-blue-soft),
+          var(--panel) 35%
+        ) !important;
+        border: 1px solid
+          color-mix(in srgb, var(--reference-blue), transparent 78%) !important;
+      }
+
+      #addBlockDialog .folder-card-state,
+      #addBlockDialog.edit-dialog .folder-card-state {
+        background: color-mix(in srgb, var(--panel), white 18%) !important;
+        border: 1px solid
+          color-mix(in srgb, var(--reference-line), transparent 16%) !important;
+      }
+
+      #addBlockDialog .folder-check-card:has(input:checked) .folder-card-state,
+      #addBlockDialog.edit-dialog
+        .folder-check-card:has(input:checked)
+        .folder-card-state {
+        background: var(--reference-blue) !important;
+        color: white !important;
+        border-color: var(--reference-blue) !important;
+      }
+
+      #settingsDialog .theme-button,
+      #settingsDialog .backup-actions .btn,
+      #settingsDialog #closeSettings {
+        border-color: color-mix(
+          in srgb,
+          var(--reference-blue),
+          var(--reference-line) 78%
+        ) !important;
+        background: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--panel), white 16%),
+          color-mix(in srgb, var(--reference-blue-soft), var(--panel) 74%)
+        ) !important;
+        color: var(--reference-ink) !important;
+        box-shadow: 0 5px 14px rgba(18, 25, 55, 0.04) !important;
+      }
+
+      #settingsDialog .theme-button.active {
+        background: linear-gradient(135deg, #6672ff, #5160e9) !important;
+        color: white !important;
+        border-color: var(--reference-blue) !important;
+      }
+
+      #settingsDialog #clearTrashButton {
+        background: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--danger-soft), var(--panel) 24%),
+          color-mix(in srgb, var(--danger-soft), white 12%)
+        ) !important;
+        border-color: color-mix(
+          in srgb,
+          var(--danger),
+          transparent 72%
+        ) !important;
+      }
+
+      body.dark #addBlockDialog .setting-row,
+      body.dark #addBlockDialog.edit-dialog .setting-row,
+      body.dark #addBlockDialog .folder-picker-fieldset,
+      body.dark #addBlockDialog.edit-dialog .folder-picker-fieldset,
+      body.dark #settingsDialog .settings-section,
+      body.dark #settingsDialog .theme-button,
+      body.dark #settingsDialog .backup-actions .btn,
+      body.dark #settingsDialog #closeSettings,
+      body.dark #addBlockDialog .folder-check-card,
+      body.dark #addBlockDialog.edit-dialog .folder-check-card {
+        background: linear-gradient(
+          145deg,
+          color-mix(in srgb, var(--card), var(--reference-blue-soft) 28%),
+          color-mix(in srgb, var(--panel), transparent 4%)
+        ) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+      }
+    </style>
+
+    <style id="theme-fade-and-neutral-theme-buttons">
+      html,
+      body,
+      .layout-shell,
+      .desktop-sidebar,
+      .main-content,
+      .app,
+      .settings-section,
+      .block-card,
+      .copy-block,
+      .mobile-bottom-nav,
+      .mobile-appbar,
+      dialog,
+      input,
+      select,
+      textarea,
+      .btn,
+      .theme-button,
+      .sidebar-link,
+      .folder-nav-button,
+      .view-switch button,
+      .sort-button {
+        transition:
+          background-color 260ms ease,
+          background 260ms ease,
+          color 260ms ease,
+          border-color 260ms ease,
+          box-shadow 260ms ease,
+          filter 260ms ease;
+      }
+
+      body {
+        transition:
+          background-color 320ms ease,
+          background 320ms ease,
+          color 320ms ease;
+      }
+
+      #settingsDialog .theme-button,
+      #settingsDialog .theme-button.active,
+      body.dark #settingsDialog .theme-button,
+      body.dark #settingsDialog .theme-button.active {
+        background: var(--soft-button) !important;
+        color: var(--soft-button-text) !important;
+        border: 1px solid var(--border) !important;
+        box-shadow: none !important;
+      }
+
+      #settingsDialog .theme-button:hover,
+      body.dark #settingsDialog .theme-button:hover {
+        background: var(--soft-button-hover) !important;
+        color: var(--soft-button-text) !important;
+        border-color: var(--border-strong) !important;
+      }
+
+      #settingsDialog .theme-button.active,
+      body.dark #settingsDialog .theme-button.active {
+        background: var(--button) !important;
+        color: var(--button-text) !important;
+        border-color: var(--button) !important;
+        box-shadow: 0 8px 18px rgba(17, 24, 39, 0.12) !important;
+      }
+
+      body.dark #settingsDialog .theme-button.active {
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22) !important;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html,
+        body,
+        .layout-shell,
+        .desktop-sidebar,
+        .main-content,
+        .app,
+        .settings-section,
+        .block-card,
+        .copy-block,
+        .mobile-bottom-nav,
+        .mobile-appbar,
+        dialog,
+        input,
+        select,
+        textarea,
+        .btn,
+        .theme-button,
+        .sidebar-link,
+        .folder-nav-button,
+        .view-switch button,
+        .sort-button {
+          transition-duration: 1ms !important;
+        }
+      }
     </style>
   </head>
   <body>
+    <div id="privacyScreen" class="privacy-screen" aria-hidden="true">
+      <img
+        id="privacyScreenLogo"
+        src="icons/copy-block-logo.png"
+        alt=""
+        decoding="async"
+      />
+    </div>
     <div class="layout-shell">
       <aside class="desktop-sidebar" id="desktopSidebar">
         <button
@@ -3232,8 +4964,8 @@
           aria-label="Copy Blocks home"
         >
           <img
-            class="brand-logo"
-            src="icons/copy-block-logo.png"
+            class="brand-logo app-brand-logo"
+            src="icons/copy-block.png"
             alt=""
             aria-hidden="true"
           />
@@ -3317,8 +5049,8 @@
             </button>
             <div class="mobile-brand">
               <img
-                class="brand-logo"
-                src="icons/copy-block-logo.png"
+                class="brand-logo app-brand-logo"
+                src="icons/copy-block.png"
                 alt=""
                 aria-hidden="true"
               />
@@ -3342,16 +5074,6 @@
               </p>
             </div>
             <div class="top-actions">
-              <button
-                class="btn btn-primary mobile-icon-button"
-                id="editModeButton"
-                type="button"
-                aria-label="Edit blocks"
-              >
-                <img class="mobile-control-icon" src="icons/edit.png" alt="" />
-                <span class="control-label">Edit</span>
-              </button>
-
               <button
                 class="btn btn-primary add-top-button"
                 id="addBlockButton"
@@ -3408,18 +5130,18 @@
                   <button
                     class="sort-button active"
                     type="button"
-                    data-sort="updated"
+                    data-sort="recent"
                   >
-                    Last Updated
+                    Recents
                   </button>
-                  <button class="sort-button" type="button" data-sort="used">
-                    Last Used
+                  <button class="sort-button" type="button" data-sort="count">
+                    Most Used
                   </button>
                   <button class="sort-button" type="button" data-sort="alpha">
                     Alphabetical
                   </button>
-                  <button class="sort-button" type="button" data-sort="count">
-                    Most Used
+                  <button class="sort-button" type="button" data-sort="updated">
+                    Last Updated
                   </button>
                 </div>
 
@@ -3428,10 +5150,10 @@
                   class="sort-select-hidden"
                   aria-label="Sort blocks"
                 >
-                  <option value="updated">Last Updated</option>
-                  <option value="used">Last Used</option>
-                  <option value="alpha">Alphabetical</option>
+                  <option value="recent">Recents</option>
                   <option value="count">Most Used</option>
+                  <option value="alpha">Alphabetical</option>
+                  <option value="updated">Last Updated</option>
                 </select>
               </div>
 
@@ -3512,11 +5234,18 @@
       <form class="add-panel" id="addBlockForm" method="dialog">
         <div class="settings-head">
           <div>
-            <h2 class="settings-title" id="addBlockTitle">Add copy block</h2>
-            <p class="settings-note">Create a new saved block.</p>
+            <h2 class="settings-title" id="addBlockTitle">Copy block</h2>
+            <p class="settings-note">
+              Save reusable text and choose where it belongs.
+            </p>
           </div>
-          <button class="btn btn-soft" id="closeAddTop" type="button">
-            Close
+          <button
+            class="btn btn-soft dialog-top-close"
+            id="closeAddTop"
+            type="button"
+            aria-label="Close"
+          >
+            ×
           </button>
         </div>
 
@@ -3539,25 +5268,25 @@
           ></textarea>
         </div>
 
-        <div class="setting-row">
+        <div
+          class="setting-row removed-description-row"
+          id="blockDescriptionRow"
+          hidden
+        >
           <label class="setting-label" for="newBlockDescription"
-            >Description <span class="optional-label">Optional</span></label
+            >Description</label
           >
-          <input
-            id="newBlockDescription"
-            type="text"
-            placeholder="Short note about this block"
-          />
+          <input id="newBlockDescription" type="text" value="" />
         </div>
 
         <div class="setting-row">
           <label class="setting-label" for="newBlockTags"
-            >Tags <span class="optional-label">Optional</span></label
+            >Search Keywords <span class="optional-label">Optional</span></label
           >
           <input
             id="newBlockTags"
             type="text"
-            placeholder="support, policy, email"
+            placeholder="refund, onboarding, follow up, policy"
           />
         </div>
 
@@ -3566,16 +5295,11 @@
           <div class="folder-checkboxes" id="newBlockFolders"></div>
         </fieldset>
 
-        <label class="toggle-row" for="newBlockStarred">
-          <input id="newBlockStarred" type="checkbox" />
-          <span>Star this block</span>
-        </label>
-
         <div class="dialog-actions">
           <button class="btn btn-soft" id="cancelAdd" type="button">
             Cancel
           </button>
-          <button class="btn btn-primary" type="submit">Add block</button>
+          <button class="btn btn-primary" type="submit">Add Block</button>
         </div>
       </form>
     </dialog>
@@ -3594,12 +5318,18 @@
         </div>
 
         <ul class="hints-list">
-          <li>Press Edit to change titles, text, or add/delete blocks.</li>
+          <li>
+            Use the three-dot menu on a block to edit, add it to a folder, or
+            delete it.
+          </li>
           <li>
             In Edit mode, use Move up and Move down to rearrange blocks on a
             phone or computer.
           </li>
-          <li>Long text previews can be expanded before editing.</li>
+          <li>
+            The Edit popup locks onto one block at a time so other blocks stay
+            safe.
+          </li>
         </ul>
 
         <button class="btn btn-primary" id="closeHints" type="button">
@@ -3646,43 +5376,6 @@
           </div>
         </section>
 
-        <section class="settings-section" aria-labelledby="preferencesTitle">
-          <h3 class="settings-section-title" id="preferencesTitle">
-            Preferences
-          </h3>
-          <label class="setting-row">
-            <span class="setting-label">Default sort</span>
-            <select id="defaultSortSelect">
-              <option value="updated">Last Updated</option>
-              <option value="used">Last Used</option>
-              <option value="alpha">Alphabetical</option>
-              <option value="count">Most Used</option>
-            </select>
-          </label>
-          <label class="setting-row">
-            <span class="setting-label">Default layout</span>
-            <select id="defaultLayoutSelect">
-              <option value="grid">Grid</option>
-              <option value="list">List</option>
-            </select>
-          </label>
-          <label class="toggle-row"
-            ><input id="confirmDeleteSetting" type="checkbox" checked /><span
-              >Confirm before deleting blocks</span
-            ></label
-          >
-          <label class="toggle-row"
-            ><input id="dragSetting" type="checkbox" checked /><span
-              >Enable drag-and-drop ordering</span
-            ></label
-          >
-          <label class="toggle-row"
-            ><input id="showFoldersSetting" type="checkbox" checked /><span
-              >Show folders in sidebar</span
-            ></label
-          >
-        </section>
-
         <section class="settings-section" aria-labelledby="backupTitle">
           <h3 class="settings-section-title" id="backupTitle">
             Backup and transfer
@@ -3714,6 +5407,84 @@
         <button class="btn btn-primary" id="closeSettings" type="button">
           Done
         </button>
+      </div>
+    </dialog>
+
+    <dialog id="importPreviewDialog" aria-labelledby="importPreviewTitle">
+      <div class="import-preview-panel">
+        <div class="settings-head">
+          <div>
+            <h2 class="settings-title" id="importPreviewTitle">
+              Review import
+            </h2>
+            <p class="settings-note" id="importPreviewNote">
+              Choose what to import. This will not delete any existing blocks.
+            </p>
+          </div>
+          <button class="btn btn-soft" id="closeImportPreview" type="button">
+            Close
+          </button>
+        </div>
+
+        <div class="import-summary-actions" aria-label="Import choices">
+          <div class="import-choice">
+            <button
+              class="btn btn-soft import-choice-main"
+              id="updateExistingImportButton"
+              type="button"
+              aria-pressed="true"
+            >
+              Update 0 existing blocks
+            </button>
+            <button
+              class="btn btn-soft import-help-button"
+              id="showUpdateImportDetails"
+              type="button"
+              aria-label="Show blocks that will be updated"
+            >
+              ?
+            </button>
+          </div>
+          <div class="import-choice">
+            <button
+              class="btn btn-soft import-choice-main"
+              id="addNewImportButton"
+              type="button"
+              aria-pressed="true"
+            >
+              Add 0 new blocks
+            </button>
+            <button
+              class="btn btn-soft import-help-button"
+              id="showAddImportDetails"
+              type="button"
+              aria-label="Show blocks that will be added"
+            >
+              ?
+            </button>
+          </div>
+        </div>
+
+        <div class="import-detail-panel" id="importDetailPanel"></div>
+        <div
+          class="import-result-box"
+          id="importResultBox"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+        <div class="dialog-actions">
+          <button class="btn btn-soft" id="cancelImportPreview" type="button">
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            id="confirmImportPreview"
+            type="button"
+          >
+            Import selected
+          </button>
+        </div>
       </div>
     </dialog>
 
@@ -3752,35 +5523,37 @@
       </form>
     </dialog>
 
-    <dialog id="blockMenuDialog" aria-labelledby="blockMenuTitle">
+    <dialog
+      id="blockMenuDialog"
+      class="block-action-popover"
+      aria-labelledby="blockMenuTitle"
+    >
       <div class="action-menu-panel">
         <div class="settings-head">
           <div>
             <h2 class="settings-title" id="blockMenuTitle">Block actions</h2>
             <p class="settings-note" id="blockMenuSubtitle"></p>
           </div>
-          <button class="btn btn-soft" id="closeBlockMenu" type="button">
-            Close
+          <button
+            class="btn btn-soft block-menu-close"
+            id="closeBlockMenu"
+            type="button"
+            aria-label="Close block actions"
+          >
+            ×
           </button>
         </div>
         <div class="action-menu-list">
-          <button type="button" data-block-action="edit">Edit block</button>
-          <button type="button" data-block-action="duplicate">
-            Duplicate block
-          </button>
+          <button type="button" data-block-action="edit">Edit</button>
           <button type="button" data-block-action="folders">
-            Add or remove folders
-          </button>
-          <button type="button" data-block-action="star">Star block</button>
-          <button type="button" data-block-action="expand">
-            Expand content
+            Add to Folder
           </button>
           <button
             class="danger-action"
             type="button"
             data-block-action="delete"
           >
-            Move to Trash
+            Delete
           </button>
         </div>
       </div>
@@ -3794,7 +5567,7 @@
               Add to folders
             </h2>
             <p class="settings-note">
-              Choose every folder this block belongs to.
+              Tap folders to add or remove this block.
             </p>
           </div>
           <button class="btn btn-soft" id="closeFolderAssignment" type="button">
@@ -3939,6 +5712,17 @@
           exportButton: $("exportButton"),
           importButton: $("importButton"),
           importFile: $("importFileInput"),
+          importPreviewDialog: $("importPreviewDialog"),
+          importPreviewNote: $("importPreviewNote"),
+          updateImportButton: $("updateExistingImportButton"),
+          addImportButton: $("addNewImportButton"),
+          updateImportDetails: $("showUpdateImportDetails"),
+          addImportDetails: $("showAddImportDetails"),
+          importDetailPanel: $("importDetailPanel"),
+          importResultBox: $("importResultBox"),
+          confirmImportPreview: $("confirmImportPreview"),
+          cancelImportPreview: $("cancelImportPreview"),
+          closeImportPreview: $("closeImportPreview"),
           settingsStatus: $("settingsStatus"),
           folderDialog: $("folderDialog"),
           folderForm: $("folderForm"),
@@ -3948,6 +5732,7 @@
           folderError: $("folderFormError"),
           saveFolder: $("saveFolderButton"),
           blockMenu: $("blockMenuDialog"),
+          blockMenuTitle: $("blockMenuTitle"),
           blockMenuSubtitle: $("blockMenuSubtitle"),
           assignmentDialog: $("folderAssignmentDialog"),
           assignmentFolders: $("assignmentFolderCheckboxes"),
@@ -3991,6 +5776,7 @@
 
         function normalizeBlock(block, index = 0) {
           const updatedAt = block.updatedAt || now();
+          const createdAt = block.createdAt || updatedAt;
           return {
             id: block.id || id("block"),
             title: String(block.title || "Untitled"),
@@ -4002,6 +5788,7 @@
             folderIds: Array.isArray(block.folderIds)
               ? block.folderIds.map(String)
               : [],
+            createdAt,
             updatedAt,
             lastUsedAt: block.lastUsedAt || null,
             useCount: Number.isFinite(block.useCount) ? block.useCount : 0,
@@ -4028,6 +5815,9 @@
                       : index === 6
                         ? ["sales"]
                         : [],
+                createdAt: new Date(
+                  Date.now() - index * 86400000,
+                ).toISOString(),
                 updatedAt: new Date(
                   Date.now() - index * 86400000,
                 ).toISOString(),
@@ -4072,7 +5862,7 @@
 
         function loadSettings() {
           const defaults = {
-            sort: "updated",
+            sort: "recent",
             layout: "grid",
             confirmDelete: true,
             dragEnabled: true,
@@ -4099,6 +5889,7 @@
         let activeFolderId = null;
         let folderDialogMode = "create";
         let pendingDelete = null;
+        let pendingImport = null;
         let draggedId = null;
         let toastTimer;
 
@@ -4132,6 +5923,361 @@
 
         function escapeText(value) {
           return String(value || "").trim();
+        }
+
+        function canonicalBlockKey(block) {
+          return String(block.id || block.title || "")
+            .trim()
+            .toLocaleLowerCase();
+        }
+
+        function normalizeLooseList(value) {
+          return Array.isArray(value) ? value.map(String).filter(Boolean) : [];
+        }
+
+        function blockFieldValue(block, field) {
+          if (field === "tags" || field === "folderIds")
+            return normalizeLooseList(block[field]).join(", ");
+          if (field === "starred")
+            return block.starred ? "Starred" : "Not starred";
+          return String(block[field] ?? "");
+        }
+
+        function hasMeaningfulBlockChanges(existingBlock, importedBlock) {
+          return [
+            "title",
+            "text",
+            "description",
+            "tags",
+            "folderIds",
+            "starred",
+          ].some(
+            (field) =>
+              blockFieldValue(existingBlock, field) !==
+              blockFieldValue(importedBlock, field),
+          );
+        }
+
+        function setPressed(button, isPressed) {
+          button.setAttribute("aria-pressed", String(Boolean(isPressed)));
+        }
+
+        function isPressed(button) {
+          return button.getAttribute("aria-pressed") === "true";
+        }
+
+        function pluralize(count, singular, plural = `${singular}s`) {
+          return `${count} ${count === 1 ? singular : plural}`;
+        }
+
+        function wordParts(value) {
+          return String(value || "").match(/\s+|\S+/g) || [];
+        }
+
+        function diffParts(oldValue, newValue) {
+          const oldParts = wordParts(oldValue);
+          const newParts = wordParts(newValue);
+          const rows = oldParts.length + 1;
+          const cols = newParts.length + 1;
+          const dp = Array.from({ length: rows }, () => Array(cols).fill(0));
+          for (let i = oldParts.length - 1; i >= 0; i -= 1) {
+            for (let j = newParts.length - 1; j >= 0; j -= 1) {
+              dp[i][j] =
+                oldParts[i] === newParts[j]
+                  ? dp[i + 1][j + 1] + 1
+                  : Math.max(dp[i + 1][j], dp[i][j + 1]);
+            }
+          }
+          const output = [];
+          let i = 0;
+          let j = 0;
+          while (i < oldParts.length && j < newParts.length) {
+            if (oldParts[i] === newParts[j]) {
+              output.push({ type: "same", text: oldParts[i] });
+              i += 1;
+              j += 1;
+            } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+              output.push({ type: "remove", text: oldParts[i] });
+              i += 1;
+            } else {
+              output.push({ type: "add", text: newParts[j] });
+              j += 1;
+            }
+          }
+          while (i < oldParts.length)
+            output.push({ type: "remove", text: oldParts[i++] });
+          while (j < newParts.length)
+            output.push({ type: "add", text: newParts[j++] });
+          return output;
+        }
+
+        function appendDiff(container, oldValue, newValue) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "import-diff";
+          diffParts(oldValue, newValue).forEach((part) => {
+            const node = document.createElement(
+              part.type === "same" ? "span" : "mark",
+            );
+            node.textContent = part.text;
+            if (part.type === "remove") node.className = "diff-remove";
+            if (part.type === "add") node.className = "diff-add";
+            wrapper.append(node);
+          });
+          container.append(wrapper);
+        }
+
+        function getImportPlan(imported) {
+          const incomingBlocks = imported.blocks.map(normalizeBlock);
+          const existingById = new Map(
+            data.blocks.map((block) => [String(block.id), block]),
+          );
+          const existingByTitle = new Map(
+            data.blocks.map((block) => [
+              String(block.title).trim().toLocaleLowerCase(),
+              block,
+            ]),
+          );
+          const seenMatches = new Set();
+          const updates = [];
+          const additions = [];
+
+          incomingBlocks.forEach((incoming) => {
+            const titleKey = String(incoming.title).trim().toLocaleLowerCase();
+            const match =
+              existingById.get(String(incoming.id)) ||
+              existingByTitle.get(titleKey);
+            if (match && !seenMatches.has(match.id)) {
+              seenMatches.add(match.id);
+              updates.push({ existing: match, incoming });
+            } else {
+              additions.push(incoming);
+            }
+          });
+
+          const folders = Array.isArray(imported.folders)
+            ? imported.folders.map((folder) => ({
+                id: String(folder.id || id("folder")),
+                name: String(folder.name || "Untitled folder"),
+                createdAt: folder.createdAt || now(),
+              }))
+            : [];
+
+          return { updates, additions, folders };
+        }
+
+        function renderImportPreviewDetails(kind) {
+          if (!pendingImport) return;
+          const isUpdate = kind === "update";
+          const items = isUpdate
+            ? pendingImport.updates
+            : pendingImport.additions;
+          refs.importDetailPanel.innerHTML = "";
+          refs.importDetailPanel.classList.add("open");
+
+          const heading = document.createElement("h3");
+          heading.className = "import-detail-heading";
+          heading.textContent = isUpdate
+            ? `Blocks that can be updated (${items.length})`
+            : `Blocks that can be added (${items.length})`;
+          refs.importDetailPanel.append(heading);
+
+          if (!items.length) {
+            const empty = document.createElement("p");
+            empty.className = "settings-note";
+            empty.textContent = isUpdate
+              ? "No matching existing blocks were found in this import."
+              : "No brand-new blocks were found in this import.";
+            refs.importDetailPanel.append(empty);
+            return;
+          }
+
+          items.forEach((item, index) => {
+            const incoming = isUpdate ? item.incoming : item;
+            const existing = isUpdate ? item.existing : null;
+            const preview = document.createElement("article");
+            preview.className = "import-preview-item";
+
+            const toggle = document.createElement("button");
+            toggle.className = "import-preview-toggle";
+            toggle.type = "button";
+            toggle.setAttribute("aria-expanded", "false");
+            const label = document.createElement("span");
+            label.textContent = incoming.title || `Block ${index + 1}`;
+            const arrow = document.createElement("span");
+            arrow.setAttribute("aria-hidden", "true");
+            arrow.textContent = "⌄";
+            toggle.append(label, arrow);
+
+            const body = document.createElement("div");
+            body.className = "import-preview-body";
+
+            if (isUpdate) {
+              const fields = [
+                ["title", "Title"],
+                ["description", "Description"],
+                ["text", "Text content"],
+                ["tags", "Search keywords"],
+                ["folderIds", "Folders"],
+                ["starred", "Starred state"],
+              ];
+              const changed = fields.filter(
+                ([field]) =>
+                  blockFieldValue(existing, field) !==
+                  blockFieldValue(incoming, field),
+              );
+              if (!changed.length) {
+                const note = document.createElement("p");
+                note.className = "settings-note";
+                note.textContent =
+                  "This block already matches the imported version.";
+                body.append(note);
+              }
+              changed.forEach(([field, labelText]) => {
+                const labelNode = document.createElement("div");
+                labelNode.className = "import-field-label";
+                labelNode.textContent = labelText;
+                body.append(labelNode);
+                appendDiff(
+                  body,
+                  blockFieldValue(existing, field),
+                  blockFieldValue(incoming, field),
+                );
+              });
+            } else {
+              [
+                ["Title", incoming.title],
+                ["Description", incoming.description],
+                ["Text content", incoming.text],
+                [
+                  "Search keywords",
+                  normalizeLooseList(incoming.tags).join(", "),
+                ],
+                ["Folders", normalizeLooseList(incoming.folderIds).join(", ")],
+              ].forEach(([labelText, value]) => {
+                const labelNode = document.createElement("div");
+                labelNode.className = "import-field-label";
+                labelNode.textContent = labelText;
+                const context = document.createElement("div");
+                context.className = "import-block-context";
+                context.textContent = value || "—";
+                body.append(labelNode, context);
+              });
+            }
+
+            toggle.addEventListener("click", () => {
+              const open = !preview.classList.contains("open");
+              preview.classList.toggle("open", open);
+              toggle.setAttribute("aria-expanded", String(open));
+              arrow.textContent = open ? "⌃" : "⌄";
+            });
+            preview.append(toggle, body);
+            refs.importDetailPanel.append(preview);
+          });
+        }
+
+        function updateImportConfirmState() {
+          if (!pendingImport) return;
+          refs.confirmImportPreview.disabled =
+            !isPressed(refs.updateImportButton) &&
+            !isPressed(refs.addImportButton);
+        }
+
+        function openImportPreview(plan) {
+          pendingImport = plan;
+          const updateCount = plan.updates.length;
+          const addCount = plan.additions.length;
+          refs.updateImportButton.textContent = `Update ${pluralize(updateCount, "existing block")}`;
+          refs.addImportButton.textContent = `Add ${pluralize(addCount, "new block")}`;
+          refs.updateImportButton.disabled = updateCount === 0;
+          refs.addImportButton.disabled = addCount === 0;
+          refs.updateImportDetails.disabled = updateCount === 0;
+          refs.addImportDetails.disabled = addCount === 0;
+          setPressed(refs.updateImportButton, updateCount > 0);
+          setPressed(refs.addImportButton, addCount > 0);
+          updateImportConfirmState();
+          refs.importPreviewNote.textContent =
+            "Choose what to import. This will not delete any existing blocks.";
+          refs.importDetailPanel.innerHTML = "";
+          refs.importDetailPanel.classList.remove("open");
+          refs.importResultBox.textContent = "";
+          refs.importResultBox.classList.remove("show");
+          refs.confirmImportPreview.disabled = updateCount + addCount === 0;
+          refs.confirmImportPreview.textContent = "Import selected";
+          refs.importPreviewDialog.showModal();
+        }
+
+        function mergeImportedFolders(folders) {
+          const existingIds = new Set(
+            data.folders.map((folder) => String(folder.id)),
+          );
+          const existingNames = new Set(
+            data.folders.map((folder) =>
+              String(folder.name).trim().toLocaleLowerCase(),
+            ),
+          );
+          folders.forEach((folder) => {
+            const nameKey = String(folder.name).trim().toLocaleLowerCase();
+            if (
+              !existingIds.has(String(folder.id)) &&
+              !existingNames.has(nameKey)
+            ) {
+              data.folders.push(folder);
+              existingIds.add(String(folder.id));
+              existingNames.add(nameKey);
+            }
+          });
+        }
+
+        function performImportPreview() {
+          if (!pendingImport) return;
+          const doUpdates = isPressed(refs.updateImportButton);
+          const doAdds = isPressed(refs.addImportButton);
+          let updatedCount = 0;
+          let addedCount = 0;
+
+          mergeImportedFolders(pendingImport.folders);
+
+          if (doUpdates) {
+            pendingImport.updates.forEach(({ existing, incoming }) => {
+              const target = getBlock(existing.id);
+              if (!target) return;
+              Object.assign(target, {
+                title: incoming.title,
+                text: incoming.text,
+                description: incoming.description,
+                tags: normalizeLooseList(incoming.tags),
+                starred: Boolean(incoming.starred),
+                folderIds: normalizeLooseList(incoming.folderIds),
+                updatedAt: now(),
+                deleted: false,
+                deletedAt: null,
+              });
+              updatedCount += 1;
+            });
+          }
+
+          if (doAdds) {
+            pendingImport.additions.forEach((incoming) => {
+              const nextBlock = normalizeBlock({
+                ...incoming,
+                id: id("block"),
+              });
+              nextBlock.createdAt = incoming.createdAt || now();
+              nextBlock.updatedAt = incoming.updatedAt || nextBlock.createdAt;
+              data.blocks.push(nextBlock);
+              addedCount += 1;
+            });
+          }
+
+          saveData();
+          render();
+          const result = `Import complete: updated ${pluralize(updatedCount, "existing block")}, added ${pluralize(addedCount, "new block")}. No blocks were deleted.`;
+          refs.importResultBox.textContent = result;
+          refs.importResultBox.classList.add("show");
+          refs.settingsStatus.textContent = result;
+          refs.confirmImportPreview.disabled = true;
+          refs.confirmImportPreview.textContent = "Imported";
+          refs.importPreviewNote.textContent = "Import finished.";
         }
 
         function relativeTime(iso) {
@@ -4183,6 +6329,23 @@
           render();
         }
 
+        function sortBlocks(blocks) {
+          return [...blocks].sort((a, b) => {
+            const titleCompare = a.title.localeCompare(b.title);
+            if (settings.sort === "alpha") return titleCompare;
+            if (settings.sort === "count")
+              return (b.useCount || 0) - (a.useCount || 0) || titleCompare;
+            if (settings.sort === "updated")
+              return (
+                new Date(b.updatedAt) - new Date(a.updatedAt) || titleCompare
+              );
+            return (
+              new Date(b.createdAt || b.updatedAt) -
+                new Date(a.createdAt || a.updatedAt) || titleCompare
+            );
+          });
+        }
+
         function filteredBlocks() {
           let blocks =
             activeView.type === "trash" ? trashedBlocks() : activeBlocks();
@@ -4194,21 +6357,20 @@
             );
           const query = refs.search.value.trim().toLocaleLowerCase();
           if (query) {
-            blocks = blocks.filter((block) =>
-              [block.title, block.text, block.description, block.tags.join(" ")]
+            const terms = query.split(/\s+/).filter(Boolean);
+            blocks = blocks.filter((block) => {
+              const searchableText = [
+                block.title,
+                block.text,
+                block.description,
+                block.tags.join(" "),
+              ]
                 .join(" ")
-                .toLocaleLowerCase()
-                .includes(query),
-            );
+                .toLocaleLowerCase();
+              return terms.every((term) => searchableText.includes(term));
+            });
           }
-          return [...blocks].sort((a, b) => {
-            if (settings.sort === "alpha")
-              return a.title.localeCompare(b.title);
-            if (settings.sort === "count") return b.useCount - a.useCount;
-            if (settings.sort === "used")
-              return new Date(b.lastUsedAt || 0) - new Date(a.lastUsedAt || 0);
-            return new Date(b.updatedAt) - new Date(a.updatedAt);
-          });
+          return sortBlocks(blocks);
         }
 
         function renderFolderCheckboxes(container, selected = []) {
@@ -4222,12 +6384,35 @@
           }
           data.folders.forEach((folder) => {
             const label = document.createElement("label");
-            label.className = "folder-check-row";
+            label.className = "folder-check-card";
             const input = document.createElement("input");
             input.type = "checkbox";
             input.value = folder.id;
             input.checked = selected.includes(folder.id);
-            label.append(input, document.createTextNode(folder.name));
+            label.classList.toggle("selected", input.checked);
+
+            const icon = document.createElement("span");
+            icon.className = "folder-card-icon";
+            icon.setAttribute("aria-hidden", "true");
+            const iconImage = document.createElement("img");
+            iconImage.src = "icons/folder-2.png";
+            iconImage.alt = "";
+            iconImage.setAttribute("aria-hidden", "true");
+            icon.append(iconImage);
+
+            const name = document.createElement("span");
+            name.className = "folder-card-name";
+            name.textContent = folder.name;
+
+            const state = document.createElement("span");
+            state.className = "folder-card-state";
+            state.setAttribute("aria-hidden", "true");
+
+            input.addEventListener("change", () => {
+              label.classList.toggle("selected", input.checked);
+            });
+
+            label.append(input, icon, name, state);
             container.append(label);
           });
         }
@@ -4323,7 +6508,7 @@
           block.lastUsedAt = now();
           block.useCount += 1;
           saveData();
-          if (settings.sort === "used" || settings.sort === "count") render();
+          if (settings.sort === "count") render();
           showToast("Copied to clipboard.");
         }
 
@@ -4350,8 +6535,8 @@
           });
           if (!container.childElementCount) {
             const badge = document.createElement("span");
-            badge.className = "unfiled-badge";
-            badge.textContent = "Unfiled";
+            badge.className = "no-category-badge";
+            badge.textContent = "No Category";
             container.append(badge);
           }
           return container;
@@ -4370,30 +6555,37 @@
 
         function updateSingleLineTitle(title) {
           requestAnimationFrame(() => {
+            const stack = title.closest(".title-stack");
             title.classList.remove("single-line-title");
+            stack?.classList.remove("single-line-title-stack");
 
-            const clone = title.cloneNode(true);
-            clone.classList.add("single-line-title");
-            clone.style.position = "absolute";
-            clone.style.visibility = "hidden";
-            clone.style.pointerEvents = "none";
-            clone.style.left = "-9999px";
-            clone.style.top = "0";
-            clone.style.width = `${title.getBoundingClientRect().width}px`;
-            clone.style.height = "auto";
-            clone.style.maxHeight = "none";
-            clone.style.overflow = "visible";
-            clone.style.webkitLineClamp = "unset";
+            const availableWidth = title.getBoundingClientRect().width;
+            if (!availableWidth) return;
 
-            title.after(clone);
+            const probe = title.cloneNode(true);
+            probe.className = "block-title single-line-title-probe";
+            probe.style.position = "absolute";
+            probe.style.visibility = "hidden";
+            probe.style.pointerEvents = "none";
+            probe.style.left = "-9999px";
+            probe.style.top = "0";
+            probe.style.width = `${availableWidth}px`;
+            probe.style.maxWidth = `${availableWidth}px`;
+            probe.style.whiteSpace = "nowrap";
+            probe.style.overflow = "visible";
+            probe.style.textOverflow = "clip";
+            probe.style.display = "block";
+            probe.style.webkitLineClamp = "unset";
+            probe.style.lineClamp = "unset";
+            probe.style.fontSize = "20px";
+            probe.style.lineHeight = "1.08";
 
-            const cloneStyle = getComputedStyle(clone);
-            const lineHeight = parseFloat(cloneStyle.lineHeight);
-            const fitsOneLine = clone.scrollHeight <= lineHeight * 1.35;
-
-            clone.remove();
+            document.body.append(probe);
+            const fitsOneLine = probe.scrollWidth <= availableWidth + 1;
+            probe.remove();
 
             title.classList.toggle("single-line-title", fitsOneLine);
+            stack?.classList.toggle("single-line-title-stack", fitsOneLine);
           });
         }
 
@@ -4424,24 +6616,34 @@
           const title = document.createElement("p");
           title.className = "block-title";
           title.textContent = block.title;
-          title.contentEditable = editing && !block.deleted ? "true" : "false";
+          title.contentEditable = "false";
           updateSingleLineTitle(title);
           title.addEventListener("input", () => updateSingleLineTitle(title));
-          title.setAttribute("role", editing ? "textbox" : "button");
+          title.setAttribute("role", "button");
           title.tabIndex = 0;
           const hint = document.createElement("p");
           hint.className = "mobile-card-hint";
-          hint.textContent =
-            block.description || "Tap to copy this block’s contents.";
+          hint.textContent = "Tap to copy this block’s contents.";
+          const meta = document.createElement("div");
+          meta.className = "card-meta-row";
+
           const updated = document.createElement("span");
           updated.className = "updated-label";
           updated.textContent = `Updated ${relativeTime(block.updatedAt)}`;
-          const categoryBadge = folderBadges(block);
-          categoryBadge.classList.add("category-pill");
 
-          stack.append(categoryBadge, title, hint, updated);
+          meta.append(updated);
+
+          stack.append(title, hint, meta);
 
           const caret = createButton("", "arrow-button caret-toggle");
+
+          const caretIcon = document.createElement("img");
+          caretIcon.className = "mobile-control-icon";
+          caretIcon.src = "icons/dropdown.png";
+          caretIcon.alt = "";
+          caretIcon.setAttribute("aria-hidden", "true");
+          caret.append(caretIcon);
+
           caret.setAttribute(
             "aria-label",
             block.expanded
@@ -4464,18 +6666,94 @@
             dragDots.append(document.createElement("span"));
           }
 
-          header.append(star, stack, caret, dragDots);
+          const menuButton = createButton("", "card-menu-button");
+          menuButton.setAttribute(
+            "aria-label",
+            `More actions for ${block.title}`,
+          );
+          menuButton.hidden = block.deleted;
+          const menuDots = document.createElement("span");
+          menuDots.className = "card-menu-dots";
+          menuDots.setAttribute("aria-hidden", "true");
+          for (let dotIndex = 0; dotIndex < 3; dotIndex += 1) {
+            menuDots.append(document.createElement("span"));
+          }
+          menuButton.append(menuDots);
+          menuButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            openBlockMenu(block.id);
+          });
+
+          const actionStack = document.createElement("div");
+          actionStack.className = "card-action-stack";
+          actionStack.append(menuButton, caret);
+
+          header.append(star, stack, actionStack, dragDots);
 
           const body = document.createElement("div");
           body.className = "block-body";
+
+          const contentShell = document.createElement("div");
+          contentShell.className = "copy-shell";
+
           const content = document.createElement("div");
           content.className = "copy-block card-copy-target";
           content.textContent = block.text;
-          content.contentEditable =
-            editing && !block.deleted ? "true" : "false";
-          content.setAttribute("role", editing ? "textbox" : "button");
+          content.contentEditable = "false";
+          content.setAttribute("role", "button");
           content.tabIndex = 0;
-          body.append(content);
+
+          const fade = document.createElement("div");
+          fade.className = "copy-fade";
+          fade.setAttribute("aria-hidden", "true");
+
+          const contentExpand = createButton("", "content-expand-button");
+          contentExpand.type = "button";
+          contentExpand.setAttribute(
+            "aria-label",
+            `Expand content for ${block.title}`,
+          );
+          contentExpand.setAttribute("aria-expanded", "false");
+          const contentExpandIcon = document.createElement("img");
+          contentExpandIcon.src = "icons/expand.png";
+          contentExpandIcon.alt = "";
+          contentExpandIcon.setAttribute("aria-hidden", "true");
+          contentExpand.append(contentExpandIcon);
+
+          const updateContentOverflow = () => {
+            const hasOverflow = content.scrollHeight > content.clientHeight + 2;
+            const isAtEnd =
+              content.scrollTop + content.clientHeight >=
+              content.scrollHeight - 4;
+            contentShell.classList.toggle("has-overflow", hasOverflow);
+            contentShell.classList.toggle(
+              "scrolled-end",
+              hasOverflow && isAtEnd,
+            );
+          };
+
+          content.addEventListener("scroll", updateContentOverflow);
+          contentExpand.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const expandedContent =
+              !contentShell.classList.contains("content-expanded");
+            contentShell.classList.toggle("content-expanded", expandedContent);
+            contentExpand.setAttribute(
+              "aria-expanded",
+              String(expandedContent),
+            );
+            contentExpand.setAttribute(
+              "aria-label",
+              expandedContent
+                ? `Shrink content for ${block.title}`
+                : `Expand content for ${block.title}`,
+            );
+            requestAnimationFrame(updateContentOverflow);
+          });
+
+          contentShell.append(content, fade, contentExpand);
+          body.append(contentShell);
+          requestAnimationFrame(updateContentOverflow);
 
           const controls = document.createElement("div");
           controls.className = "inline-card-controls";
@@ -4499,22 +6777,22 @@
           } else if (editing) {
             const up = createButton("Move up", "btn btn-soft");
             const down = createButton("Move down", "btn btn-soft");
-            const duplicate = createButton("Duplicate", "btn btn-soft");
-            const folders = createButton("Folders", "btn btn-soft");
-            const remove = createButton("Trash", "btn btn-danger");
+            const edit = createButton("Edit", "btn btn-primary");
+            const folders = createButton("Add to Folder", "btn btn-soft");
+            const remove = createButton("Delete", "btn btn-danger");
             const index = data.blocks.findIndex((item) => item.id === block.id);
             up.disabled = index === 0;
             down.disabled = index === data.blocks.length - 1;
             up.addEventListener("click", () => moveBlock(block.id, -1));
             down.addEventListener("click", () => moveBlock(block.id, 1));
-            duplicate.addEventListener("click", () => duplicateBlock(block.id));
+            edit.addEventListener("click", () => openAddDialog(block.id));
             folders.addEventListener("click", () =>
               openFolderAssignment(block.id),
             );
             remove.addEventListener("click", () =>
               requestDelete("block", block.id),
             );
-            controls.append(up, down, duplicate, folders, remove);
+            controls.append(up, down, edit, folders, remove);
           }
 
           if (controls.childElementCount) card.append(header, body, controls);
@@ -4536,7 +6814,7 @@
             }
           });
 
-          if (editing && !block.deleted) {
+          if (false && editing && !block.deleted) {
             const saveEdits = () => {
               const nextTitle = title.textContent.trim() || "Untitled";
               const nextText = content.innerText;
@@ -4595,21 +6873,32 @@
         function renderCards() {
           refs.blocks.innerHTML = "";
           refs.starredBlocks.innerHTML = "";
-          const active = activeBlocks();
-          const starred = active.filter((block) => block.starred);
-          refs.starredCount.textContent = starred.length;
-          refs.starredSection.hidden = activeView.type !== "all" || editing;
-          starred.forEach((block) =>
-            refs.starredBlocks.append(makeCard(block, { preview: true })),
+          const searchQuery = refs.search.value.trim();
+          const starredSource =
+            activeView.type === "folder"
+              ? activeBlocks().filter((block) =>
+                  block.folderIds.includes(activeView.folderId),
+                )
+              : activeBlocks();
+          const starred = sortBlocks(
+            starredSource.filter((block) => block.starred),
           );
+          const showStarredSplit =
+            !editing &&
+            !searchQuery &&
+            (activeView.type === "all" || activeView.type === "folder");
+
+          refs.starredCount.textContent = starred.length;
+          refs.starredSection.hidden = !showStarredSplit;
+          if (showStarredSplit) {
+            starred.forEach((block) =>
+              refs.starredBlocks.append(makeCard(block, { preview: true })),
+            );
+          }
 
           let filtered = filteredBlocks();
 
-          if (
-            !editing &&
-            activeView.type === "all" &&
-            !refs.search.value.trim()
-          ) {
+          if (showStarredSplit) {
             filtered = filtered.filter((block) => !block.starred);
           }
 
@@ -4646,7 +6935,7 @@
             : subtitleText;
           const headingText = refs.search.value.trim()
             ? "Search Results"
-            : titleText === "Copy Blocks"
+            : titleText === "Copy Blocks" || activeView.type === "folder"
               ? "Not Starred"
               : titleText;
           refs.heading.textContent = "";
@@ -4659,10 +6948,12 @@
             refs.heading.append(headingText);
           }
           refs.heading.append(refs.count);
-          refs.edit.setAttribute("aria-label", editing ? "Done" : "Edit");
-          const editLabel = refs.edit.querySelector(".control-label");
-          if (editLabel) editLabel.textContent = editing ? "Done" : "Edit";
-          else refs.edit.textContent = editing ? "Done" : "Edit";
+          if (refs.edit) {
+            refs.edit.setAttribute("aria-label", editing ? "Done" : "Edit");
+            const editLabel = refs.edit.querySelector(".control-label");
+            if (editLabel) editLabel.textContent = editing ? "Done" : "Edit";
+            else refs.edit.textContent = editing ? "Done" : "Edit";
+          }
           refs.mobileEditProxy.textContent = editing
             ? "Finish editing"
             : "Edit blocks";
@@ -4683,21 +6974,24 @@
         function openAddDialog(blockId = null) {
           editingBlockId = blockId;
           const block = blockId ? getBlock(blockId) : null;
-          refs.addTitleHeading.textContent = block
-            ? "Edit copy block"
-            : "Add copy block";
+          refs.addDialog.classList.toggle("edit-dialog", Boolean(block));
+          refs.addTitleHeading.textContent = "Copy block";
+          const addNote = refs.addDialog.querySelector(".settings-note");
+          if (addNote) {
+            addNote.textContent =
+              "Save reusable text and choose where it belongs.";
+          }
           refs.addTitle.value = block?.title || "";
           refs.addText.value = block?.text || "";
-          refs.addDescription.value = block?.description || "";
+          refs.addDescription.value = block ? block.description || "" : "";
           refs.addTags.value = block?.tags.join(", ") || "";
-          refs.addStarred.checked = Boolean(block?.starred);
           renderFolderCheckboxes(
             refs.addFolders,
             block?.folderIds ||
               (activeView.type === "folder" ? [activeView.folderId] : []),
           );
           refs.addForm.querySelector("button[type='submit']").textContent =
-            block ? "Save changes" : "Add block";
+            block ? "Save Changes" : "Add Block";
           refs.addDialog.showModal();
           refs.addTitle.focus();
         }
@@ -4709,6 +7003,7 @@
             ...source,
             id: id("block"),
             title: `${source.title} Copy`,
+            createdAt: now(),
             updatedAt: now(),
             lastUsedAt: null,
             useCount: 0,
@@ -4725,19 +7020,9 @@
           const block = getBlock(blockId);
           if (!block) return;
           activeBlockId = blockId;
-          refs.blockMenuSubtitle.textContent = block.title;
-          const starAction = refs.blockMenu.querySelector(
-            '[data-block-action="star"]',
-          );
-          starAction.textContent = block.starred
-            ? "Unstar block"
-            : "Star block";
-          const expandAction = refs.blockMenu.querySelector(
-            '[data-block-action="expand"]',
-          );
-          expandAction.textContent = block.expanded
-            ? "Collapse content"
-            : "Expand content";
+          refs.blockMenuTitle.textContent = block.title;
+          refs.blockMenuSubtitle.textContent =
+            "Choose an action for this block.";
           refs.blockMenu.showModal();
         }
 
@@ -4854,6 +7139,11 @@
           refs.light.setAttribute("aria-pressed", String(theme === "light"));
           refs.dark.setAttribute("aria-pressed", String(theme === "dark"));
           const darkMode = theme === "dark";
+          document.querySelectorAll(".app-brand-logo").forEach((logo) => {
+            logo.src = darkMode
+              ? "icons/dark-copy-block-logo.png"
+              : "icons/copy-block-logo.png";
+          });
           $("appManifest").href = darkMode
             ? "./dark-manifest.webmanifest"
             : "./manifest.webmanifest";
@@ -4870,12 +7160,46 @@
           saveSettings();
         }
 
+        function syncPrivacyScreenLogo() {
+          const logo = $("privacyScreenLogo");
+          if (!logo) return;
+
+          logo.src = refs.body.classList.contains("dark")
+            ? "icons/dark-copy-block-logo.png"
+            : "icons/copy-block-logo.png";
+        }
+
+        function showPrivacyScreen() {
+          syncPrivacyScreenLogo();
+          $("privacyScreen")?.classList.add("is-visible");
+        }
+
+        function hidePrivacyScreen() {
+          $("privacyScreen")?.classList.remove("is-visible");
+        }
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            showPrivacyScreen();
+          } else {
+            hidePrivacyScreen();
+          }
+        });
+
+        window.addEventListener("pagehide", showPrivacyScreen);
+        window.addEventListener("blur", showPrivacyScreen);
+        window.addEventListener("focus", hidePrivacyScreen);
+        window.addEventListener("pageshow", hidePrivacyScreen);
+
+        syncPrivacyScreenLogo();
+
         function syncSettingsDialog() {
-          refs.defaultSort.value = settings.sort;
-          refs.defaultLayout.value = settings.layout;
-          refs.confirmDelete.checked = settings.confirmDelete;
-          refs.dragSetting.checked = settings.dragEnabled;
-          refs.showFolders.checked = settings.showFolders;
+          if (refs.defaultSort) refs.defaultSort.value = settings.sort;
+          if (refs.defaultLayout) refs.defaultLayout.value = settings.layout;
+          if (refs.confirmDelete)
+            refs.confirmDelete.checked = settings.confirmDelete;
+          if (refs.dragSetting) refs.dragSetting.checked = settings.dragEnabled;
+          if (refs.showFolders) refs.showFolders.checked = settings.showFolders;
           refs.settingsStatus.textContent = "";
         }
 
@@ -4894,10 +7218,11 @@
           renderFolders();
         });
         refs.addFolder.addEventListener("click", () => openFolderDialog());
-        refs.edit.addEventListener("click", () => {
+        const toggleEditing = () => {
           editing = !editing;
           render();
-        });
+        };
+        if (refs.edit) refs.edit.addEventListener("click", toggleEditing);
         refs.add.addEventListener("click", () => openAddDialog());
         refs.mobileAdd.addEventListener("click", () => openAddDialog());
         refs.settings.addEventListener("click", () => {
@@ -4912,7 +7237,7 @@
         );
         refs.mobileEditProxy.addEventListener("click", () => {
           refs.body.classList.remove("mobile-menu-open");
-          refs.edit.click();
+          toggleEditing();
         });
         refs.mobileSettingsProxy.addEventListener("click", () => {
           refs.body.classList.remove("mobile-menu-open");
@@ -4959,20 +7284,19 @@
           ].map((input) => input.value);
           const title = escapeText(refs.addTitle.value) || "Untitled";
           const text = refs.addText.value;
-          const description = escapeText(refs.addDescription.value);
           const tags = refs.addTags.value
             .split(",")
             .map(escapeText)
             .filter(Boolean);
+          const wasEditingBlock = Boolean(editingBlockId);
           if (editingBlockId) {
             const block = getBlock(editingBlockId);
             Object.assign(block, {
               title,
               text,
-              description,
+              description: "",
               tags,
               folderIds,
-              starred: refs.addStarred.checked,
               updatedAt: now(),
             });
           } else {
@@ -4980,10 +7304,10 @@
               normalizeBlock({
                 title,
                 text,
-                description,
+                description: "",
                 tags,
                 folderIds,
-                starred: refs.addStarred.checked,
+                starred: false,
                 expanded: false,
                 updatedAt: now(),
               }),
@@ -4991,14 +7315,44 @@
           }
           saveData();
           refs.addDialog.close();
+          refs.addDialog.classList.remove("edit-dialog");
           render();
-          showToast(editingBlockId ? "Block updated." : "Block added.");
+          showToast(wasEditingBlock ? "Block updated." : "Block added.");
           editingBlockId = null;
         });
-        $("closeAddTop").addEventListener("click", () =>
-          refs.addDialog.close(),
-        );
-        $("cancelAdd").addEventListener("click", () => refs.addDialog.close());
+        $("closeAddTop").addEventListener("click", () => {
+          refs.addDialog.close();
+          refs.addDialog.classList.remove("edit-dialog");
+          editingBlockId = null;
+        });
+        $("cancelAdd").addEventListener("click", () => {
+          refs.addDialog.close();
+          refs.addDialog.classList.remove("edit-dialog");
+          editingBlockId = null;
+        });
+
+        refs.addDialog.addEventListener("close", () => {
+          refs.addDialog.classList.remove("edit-dialog");
+          editingBlockId = null;
+        });
+
+        function closeDialogOnBackdropClick(dialog) {
+          dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) dialog.close();
+          });
+        }
+
+        [
+          refs.blockMenu,
+          refs.addDialog,
+          refs.assignmentDialog,
+          refs.folderDialog,
+          refs.folderActions,
+          refs.deleteDialog,
+          refs.settingsDialog,
+        ]
+          .filter(Boolean)
+          .forEach(closeDialogOnBackdropClick);
 
         refs.blockMenu
           .querySelectorAll("[data-block-action]")
@@ -5010,12 +7364,8 @@
               if (action === "edit") {
                 refs.blockMenu.close();
                 openAddDialog(block.id);
-              } else if (action === "duplicate") duplicateBlock(block.id);
-              else if (action === "folders") openFolderAssignment(block.id);
-              else if (action === "star") {
-                refs.blockMenu.close();
-                toggleStar(block.id);
-              } else if (action === "delete") {
+              } else if (action === "folders") openFolderAssignment(block.id);
+              else if (action === "delete") {
                 refs.blockMenu.close();
                 requestDelete("block", block.id);
               }
@@ -5101,26 +7451,26 @@
 
         refs.light.addEventListener("click", () => applyTheme("light"));
         refs.dark.addEventListener("click", () => applyTheme("dark"));
-        refs.defaultSort.addEventListener("change", () => {
+        refs.defaultSort?.addEventListener("change", () => {
           settings.sort = refs.defaultSort.value;
           saveSettings();
           render();
         });
-        refs.defaultLayout.addEventListener("change", () => {
+        refs.defaultLayout?.addEventListener("change", () => {
           settings.layout = refs.defaultLayout.value;
           saveSettings();
           render();
         });
-        refs.confirmDelete.addEventListener("change", () => {
+        refs.confirmDelete?.addEventListener("change", () => {
           settings.confirmDelete = refs.confirmDelete.checked;
           saveSettings();
         });
-        refs.dragSetting.addEventListener("change", () => {
+        refs.dragSetting?.addEventListener("change", () => {
           settings.dragEnabled = refs.dragSetting.checked;
           saveSettings();
           render();
         });
-        refs.showFolders.addEventListener("change", () => {
+        refs.showFolders?.addEventListener("change", () => {
           settings.showFolders = refs.showFolders.checked;
           saveSettings();
           render();
@@ -5178,30 +7528,49 @@
           try {
             const backup = JSON.parse(await file.text());
             const imported = backup.data || backup;
-            if (
-              !Array.isArray(imported.blocks) ||
-              !Array.isArray(imported.folders)
-            )
+            if (!Array.isArray(imported.blocks))
               throw new Error("That file is not a valid Copy Blocks backup.");
-            data = {
-              version: 4,
-              blocks: imported.blocks.map(normalizeBlock),
-              folders: imported.folders.map((folder) => ({
-                id: String(folder.id || id("folder")),
-                name: String(folder.name || "Untitled folder"),
-                createdAt: folder.createdAt || now(),
-              })),
-            };
-            if (backup.settings) settings = { ...settings, ...backup.settings };
-            saveData();
-            saveSettings();
-            render();
-            refs.settingsStatus.textContent = "Backup imported successfully.";
+            const plan = getImportPlan({
+              blocks: imported.blocks,
+              folders: Array.isArray(imported.folders) ? imported.folders : [],
+            });
+            openImportPreview(plan);
           } catch (error) {
             refs.settingsStatus.textContent = error.message || "Import failed.";
           } finally {
             refs.importFile.value = "";
           }
+        });
+        refs.updateImportButton.addEventListener("click", () => {
+          if (refs.updateImportButton.disabled) return;
+          setPressed(
+            refs.updateImportButton,
+            !isPressed(refs.updateImportButton),
+          );
+          updateImportConfirmState();
+        });
+        refs.addImportButton.addEventListener("click", () => {
+          if (refs.addImportButton.disabled) return;
+          setPressed(refs.addImportButton, !isPressed(refs.addImportButton));
+          updateImportConfirmState();
+        });
+        refs.updateImportDetails.addEventListener("click", () =>
+          renderImportPreviewDetails("update"),
+        );
+        refs.addImportDetails.addEventListener("click", () =>
+          renderImportPreviewDetails("add"),
+        );
+        refs.confirmImportPreview.addEventListener(
+          "click",
+          performImportPreview,
+        );
+        refs.cancelImportPreview.addEventListener("click", () => {
+          pendingImport = null;
+          refs.importPreviewDialog.close();
+        });
+        refs.closeImportPreview.addEventListener("click", () => {
+          pendingImport = null;
+          refs.importPreviewDialog.close();
         });
         const sortButtons = Array.from(
           document.querySelectorAll(".sort-button"),
