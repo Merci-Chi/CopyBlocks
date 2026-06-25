@@ -1,11 +1,12 @@
 {
+  "id": "./copy-blocks-light",
   "name": "Copy Blocks",
   "short_name": "Copy Blocks",
-  "description": "Create, organize, and reuse saved text blocks.",
-  "start_url": "./CopyBlocks.html",
+  "description": "Copy Blocks app",
+  "start_url": "./copy-blocks-privacy-desktop-mode-fixed.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#fbfaf6",
+  "background_color": "#ffffff",
   "theme_color": "#d59b18",
   "icons": [
     {
