@@ -1219,10 +1219,16 @@
         position: fixed;
         inset: 0;
         z-index: 2147483647;
-        display: none;
+        display: grid;
         place-items: center;
         background: #ffffff;
+        opacity: 0;
+        visibility: hidden;
         pointer-events: none;
+        transition:
+          opacity 240ms ease,
+          visibility 0s linear 240ms;
+        will-change: opacity;
       }
 
       body.dark .privacy-screen {
@@ -1230,13 +1236,25 @@
       }
 
       .privacy-screen.is-visible {
-        display: grid;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition:
+          opacity 240ms ease,
+          visibility 0s linear 0s;
       }
 
       .privacy-screen img {
         width: min(34vw, 180px);
         height: auto;
         object-fit: contain;
+        opacity: 0.96;
+        transform: scale(0.985);
+        transition: transform 240ms ease;
+      }
+
+      .privacy-screen.is-visible img {
+        transform: scale(1);
       }
 
       .folder-nav-row {
@@ -7169,29 +7187,187 @@
             : "icons/copy-block-logo.png";
         }
 
-        function showPrivacyScreen() {
+        let privacyScreenHideTimer = null;
+        let privacyScreenVisibleAt = 0;
+        let privacyScreenNeedsDirectReturn = false;
+        const PRIVACY_SCREEN_HIDE_DELAY = 360;
+        const PRIVACY_SCREEN_MIN_VISIBLE = 420;
+
+        function privacyScreenElement() {
+          return $("privacyScreen");
+        }
+
+        function isPageDirectlyActive() {
+          return document.visibilityState === "visible" && document.hasFocus();
+        }
+
+        function showPrivacyScreen(options = {}) {
+          window.clearTimeout(privacyScreenHideTimer);
+          if (options.requireDirectReturn) {
+            privacyScreenNeedsDirectReturn = true;
+          }
           syncPrivacyScreenLogo();
-          $("privacyScreen")?.classList.add("is-visible");
+          const screen = privacyScreenElement();
+          if (!screen) return;
+          if (!screen.classList.contains("is-visible")) {
+            privacyScreenVisibleAt = Date.now();
+          }
+          screen.classList.add("is-visible");
+        }
+
+        function showPrivacyScreenUntilDirectReturn() {
+          showPrivacyScreen({ requireDirectReturn: true });
+        }
+
+        function canHidePrivacyScreen() {
+          return isPageDirectlyActive() && !privacyScreenNeedsDirectReturn;
         }
 
         function hidePrivacyScreen() {
-          $("privacyScreen")?.classList.remove("is-visible");
+          if (!canHidePrivacyScreen()) {
+            showPrivacyScreen();
+            return;
+          }
+
+          const elapsed = Date.now() - privacyScreenVisibleAt;
+          if (elapsed < PRIVACY_SCREEN_MIN_VISIBLE) {
+            window.clearTimeout(privacyScreenHideTimer);
+            privacyScreenHideTimer = window.setTimeout(
+              hidePrivacyScreen,
+              PRIVACY_SCREEN_MIN_VISIBLE - elapsed,
+            );
+            return;
+          }
+
+          privacyScreenElement()?.classList.remove("is-visible");
+        }
+
+        function hidePrivacyScreenSoon() {
+          window.clearTimeout(privacyScreenHideTimer);
+          privacyScreenHideTimer = window.setTimeout(
+            hidePrivacyScreen,
+            PRIVACY_SCREEN_HIDE_DELAY,
+          );
+        }
+
+        function syncPrivacyScreenState() {
+          if (isPageDirectlyActive() && !privacyScreenNeedsDirectReturn) {
+            hidePrivacyScreenSoon();
+          } else {
+            showPrivacyScreen();
+          }
+        }
+
+        function keepPrivacyScreenOnReturn() {
+          if (privacyScreenElement()?.classList.contains("is-visible")) {
+            privacyScreenNeedsDirectReturn = true;
+          }
+          syncPrivacyScreenState();
+        }
+
+        function allowPrivacyScreenAfterDirectReturn(event) {
+          if (!privacyScreenNeedsDirectReturn || !isPageDirectlyActive())
+            return;
+
+          // Do not dismiss from the same shortcut that may still be moving between
+          // desktops, apps, Mission Control, Task View, or browser tabs.
+          if (
+            event?.type === "keydown" &&
+            (event.metaKey || event.altKey || event.ctrlKey)
+          ) {
+            return;
+          }
+
+          privacyScreenNeedsDirectReturn = false;
+          hidePrivacyScreenSoon();
+        }
+
+        function coverWhenLeavingWindow(event) {
+          // Desktop overview / Mission Control / Task View can leave the page
+          // visible even while it is no longer the directly active surface.
+          // relatedTarget is usually null when the pointer exits the document.
+          if (!event || !event.relatedTarget) {
+            showPrivacyScreenUntilDirectReturn();
+          }
+        }
+
+        function coverForLikelySystemSwitcherShortcut(event) {
+          const key = event.key;
+          const isSwitcherKey =
+            key === "Tab" ||
+            key === "F3" ||
+            key === "F4" ||
+            key === "ArrowUp" ||
+            key === "ArrowDown" ||
+            key === "Escape";
+
+          if (
+            (event.metaKey || event.altKey || event.ctrlKey) &&
+            isSwitcherKey
+          ) {
+            showPrivacyScreenUntilDirectReturn();
+          }
         }
 
         document.addEventListener("visibilitychange", () => {
-          if (document.hidden) {
-            showPrivacyScreen();
+          if (document.visibilityState === "visible") {
+            keepPrivacyScreenOnReturn();
           } else {
-            hidePrivacyScreen();
+            showPrivacyScreenUntilDirectReturn();
           }
         });
-
-        window.addEventListener("pagehide", showPrivacyScreen);
-        window.addEventListener("blur", showPrivacyScreen);
-        window.addEventListener("focus", hidePrivacyScreen);
-        window.addEventListener("pageshow", hidePrivacyScreen);
+        document.addEventListener("freeze", showPrivacyScreenUntilDirectReturn);
+        document.addEventListener("resume", keepPrivacyScreenOnReturn);
+        document.addEventListener("pointerleave", coverWhenLeavingWindow, {
+          capture: true,
+        });
+        document.addEventListener("mouseleave", coverWhenLeavingWindow, {
+          capture: true,
+        });
+        document.addEventListener(
+          "keydown",
+          coverForLikelySystemSwitcherShortcut,
+          {
+            capture: true,
+          },
+        );
+        document.addEventListener(
+          "pointerdown",
+          allowPrivacyScreenAfterDirectReturn,
+          {
+            capture: true,
+          },
+        );
+        document.addEventListener(
+          "touchstart",
+          allowPrivacyScreenAfterDirectReturn,
+          {
+            capture: true,
+          },
+        );
+        document.addEventListener(
+          "keydown",
+          allowPrivacyScreenAfterDirectReturn,
+          {
+            capture: true,
+          },
+        );
+        window.addEventListener("pagehide", showPrivacyScreenUntilDirectReturn);
+        window.addEventListener(
+          "beforeunload",
+          showPrivacyScreenUntilDirectReturn,
+        );
+        window.addEventListener("blur", showPrivacyScreenUntilDirectReturn);
+        window.addEventListener("focus", keepPrivacyScreenOnReturn);
+        window.addEventListener("pageshow", keepPrivacyScreenOnReturn);
+        window.addEventListener("mouseout", coverWhenLeavingWindow);
+        window.addEventListener(
+          "pointercancel",
+          showPrivacyScreenUntilDirectReturn,
+        );
 
         syncPrivacyScreenLogo();
+        syncPrivacyScreenState();
 
         function syncSettingsDialog() {
           if (refs.defaultSort) refs.defaultSort.value = settings.sort;
