@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Copy Blocks</title>
     <link id="appManifest" rel="manifest" href="./manifest.webmanifest" />
-    <meta id="appThemeColor" name="theme-color" content="#d59b18" />
+    <meta id="appThemeColor" name="theme-color" content="#3E555C" />
     <link
       id="appIcon192"
       rel="icon"
@@ -35,46 +35,46 @@
 
       :root {
         color-scheme: light;
-        --bg: #f3f4f6;
+        --bg: #f0f1f2;
         --panel: #ffffff;
         --card: #ffffff;
-        --text: #111827;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --border-strong: #d1d5db;
-        --button: #111827;
-        --button-hover: #272f3d;
+        --text: #0e1314;
+        --muted: #566367;
+        --border: #d6d6d6;
+        --border-strong: #c9cfd1;
+        --button: #3e555c;
+        --button-hover: #1a2427;
         --button-text: #ffffff;
-        --soft-button: #f3f4f6;
-        --soft-button-hover: #e5e7eb;
-        --soft-button-text: #111827;
-        --danger: #dc2626;
-        --danger-soft: #fee2e2;
-        --accent: #2563eb;
-        --accent-soft: #eff6ff;
-        --shadow: 0 18px 45px rgba(17, 24, 39, 0.1);
-        --small-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
+        --soft-button: #f0f1f2;
+        --soft-button-hover: #d8d8d8;
+        --soft-button-text: #0e1314;
+        --danger: #2a2a2a;
+        --danger-soft: #d8d8d8;
+        --accent: #3e555c;
+        --accent-soft: #d6d6d6;
+        --shadow: 0 18px 45px rgba(14, 19, 20, 0.1);
+        --small-shadow: 0 8px 20px rgba(14, 19, 20, 0.08);
       }
 
       body.dark {
         color-scheme: dark;
-        --bg: #09090b;
-        --panel: #111113;
-        --card: #18181b;
-        --text: #f4f4f5;
-        --muted: #a1a1aa;
-        --border: #27272a;
-        --border-strong: #3f3f46;
-        --button: #f4f4f5;
-        --button-hover: #d4d4d8;
-        --button-text: #09090b;
-        --soft-button: #27272a;
-        --soft-button-hover: #3f3f46;
-        --soft-button-text: #f4f4f5;
-        --danger: #f87171;
-        --danger-soft: #450a0a;
-        --accent: #60a5fa;
-        --accent-soft: #172554;
+        --bg: #0e1314;
+        --panel: #1a2427;
+        --card: #2a2a2a;
+        --text: #f0f1f2;
+        --muted: #c9cfd1;
+        --border: #566367;
+        --border-strong: #777777;
+        --button: #d6d6d6;
+        --button-hover: #c0c0c0;
+        --button-text: #0e1314;
+        --soft-button: #2a2a2a;
+        --soft-button-hover: #566367;
+        --soft-button-text: #f0f1f2;
+        --danger: #c9cfd1;
+        --danger-soft: #1a2427;
+        --accent: #d6d6d6;
+        --accent-soft: #2a2a2a;
         --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
         --small-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
       }
@@ -94,7 +94,7 @@
         background:
           radial-gradient(
             circle at top left,
-            rgba(37, 99, 235, 0.13),
+            rgba(62, 85, 92, 0.13),
             transparent 34rem
           ),
           var(--bg);
@@ -408,7 +408,7 @@
       .btn-primary {
         background: var(--button);
         color: var(--button-text);
-        box-shadow: 0 8px 18px rgba(17, 24, 39, 0.16);
+        box-shadow: 0 8px 18px rgba(14, 19, 20, 0.16);
       }
 
       .btn-primary:hover {
@@ -592,7 +592,7 @@
         background: var(--button);
         color: var(--button-text);
         border-color: var(--button);
-        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.16);
+        box-shadow: 0 10px 24px rgba(14, 19, 20, 0.16);
       }
 
       body:not(.editing) .block-title {
@@ -821,7 +821,7 @@
           gap: 12px;
           padding: 20px 16px;
           border-radius: 18px;
-          box-shadow: 0 10px 28px rgba(17, 24, 39, 0.07);
+          box-shadow: 0 10px 28px rgba(14, 19, 20, 0.07);
         }
 
         .block-title {
@@ -851,13 +851,13 @@
           display: grid;
           place-items: center;
           grid-column: 1;
-          color: #6f7688;
+          color: #566367;
           font-size: 35px;
           line-height: 1;
         }
 
         .mobile-leading.featured {
-          color: #fbbf24;
+          color: #3e555c;
         }
 
         .title-stack {
@@ -1605,27 +1605,28 @@
     </style>
     <style id="reference-layout">
       :root {
-        --reference-blue: #5865f2;
-        --reference-blue-soft: #f1f1ff;
-        --reference-ink: #070d28;
-        --reference-muted: #737a94;
-        --reference-line: #e6e8f0;
-        --reference-gold: #fbbf24;
-        --reference-gold-soft: #fffaf0;
+        --reference-blue: #3e555c;
+        --reference-blue-soft: #f0f1f2;
+        --reference-ink: #0e1314;
+        --reference-muted: #566367;
+        --reference-line: #d6d6d6;
+        --reference-star: #3e555c;
+        --reference-star-soft: #f0f1f2;
       }
 
       body {
         display: block;
         padding: 0;
-        background: #fbfbfd;
+        background: #f0f1f2;
       }
 
       body.dark {
         --reference-ink: var(--text);
         --reference-muted: var(--muted);
         --reference-line: var(--border);
-        --reference-blue-soft: #20213d;
-        --reference-gold-soft: #292316;
+        --reference-blue-soft: #2a2a2a;
+        --reference-star: #d6d6d6;
+        --reference-star-soft: #2a2a2a;
         background: var(--bg);
       }
 
@@ -1672,8 +1673,8 @@
         width: 36px;
         height: 36px;
         border-radius: 10px;
-        background: linear-gradient(145deg, #6b75ff, #4d5ae9);
-        box-shadow: 0 7px 18px rgba(88, 101, 242, 0.25);
+        background: linear-gradient(145deg, #3e555c, #3e555c);
+        box-shadow: 0 7px 18px rgba(62, 85, 92, 0.25);
       }
 
       .brand-mark::before,
@@ -1734,7 +1735,7 @@
       }
 
       .nav-star-icon {
-        color: var(--reference-gold);
+        color: var(--reference-star);
         font-size: 23px;
       }
 
@@ -1881,7 +1882,7 @@
         min-width: 170px;
         padding: 0 22px;
         border-color: var(--reference-blue);
-        background: linear-gradient(135deg, #6672ff, #5160e9);
+        background: linear-gradient(135deg, #3e555c, #3e555c);
         color: white;
         font-size: 14px;
       }
@@ -1923,7 +1924,7 @@
       }
 
       .section-heading-row h2 > span {
-        color: var(--reference-gold);
+        color: var(--reference-star);
         margin-right: 8px;
       }
 
@@ -1993,13 +1994,13 @@
         border: 1px solid var(--reference-line);
         border-radius: 16px;
         background: var(--card);
-        box-shadow: 0 7px 20px rgba(18, 25, 55, 0.045);
+        box-shadow: 0 7px 20px rgba(14, 19, 20, 0.045);
       }
 
       .featured-card {
         border-color: color-mix(
           in srgb,
-          var(--reference-gold),
+          var(--reference-star),
           transparent 65%
         );
       }
@@ -2026,8 +2027,8 @@
 
       .featured-card .mobile-leading,
       .mobile-leading.featured {
-        background: var(--reference-gold-soft);
-        color: var(--reference-gold);
+        background: var(--reference-star-soft);
+        color: var(--reference-star);
       }
 
       .title-stack {
@@ -2143,7 +2144,7 @@
         color: var(--reference-muted);
         font: inherit;
         font-weight: 650;
-        box-shadow: 0 7px 18px rgba(18, 25, 55, 0.04);
+        box-shadow: 0 7px 18px rgba(14, 19, 20, 0.04);
       }
 
       .mobile-reorder-note {
@@ -2243,7 +2244,7 @@
           border-radius: 10px;
           background: var(--panel);
           color: var(--reference-muted);
-          box-shadow: 0 5px 14px rgba(18, 25, 55, 0.05);
+          box-shadow: 0 5px 14px rgba(14, 19, 20, 0.05);
         }
 
         .mobile-menu-button {
@@ -2258,7 +2259,7 @@
 
         .mobile-add-button {
           border-color: var(--reference-blue);
-          background: linear-gradient(135deg, #6874ff, #5160e9);
+          background: linear-gradient(135deg, #3e555c, #3e555c);
           color: white;
           font-size: 30px;
           font-weight: 300;
@@ -2297,7 +2298,7 @@
         .featured-card {
           border-color: color-mix(
             in srgb,
-            var(--reference-gold),
+            var(--reference-star),
             transparent 62%
           );
         }
@@ -2942,7 +2943,7 @@
         border-radius: 10px;
         background: color-mix(in srgb, var(--panel), transparent 8%);
         color: var(--reference-muted);
-        box-shadow: 0 6px 16px rgba(18, 25, 55, 0.08);
+        box-shadow: 0 6px 16px rgba(14, 19, 20, 0.08);
       }
 
       .content-expand-button img {
@@ -3144,7 +3145,7 @@
           var(--reference-blue),
           transparent 58%
         );
-        box-shadow: 0 10px 22px rgba(18, 25, 55, 0.07);
+        box-shadow: 0 10px 22px rgba(14, 19, 20, 0.07);
       }
 
       .folder-check-card input {
@@ -3354,21 +3355,21 @@
         object-fit: contain;
       }
     </style>
-    <style id="gold-dashboard-polish">
+    <style id="star-dashboard-polish">
       :root {
-        --accent: #c99112;
-        --accent-soft: #fff5d7;
-        --reference-blue: #c99112;
-        --reference-blue-soft: #fff5d7;
-        --reference-gold: #d9a21d;
+        --accent: #3e555c;
+        --accent-soft: #f0f1f2;
+        --reference-blue: #3e555c;
+        --reference-blue-soft: #f0f1f2;
+        --reference-star: #3e555c;
       }
 
       body.dark {
-        --accent: #e2b94f;
-        --accent-soft: #302711;
-        --reference-blue: #e2b94f;
-        --reference-blue-soft: #302711;
-        --reference-gold: #e2b94f;
+        --accent: #3e555c;
+        --accent-soft: #1a2427;
+        --reference-blue: #3e555c;
+        --reference-blue-soft: #1a2427;
+        --reference-star: #3e555c;
       }
 
       .desktop-sidebar {
@@ -3377,7 +3378,7 @@
         scrollbar-width: thin;
         scrollbar-color: color-mix(
             in srgb,
-            var(--reference-gold),
+            var(--reference-star),
             transparent 35%
           )
           transparent;
@@ -3389,7 +3390,7 @@
 
       .desktop-sidebar::-webkit-scrollbar-thumb {
         border-radius: 999px;
-        background: color-mix(in srgb, var(--reference-gold), transparent 35%);
+        background: color-mix(in srgb, var(--reference-star), transparent 35%);
       }
 
       .brand-logo {
@@ -3400,7 +3401,7 @@
         border-radius: 11px;
         object-fit: contain;
         background: var(--reference-blue-soft);
-        box-shadow: 0 7px 18px rgba(154, 108, 5, 0.15);
+        box-shadow: 0 7px 18px rgba(62, 85, 92, 0.15);
       }
 
       .mobile-brand .brand-logo {
@@ -3444,33 +3445,33 @@
         border-radius: 9px;
         background: var(--panel);
         color: var(--reference-ink);
-        box-shadow: 0 4px 12px rgba(80, 58, 6, 0.045);
+        box-shadow: 0 4px 12px rgba(14, 19, 20, 0.045);
       }
 
       .top-actions .add-top-button {
         border-color: color-mix(
           in srgb,
-          var(--reference-gold),
+          var(--reference-star),
           transparent 45%
         );
-        background: var(--reference-gold-soft);
-        color: #8c6200;
+        background: var(--reference-star-soft);
+        color: #3e555c;
       }
 
       body.dark .top-actions .add-top-button {
-        color: var(--reference-gold);
+        color: var(--reference-star);
       }
 
       .top-actions .btn:hover,
       .top-actions .add-top-button:hover {
-        border-color: var(--reference-gold);
-        background: var(--reference-gold-soft);
+        border-color: var(--reference-star);
+        background: var(--reference-star-soft);
       }
 
       .mobile-add-button {
-        border-color: var(--reference-gold);
-        background: linear-gradient(135deg, #e2b94f, #c78a09);
-        color: #fff;
+        border-color: var(--reference-star);
+        background: linear-gradient(135deg, #3e555c, #3e555c);
+        color: #ffffff;
       }
 
       .dashboard-controls {
@@ -3518,10 +3519,10 @@
         min-height: 28px;
         padding: 5px 11px;
         border: 1px solid
-          color-mix(in srgb, var(--reference-gold), transparent 58%);
+          color-mix(in srgb, var(--reference-star), transparent 58%);
         border-radius: 9px 9px 9px 3px;
-        background: var(--reference-gold-soft);
-        color: #8d6506;
+        background: var(--reference-star-soft);
+        color: #3e555c;
         font-size: 12px;
         font-weight: 800;
         letter-spacing: 0.01em;
@@ -3549,23 +3550,23 @@
       .star-toggle.featured,
       .section-heading-row h2 > span,
       .nav-star-icon {
-        color: var(--reference-gold) !important;
+        color: var(--reference-star) !important;
       }
 
       .featured-card {
         border-color: color-mix(
           in srgb,
-          var(--reference-gold),
+          var(--reference-star),
           transparent 55%
         );
       }
 
       .featured-card .mobile-leading {
-        background: var(--reference-gold-soft);
+        background: var(--reference-star-soft);
       }
 
       .mobile-bottom-nav button.active {
-        color: var(--reference-gold);
+        color: var(--reference-star);
       }
 
       @media (max-width: 1180px) and (min-width: 901px) {
@@ -3598,7 +3599,7 @@
           height: 100dvh;
           transform: translateX(-102%);
           visibility: hidden;
-          box-shadow: 18px 0 42px rgba(7, 13, 40, 0.16);
+          box-shadow: 18px 0 42px rgba(14, 19, 20, 0.16);
           transition:
             transform 180ms ease,
             visibility 180ms ease;
@@ -3739,7 +3740,7 @@
       body.editing .folder-check-card:hover {
         border-color: var(--border-strong);
         background: color-mix(in srgb, var(--panel), var(--soft-button) 54%);
-        box-shadow: 0 10px 22px rgba(18, 25, 55, 0.06);
+        box-shadow: 0 10px 22px rgba(14, 19, 20, 0.06);
       }
 
       body.editing .folder-check-card.selected,
@@ -3758,9 +3759,9 @@
       body.editing .folder-check-card.selected .folder-card-state,
       body.editing .folder-check-card:has(input:checked) .folder-card-state {
         background: var(--reference-muted);
-        color: #fff;
+        color: #ffffff;
       }
-      /* Remove yellow box behind folder icons in the add/edit copy block dialog */
+      /* Remove accent box behind folder icons in the add/edit copy block dialog */
       #addBlockDialog .folder-card-icon,
       #addBlockDialog.edit-dialog .folder-card-icon,
       body.editing #addBlockDialog .folder-card-icon,
@@ -3969,22 +3970,22 @@
       }
 
       .diff-remove {
-        background: color-mix(in srgb, #ef4444, transparent 78%);
-        color: #991b1b;
+        background: color-mix(in srgb, #2a2a2a, transparent 78%);
+        color: #1a2427;
         text-decoration: line-through;
       }
 
       .diff-add {
-        background: color-mix(in srgb, #22c55e, transparent 78%);
-        color: #166534;
+        background: color-mix(in srgb, #566367, transparent 78%);
+        color: #1a2427;
       }
 
       body.dark .diff-remove {
-        color: #fecaca;
+        color: #d8d8d8;
       }
 
       body.dark .diff-add {
-        color: #bbf7d0;
+        color: #c9cfd1;
       }
 
       .import-result-box {
@@ -4698,7 +4699,7 @@
         ) !important;
         box-shadow:
           inset 0 1px 0 color-mix(in srgb, white, transparent 38%),
-          0 8px 20px rgba(18, 25, 55, 0.045) !important;
+          0 8px 20px rgba(14, 19, 20, 0.045) !important;
       }
 
       #addBlockDialog .setting-row:nth-of-type(2),
@@ -4706,12 +4707,12 @@
       #settingsDialog .settings-section:nth-of-type(2) {
         background: linear-gradient(
           145deg,
-          color-mix(in srgb, var(--panel), #fff7d6 30%),
+          color-mix(in srgb, var(--panel), #f0f1f2 30%),
           color-mix(in srgb, var(--panel), white 12%)
         ) !important;
         border-color: color-mix(
           in srgb,
-          var(--reference-gold),
+          var(--reference-star),
           var(--reference-line) 76%
         ) !important;
       }
@@ -4720,12 +4721,12 @@
       #settingsDialog .settings-section:nth-of-type(4) {
         background: linear-gradient(
           145deg,
-          color-mix(in srgb, var(--panel), #f2f0ff 32%),
+          color-mix(in srgb, var(--panel), #f0f1f2 32%),
           color-mix(in srgb, var(--panel), white 11%)
         ) !important;
         border-color: color-mix(
           in srgb,
-          #8b7cf6,
+          #3e555c,
           var(--reference-line) 78%
         ) !important;
       }
@@ -4740,7 +4741,7 @@
           var(--reference-blue),
           var(--reference-line) 76%
         ) !important;
-        box-shadow: inset 0 1px 2px rgba(18, 25, 55, 0.045) !important;
+        box-shadow: inset 0 1px 2px rgba(14, 19, 20, 0.045) !important;
       }
 
       #addBlockDialog input:focus,
@@ -4751,7 +4752,7 @@
         border-color: var(--reference-blue) !important;
         box-shadow:
           0 0 0 4px color-mix(in srgb, var(--reference-blue), transparent 82%),
-          inset 0 1px 2px rgba(18, 25, 55, 0.045) !important;
+          inset 0 1px 2px rgba(14, 19, 20, 0.045) !important;
       }
 
       #addBlockDialog .folder-check-card,
@@ -4763,7 +4764,7 @@
           color-mix(in srgb, var(--panel), white 14%),
           color-mix(in srgb, var(--reference-blue-soft), var(--panel) 74%)
         ) !important;
-        box-shadow: 0 5px 14px rgba(18, 25, 55, 0.04) !important;
+        box-shadow: 0 5px 14px rgba(14, 19, 20, 0.04) !important;
       }
 
       #addBlockDialog .folder-check-card:has(input:checked),
@@ -4821,11 +4822,11 @@
           color-mix(in srgb, var(--reference-blue-soft), var(--panel) 74%)
         ) !important;
         color: var(--reference-ink) !important;
-        box-shadow: 0 5px 14px rgba(18, 25, 55, 0.04) !important;
+        box-shadow: 0 5px 14px rgba(14, 19, 20, 0.04) !important;
       }
 
       #settingsDialog .theme-button.active {
-        background: linear-gradient(135deg, #6672ff, #5160e9) !important;
+        background: linear-gradient(135deg, #3e555c, #3e555c) !important;
         color: white !important;
         border-color: var(--reference-blue) !important;
       }
@@ -4922,7 +4923,7 @@
         background: var(--button) !important;
         color: var(--button-text) !important;
         border-color: var(--button) !important;
-        box-shadow: 0 8px 18px rgba(17, 24, 39, 0.12) !important;
+        box-shadow: 0 8px 18px rgba(14, 19, 20, 0.12) !important;
       }
 
       body.dark #settingsDialog .theme-button.active {
@@ -4952,6 +4953,338 @@
         .view-switch button,
         .sort-button {
           transition-duration: 1ms !important;
+        }
+      }
+    </style>
+
+    <style id="exact-reference-dark-mode-colors">
+      body.dark {
+        color-scheme: dark;
+        --bg: #0c131a;
+        --panel: #0a1016;
+        --card: #0d1218;
+        --text: #f2f5f8;
+        --muted: #9aa6b4;
+        --border: #2a3440;
+        --border-strong: #46515d;
+        --button: #0e151d;
+        --button-hover: #171f28;
+        --button-text: #f2f5f8;
+        --soft-button: #151c24;
+        --soft-button-hover: #1e2731;
+        --soft-button-text: #e7edf3;
+        --danger: #d7dee6;
+        --danger-soft: #151c24;
+        --accent: #edf2f7;
+        --accent-soft: #171f28;
+        --reference-blue: #edf2f7;
+        --reference-blue-soft: #171f28;
+        --reference-ink: #f2f5f8;
+        --reference-muted: #9aa6b4;
+        --reference-line: #2a3440;
+        --reference-star: #aab6c3;
+        --reference-star-soft: #151c24;
+        --shadow: none;
+        --small-shadow: none;
+        background:
+          radial-gradient(
+            circle at 22% 0%,
+            rgba(35, 50, 65, 0.46),
+            transparent 34rem
+          ),
+          radial-gradient(
+            circle at 82% 8%,
+            rgba(18, 28, 38, 0.72),
+            transparent 32rem
+          ),
+          linear-gradient(180deg, #0a1016 0%, #0d141c 44%, #0b1117 100%) !important;
+      }
+
+      body.dark,
+      body.dark .main-content,
+      body.dark .app {
+        background-color: #0c131a !important;
+      }
+
+      body.dark .layout-shell {
+        background:
+          radial-gradient(
+            circle at 30% 0%,
+            rgba(32, 45, 58, 0.42),
+            transparent 34rem
+          ),
+          linear-gradient(180deg, #0a1016 0%, #0d141c 46%, #0b1117 100%);
+      }
+
+      body.dark .desktop-sidebar {
+        background: linear-gradient(
+          180deg,
+          #080d12 0%,
+          #090e13 100%
+        ) !important;
+        border-right-color: #28323d !important;
+      }
+
+      body.dark .sidebar-link,
+      body.dark .sidebar-folders button,
+      body.dark .home-button {
+        color: #e8edf3 !important;
+      }
+
+      body.dark .sidebar-link.active,
+      body.dark .folder-nav-button.active {
+        background: #181f27 !important;
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .sidebar-tip,
+      body.dark .dashboard-search input,
+      body.dark .sort-buttons,
+      body.dark .view-switch,
+      body.dark .top-actions .btn,
+      body.dark .load-more-button,
+      body.dark dialog,
+      body.dark .settings-section,
+      body.dark .action-menu-list button {
+        background: rgba(10, 16, 22, 0.72) !important;
+        border-color: #2a3440 !important;
+        color: #e8edf3 !important;
+        box-shadow: none !important;
+      }
+
+      body.dark .dashboard-search input::placeholder {
+        color: #66727f !important;
+      }
+
+      body.dark .sort-button,
+      body.dark .view-switch button,
+      body.dark .folder-actions-button,
+      body.dark .sidebar-section-head,
+      body.dark .sidebar-tip,
+      body.dark .subtitle,
+      body.dark .mobile-card-hint,
+      body.dark .updated-label,
+      body.dark .sort-label,
+      body.dark .blocks-count,
+      body.dark .section-heading-row small,
+      body.dark .blocks-summary small {
+        color: #9aa6b4 !important;
+      }
+
+      body.dark .sort-button.active,
+      body.dark .sort-button[aria-pressed="true"],
+      body.dark .view-switch button[aria-pressed="true"] {
+        background: #18212a !important;
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .block-card {
+        background: rgba(13, 18, 24, 0.88) !important;
+        border-color: #2a3440 !important;
+        box-shadow: none !important;
+      }
+
+      body.dark .featured-card {
+        border-color: #303b47 !important;
+      }
+
+      body.dark .mobile-leading {
+        background: #151c24 !important;
+        color: #aab6c3 !important;
+      }
+
+      body.dark .featured-card .mobile-leading,
+      body.dark .mobile-leading.featured {
+        background: #151c24 !important;
+        color: #aab6c3 !important;
+      }
+
+      body.dark .block-title,
+      body.dark h1,
+      body.dark .section-heading-row h2,
+      body.dark .blocks-summary h2,
+      body.dark .sidebar-brand,
+      body.dark .mobile-brand {
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .block-card.collapsed .block-body,
+      body.dark .copy-block {
+        background: #0d1218 !important;
+      }
+
+      body.dark .copy-block {
+        border-color: #2a3440 !important;
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .top-actions .add-top-button {
+        background: rgba(10, 16, 22, 0.72) !important;
+        border-color: #3d4854 !important;
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .top-actions .btn:hover,
+      body.dark .sort-button:hover,
+      body.dark .view-switch button:hover,
+      body.dark .arrow-button:hover {
+        background: #171f28 !important;
+        border-color: #3a4652 !important;
+        color: #f2f5f8 !important;
+      }
+
+      body.dark .arrow-button {
+        color: #f5f7fa !important;
+      }
+
+      body.dark body:not(.editing) .starred-section,
+      body.dark .starred-section {
+        border-bottom-color: #202933 !important;
+      }
+
+      body.dark .brand-mark {
+        background: linear-gradient(145deg, #141c24, #0f161e) !important;
+        box-shadow: none !important;
+      }
+
+      body.dark img.mobile-control-icon,
+      body.dark img.folder-state-icon,
+      body.dark img.nav-trash-img,
+      body.dark img.dashboard-nav-icon,
+      body.dark .view-switch img,
+      body.dark img[src*="dashboard"] {
+        filter: brightness(0) saturate(100%) invert(92%) sepia(9%)
+          saturate(298%) hue-rotate(177deg) brightness(101%) contrast(94%) !important;
+      }
+    </style>
+
+    <style id="light-mode-gradient-star-only-fix">
+      :root {
+        --star-yellow: #f4c542;
+      }
+
+      body:not(.dark) {
+        background:
+          radial-gradient(
+            circle at 18% 0%,
+            rgba(255, 255, 255, 0.95),
+            transparent 34rem
+          ),
+          radial-gradient(
+            circle at 88% 10%,
+            rgba(255, 255, 255, 0.62),
+            transparent 30rem
+          ),
+          linear-gradient(180deg, #f8fafb 0%, #eef2f4 100%) !important;
+        background-attachment: fixed;
+      }
+
+      body.dark {
+        background:
+          radial-gradient(
+            circle at 18% 0%,
+            rgba(255, 255, 255, 0.08),
+            transparent 34rem
+          ),
+          radial-gradient(
+            circle at 88% 10%,
+            rgba(255, 255, 255, 0.045),
+            transparent 30rem
+          ),
+          linear-gradient(180deg, #0a1016 0%, #0d141c 48%, #0b1117 100%) !important;
+        background-attachment: fixed;
+      }
+
+      body:not(.dark) .main-content,
+      body:not(.dark) .app,
+      body.dark .main-content,
+      body.dark .app {
+        background: transparent !important;
+      }
+
+      /* Star only — make it yellow in both light and dark mode */
+      .star-toggle,
+      .star-toggle.featured,
+      .section-heading-row h2 > span,
+      .nav-star-icon,
+      #mobileStarredNav .nav-star-outline,
+      #starredHeading > span,
+      body.dark .star-toggle,
+      body.dark .star-toggle.featured,
+      body.dark .section-heading-row h2 > span,
+      body.dark .nav-star-icon,
+      body.dark #mobileStarredNav .nav-star-outline,
+      body.dark #starredHeading > span {
+        color: var(--star-yellow) !important;
+      }
+    </style>
+
+    <style id="copied-popup-polish">
+      .toast {
+        left: 50%;
+        bottom: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 46px;
+        max-width: calc(100% - 32px);
+        padding: 12px 18px;
+        border: 1px solid rgba(14, 19, 20, 0.08);
+        border-radius: 999px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.96),
+          rgba(248, 250, 251, 0.92)
+        );
+        color: #0e1314;
+        box-shadow:
+          0 18px 45px rgba(14, 19, 20, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(18px) saturate(1.18);
+        -webkit-backdrop-filter: blur(18px) saturate(1.18);
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+
+      .toast::before {
+        content: "✓";
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: #3e555c;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1;
+        box-shadow: 0 8px 16px rgba(62, 85, 92, 0.22);
+      }
+
+      body.dark .toast {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: linear-gradient(
+          180deg,
+          rgba(31, 42, 52, 0.94),
+          rgba(14, 20, 27, 0.92)
+        );
+        color: #f2f5f8;
+        box-shadow:
+          0 20px 52px rgba(0, 0, 0, 0.48),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      body.dark .toast::before {
+        background: #f4c542;
+        color: #0e1314;
+        box-shadow: 0 8px 18px rgba(244, 197, 66, 0.22);
+      }
+
+      @media (max-width: 900px) {
+        .toast {
+          bottom: 104px;
         }
       }
     </style>
@@ -7174,7 +7507,7 @@
           $("appleTouchIcon").href = darkMode
             ? "./icons/dark-icon-192.png"
             : "./icons/icon-192.png";
-          $("appThemeColor").content = darkMode ? "#dcae42" : "#d59b18";
+          $("appThemeColor").content = darkMode ? "#3E555C" : "#3E555C";
           saveSettings();
         }
 
