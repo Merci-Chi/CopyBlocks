@@ -4011,8 +4011,6 @@
     </style>
 
     <style id="stable-collapsed-card-controls-fix">
-      /* Keep collapsed-card controls in the exact same place regardless of title wrapping.
-         Only the title changes size/position between one-line and two-line states. */
       body:not(.editing) .block-card.collapsed .block-header {
         align-items: start;
         min-height: 52px;
@@ -4144,8 +4142,6 @@
     </style>
 
     <style id="single-line-title-size-and-spacing-fix">
-      /* Single-line copy-block titles get their own larger treatment.
-         Two-line titles stay smaller, capped at two lines, and ellipsize safely. */
       body:not(.editing) .block-card.collapsed .title-stack {
         grid-template-rows: 42px 20px 18px !important;
         gap: 4px !important;
@@ -4196,8 +4192,6 @@
     </style>
 
     <style id="true-single-line-copy-title-final-fix">
-      /* Larger title only when the title truly fits on one line.
-         Two-line titles keep the existing smaller two-line clamp. */
       body:not(.editing) .block-card.collapsed .title-stack {
         grid-template-rows: 42px 20px 18px !important;
         gap: 4px !important;
@@ -4253,7 +4247,6 @@
     </style>
 
     <style id="copy-card-spacing-and-height-final">
-      /* More space between cards, with a shorter collapsed copy-block card. */
       body:not(.editing) .starred-blocks,
       body:not(.editing) .blocks {
         --card-row-height: 112px !important;
@@ -4375,7 +4368,6 @@
     </style>
 
     <style id="unified-add-edit-dialog-final">
-      /* Add and edit use the same compact popup. Only the primary button text changes. */
       #addBlockDialog,
       #addBlockDialog.edit-dialog {
         width: min(calc(100% - 32px), 460px) !important;
@@ -5288,9 +5280,160 @@
         }
       }
     </style>
+
+    <style id="mobile-stability-and-note-removal">
+      /* Keep helper copy out of the interface. */
+      .sidebar-tip,
+      .mobile-reorder-note,
+      .mobile-card-hint,
+      .settings-note,
+      .settings-section-note,
+      .hints-list,
+      #hintsButton,
+      #hintsDialog {
+        display: none !important;
+      }
+
+      @media (max-width: 900px) {
+        html,
+        body {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        .layout-shell {
+          display: block !important;
+          width: 100% !important;
+          min-width: 0 !important;
+        }
+
+        .desktop-sidebar {
+          position: fixed !important;
+          inset: 0 auto 0 0 !important;
+          width: min(320px, 86vw) !important;
+          max-width: 86vw !important;
+          height: 100dvh !important;
+          transform: translate3d(-105%, 0, 0) !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+
+        body.mobile-menu-open .desktop-sidebar {
+          transform: translate3d(0, 0, 0) !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+        }
+
+        .main-content,
+        .app {
+          width: 100% !important;
+          min-width: 0 !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+        }
+
+        .main-content {
+          padding: 0 !important;
+        }
+
+        .app {
+          min-height: 100dvh;
+          padding: 20px 16px calc(104px + env(safe-area-inset-bottom)) !important;
+        }
+
+        .topbar {
+          display: none !important;
+        }
+
+        .mobile-appbar {
+          display: grid !important;
+          position: relative;
+          width: 100%;
+        }
+
+        .mobile-bottom-nav {
+          display: grid !important;
+          padding-bottom: max(10px, env(safe-area-inset-bottom));
+        }
+
+        .dashboard-controls {
+          display: grid !important;
+          grid-template-columns: 1fr !important;
+          gap: 12px !important;
+          margin: 0 0 24px !important;
+        }
+
+        .dashboard-search,
+        .dashboard-search input {
+          width: 100% !important;
+          min-width: 0 !important;
+          max-width: none !important;
+          margin: 0 !important;
+        }
+
+        .list-tools {
+          width: 100%;
+          min-width: 0;
+          justify-content: space-between !important;
+          gap: 8px !important;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+
+        .list-tools::-webkit-scrollbar {
+          display: none;
+        }
+
+        .sort-buttons {
+          flex: 0 0 auto;
+        }
+
+        .block-card,
+        .block-header,
+        .title-stack,
+        .block-body,
+        .copy-block {
+          min-width: 0 !important;
+          max-width: 100% !important;
+        }
+
+        dialog {
+          width: calc(100% - 20px) !important;
+          max-width: 520px;
+          max-height: calc(100dvh - 20px) !important;
+          margin: auto;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .app {
+          padding-inline: 12px !important;
+        }
+
+        .mobile-brand span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .sort-button {
+          padding-inline: 9px !important;
+          font-size: 12px !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="privacyScreen" class="privacy-screen" aria-hidden="true">
+    <div id="privacyScreen" class="privacy-screen" aria-hidden="true" role="button" tabindex="0" aria-label="Tap to return to Copy Blocks">
       <img
         id="privacyScreenLogo"
         src="icons/copy-block-logo.png"
@@ -6851,10 +6994,20 @@
           } catch {
             const textarea = document.createElement("textarea");
             textarea.value = block.text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.inset = "0 auto auto 0";
+            textarea.style.width = "1px";
+            textarea.style.height = "1px";
+            textarea.style.opacity = "0";
+            textarea.style.pointerEvents = "none";
             document.body.append(textarea);
+            textarea.focus({ preventScroll: true });
             textarea.select();
-            document.execCommand("copy");
+            textarea.setSelectionRange(0, textarea.value.length);
+            const copied = document.execCommand("copy");
             textarea.remove();
+            if (!copied) throw new Error("Copy command failed");
           }
           block.lastUsedAt = now();
           block.useCount += 1;
@@ -7546,6 +7699,7 @@
             privacyScreenVisibleAt = Date.now();
           }
           screen.classList.add("is-visible");
+          screen.setAttribute("aria-hidden", "false");
         }
 
         function showPrivacyScreenUntilDirectReturn() {
@@ -7572,7 +7726,18 @@
             return;
           }
 
-          privacyScreenElement()?.classList.remove("is-visible");
+          const screen = privacyScreenElement();
+          screen?.classList.remove("is-visible");
+          screen?.setAttribute("aria-hidden", "true");
+        }
+
+        function forceHidePrivacyScreen() {
+          window.clearTimeout(privacyScreenHideTimer);
+          privacyScreenNeedsDirectReturn = false;
+          const screen = privacyScreenElement();
+          if (!screen) return;
+          screen.classList.remove("is-visible");
+          screen.setAttribute("aria-hidden", "true");
         }
 
         function hidePrivacyScreenSoon() {
@@ -7651,12 +7816,15 @@
         });
         document.addEventListener("freeze", showPrivacyScreenUntilDirectReturn);
         document.addEventListener("resume", keepPrivacyScreenOnReturn);
-        document.addEventListener("pointerleave", coverWhenLeavingWindow, {
-          capture: true,
-        });
-        document.addEventListener("mouseleave", coverWhenLeavingWindow, {
-          capture: true,
-        });
+        const hasHoverPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        if (hasHoverPointer) {
+          document.addEventListener("pointerleave", coverWhenLeavingWindow, {
+            capture: true,
+          });
+          document.addEventListener("mouseleave", coverWhenLeavingWindow, {
+            capture: true,
+          });
+        }
         document.addEventListener(
           "keydown",
           coverForLikelySystemSwitcherShortcut,
@@ -7690,14 +7858,39 @@
           "beforeunload",
           showPrivacyScreenUntilDirectReturn,
         );
-        window.addEventListener("blur", showPrivacyScreenUntilDirectReturn);
-        window.addEventListener("focus", keepPrivacyScreenOnReturn);
-        window.addEventListener("pageshow", keepPrivacyScreenOnReturn);
-        window.addEventListener("mouseout", coverWhenLeavingWindow);
+        if (hasHoverPointer) {
+          window.addEventListener("blur", showPrivacyScreenUntilDirectReturn);
+          window.addEventListener("mouseout", coverWhenLeavingWindow);
+        }
+        window.addEventListener("focus", () => {
+          keepPrivacyScreenOnReturn();
+          window.setTimeout(forceHidePrivacyScreen, 120);
+        });
+        window.addEventListener("pageshow", () => {
+          keepPrivacyScreenOnReturn();
+          window.setTimeout(forceHidePrivacyScreen, 120);
+        });
         window.addEventListener(
           "pointercancel",
           showPrivacyScreenUntilDirectReturn,
         );
+
+        const privacyScreen = privacyScreenElement();
+        if (privacyScreen) {
+          const dismissPrivacyScreen = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            forceHidePrivacyScreen();
+          };
+          privacyScreen.addEventListener("click", dismissPrivacyScreen);
+          privacyScreen.addEventListener("pointerdown", dismissPrivacyScreen);
+          privacyScreen.addEventListener("touchstart", dismissPrivacyScreen, { passive: false });
+          privacyScreen.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
+              dismissPrivacyScreen(event);
+            }
+          });
+        }
 
         syncPrivacyScreenLogo();
         syncPrivacyScreenState();
@@ -7993,14 +8186,14 @@
         $("closeSettings").addEventListener("click", () =>
           refs.settingsDialog.close(),
         );
-        $("hintsButton").addEventListener("click", () =>
-          $("hintsDialog").showModal(),
+        $("hintsButton")?.addEventListener("click", () =>
+          $("hintsDialog")?.showModal(),
         );
-        $("closeHintsTop").addEventListener("click", () =>
-          $("hintsDialog").close(),
+        $("closeHintsTop")?.addEventListener("click", () =>
+          $("hintsDialog")?.close(),
         );
-        $("closeHints").addEventListener("click", () =>
-          $("hintsDialog").close(),
+        $("closeHints")?.addEventListener("click", () =>
+          $("hintsDialog")?.close(),
         );
 
         refs.exportButton.addEventListener("click", () => {
