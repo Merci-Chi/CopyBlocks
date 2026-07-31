@@ -419,16 +419,6 @@
         display: none;
       }
 
-      body.dark img.mobile-control-icon,
-      body.dark img.folder-state-icon,
-      body.dark img.nav-trash-img,
-      body.dark img.dashboard-nav-icon,
-      body.dark .view-switch img,
-      body.dark img[src*="dashboard"] {
-        filter: brightness(0) saturate(100%) invert(74%) sepia(7%)
-          saturate(319%) hue-rotate(202deg) brightness(91%) contrast(87%);
-      }
-
       .copy-block {
         width: 100%;
         min-height: 132px;
@@ -1380,10 +1370,6 @@
         background: var(--danger-soft);
       }
 
-      body.editing .card-menu-button {
-        display: none;
-      }
-
       @media (max-width: 900px) {
         .dashboard-search {
           max-width: none;
@@ -2247,14 +2233,6 @@
         display: none !important;
       }
 
-      body:not(.editing) .blocks-summary {
-        display: none;
-      }
-
-      body:not(.editing) .starred-section {
-        margin-bottom: 16px;
-      }
-
       .block-card {
         position: relative;
       }
@@ -2281,9 +2259,6 @@
         grid-auto-rows: auto;
       }
 
-      body:not(.editing) .block-card.expanded {
-        align-content: start;
-      }
 
       body:not(.editing) .block-header {
         align-items: center;
@@ -2312,11 +2287,6 @@
         align-self: center;
       }
 
-      body:not(.editing) .block-card.expanded .block-title {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
-      }
       body:not(.editing) .starred-section {
         padding-bottom: 28px;
         margin-bottom: 30px;
@@ -2510,10 +2480,6 @@
         overflow: visible;
       }
 
-      body:not(.editing) .copy-block {
-        text-align: left;
-      }
-
       body:not(.editing) .block-card.expanded .copy-block {
         display: grid;
         align-content: center;
@@ -2566,9 +2532,6 @@
         );
       }
 
-      body:not(.editing) .block-card.collapsed .block-body {
-        display: none;
-      }
       body:not(.editing) .block-card.collapsed {
         align-content: center;
       }
@@ -4715,15 +4678,6 @@
         border-bottom-color: #2b2b2b !important;
       }
 
-      body.dark img.mobile-control-icon,
-      body.dark img.folder-state-icon,
-      body.dark img.nav-trash-img,
-      body.dark img.dashboard-nav-icon,
-      body.dark .view-switch img,
-      body.dark img[src*="dashboard"] {
-        filter: brightness(0) saturate(100%) invert(92%) sepia(9%)
-          saturate(298%) hue-rotate(177deg) brightness(101%) contrast(94%) !important;
-      }
     </style>
 
     <style id="light-mode-gradient-star-only-fix">
@@ -4823,8 +4777,6 @@
         width: 22px;
         height: 22px;
         border-radius: 999px;
-        background: #1f1f1f;
-        color: #ffffff;
         font-size: 14px;
         font-weight: 900;
         line-height: 1;
@@ -4832,21 +4784,12 @@
       }
 
       body.dark .toast {
-        border-color: rgba(255, 255, 255, 0.1);
-        background: linear-gradient(
-          180deg,
-          rgba(36, 36, 36, 0.94),
-          rgba(18, 18, 18, 0.92)
-        );
-        color: #f5f5f5;
         box-shadow:
           0 20px 52px rgba(0, 0, 0, 0.48),
           inset 0 1px 0 rgba(255, 255, 255, 0.08);
       }
 
       body.dark .toast::before {
-        background: #f4c542;
-        color: #111111;
         box-shadow: 0 8px 18px rgba(244, 197, 66, 0.22);
       }
 
@@ -5112,14 +5055,6 @@
       body:not(.dark) .view-switch img,
       body:not(.dark) img[src*="dashboard"] {
         filter: brightness(0) saturate(100%) !important;
-      }
-      body.dark img.mobile-control-icon,
-      body.dark img.folder-state-icon,
-      body.dark img.nav-trash-img,
-      body.dark img.dashboard-nav-icon,
-      body.dark .view-switch img,
-      body.dark img[src*="dashboard"] {
-        filter: brightness(0) saturate(100%) invert(1) !important;
       }
       .toast::before {
         background: #1f1f1f !important;
