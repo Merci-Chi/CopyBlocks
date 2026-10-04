@@ -3751,122 +3751,143 @@
     </style>
 
     <style id="copy-card-spacing-and-height-final">
+      /* Compact cards: show more blocks at once without changing card behavior. */
       body:not(.editing) .starred-blocks,
-      body:not(.editing) .blocks {
-        --card-row-height: 112px !important;
-        --card-row-gap: 22px !important;
-        row-gap: 22px !important;
-        column-gap: 24px !important;
+      body:not(.editing) .blocks:not(.list-layout) {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        --card-row-height: 88px !important;
+        --card-row-gap: 12px !important;
+        row-gap: 12px !important;
+        column-gap: 12px !important;
+      }
+
+      body:not(.editing) .blocks.list-layout {
+        --card-row-height: 88px !important;
+        --card-row-gap: 10px !important;
+        row-gap: 10px !important;
       }
 
       body:not(.editing) .block-card.collapsed {
-        min-height: 112px !important;
-        padding: 10px 14px !important;
+        min-height: 88px !important;
+        padding: 7px 9px !important;
+        border-radius: 12px !important;
       }
 
       body:not(.editing) .block-card.collapsed .block-header {
-        grid-template-columns: 48px minmax(0, 1fr) 48px !important;
-        grid-template-rows: 88px !important;
-        min-height: 88px !important;
-        gap: 10px !important;
+        grid-template-columns: 38px minmax(0, 1fr) 38px !important;
+        grid-template-rows: 72px !important;
+        min-height: 72px !important;
+        gap: 7px !important;
       }
 
       body:not(.editing) .block-card.collapsed .mobile-leading {
-        width: 48px !important;
-        height: 48px !important;
-        font-size: 31px !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 8px !important;
+        font-size: 25px !important;
       }
 
       body:not(.editing) .block-card.collapsed .arrow-button {
-        width: 48px !important;
-        min-width: 48px !important;
-        height: 48px !important;
-        min-height: 48px !important;
+        width: 38px !important;
+        min-width: 38px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+      }
+
+      body:not(.editing) .block-card.collapsed .arrow-button .mobile-control-icon {
+        width: 26px !important;
+        height: 26px !important;
       }
 
       body:not(.editing) .block-card.collapsed .title-stack {
-        grid-template-rows: 40px 18px 16px !important;
-        gap: 3px !important;
-        min-height: 77px !important;
+        grid-template-rows: 32px 15px 14px !important;
+        gap: 2px !important;
+        min-height: 65px !important;
       }
 
       body:not(.editing)
         .block-card.collapsed
         .title-stack.single-line-title-stack {
-        grid-template-rows: 24px 18px 16px !important;
+        grid-template-rows: 20px 15px 14px !important;
         gap: 1px !important;
-        min-height: 59px !important;
+        min-height: 51px !important;
         align-content: center !important;
       }
 
       body:not(.editing)
         .block-card.collapsed
         .block-title:not(.single-line-title) {
-        min-height: 40px !important;
-        max-height: 40px !important;
-        font-size: 14px !important;
+        min-height: 32px !important;
+        max-height: 32px !important;
+        font-size: 12px !important;
         line-height: 1.28 !important;
       }
 
       body:not(.editing) .block-card.collapsed .block-title.single-line-title {
-        min-height: 24px !important;
-        max-height: 24px !important;
-        font-size: 20px !important;
-        line-height: 1.08 !important;
+        min-height: 20px !important;
+        max-height: 20px !important;
+        font-size: 16px !important;
+        line-height: 1.1 !important;
       }
 
       body:not(.editing) .block-card.collapsed .mobile-card-hint {
-        min-height: 18px !important;
-        max-height: 18px !important;
-        font-size: 13px !important;
-        line-height: 18px !important;
+        min-height: 15px !important;
+        max-height: 15px !important;
+        font-size: 11px !important;
+        line-height: 15px !important;
       }
 
       body:not(.editing) .block-card.collapsed .card-meta-row {
-        min-height: 16px !important;
-        max-height: 16px !important;
+        min-height: 14px !important;
+        max-height: 14px !important;
+        margin-top: 2px !important;
       }
 
       body:not(.editing) .block-card.collapsed .updated-label {
-        font-size: 12px !important;
-        line-height: 16px !important;
+        font-size: 10px !important;
+        line-height: 14px !important;
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 1180px) {
         body:not(.editing) .starred-blocks,
-        body:not(.editing) .blocks {
-          --card-row-height: 108px !important;
-          --card-row-gap: 18px !important;
-          row-gap: 18px !important;
+        body:not(.editing) .blocks:not(.list-layout) {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
       }
 
       @media (max-width: 620px) {
         body:not(.editing) .starred-blocks,
-        body:not(.editing) .blocks {
-          --card-row-height: 104px !important;
-          --card-row-gap: 16px !important;
-          row-gap: 16px !important;
+        body:not(.editing) .blocks:not(.list-layout) {
+          grid-template-columns: 1fr !important;
+          --card-row-height: 78px !important;
+          --card-row-gap: 9px !important;
+          row-gap: 9px !important;
+        }
+
+        body:not(.editing) .blocks.list-layout {
+          --card-row-height: 78px !important;
+          --card-row-gap: 9px !important;
+          row-gap: 9px !important;
         }
 
         body:not(.editing) .block-card.collapsed {
-          min-height: 104px !important;
-          padding: 9px 12px !important;
+          min-height: 78px !important;
+          padding: 6px 8px !important;
         }
 
         body:not(.editing) .block-card.collapsed .block-header {
-          grid-template-columns: 44px minmax(0, 1fr) 44px !important;
-          grid-template-rows: 84px !important;
-          min-height: 84px !important;
-          gap: 9px !important;
+          grid-template-columns: 34px minmax(0, 1fr) 34px !important;
+          grid-template-rows: 64px !important;
+          min-height: 64px !important;
+          gap: 7px !important;
         }
 
         body:not(.editing) .block-card.collapsed .mobile-leading,
         body:not(.editing) .block-card.collapsed .arrow-button {
-          width: 44px !important;
-          min-width: 44px !important;
-          height: 44px !important;
-          min-height: 44px !important;
+          width: 34px !important;
+          min-width: 34px !important;
+          height: 34px !important;
+          min-height: 34px !important;
         }
       }
     </style>
@@ -5437,9 +5458,6 @@
           </div>
           <div class="blocks" id="blocks"></div>
           <div class="empty-state" id="emptyState">No blocks yet.</div>
-          <button class="load-more-button" id="loadMoreButton" type="button">
-            Load more blocks <span aria-hidden="true">⌄</span>
-          </button>
           <p class="mobile-reorder-note">
             <span class="info-icon" aria-hidden="true">i</span>
             <span
@@ -5896,8 +5914,6 @@
         const DATA_KEY = "copyBlocksDashboardV4";
         const OLD_KEY = "copyBlocksDataV3";
         const SETTINGS_KEY = "copyBlocksDashboardSettingsV1";
-        const PAGE_SIZE = 8;
-
         const $ = (id) => document.getElementById(id);
         const refs = {
           body: document.body,
@@ -5929,7 +5945,6 @@
           sort: $("sortSelect"),
           grid: $("gridViewButton"),
           list: $("listViewButton"),
-          loadMore: $("loadMoreButton"),
           toast: $("toast"),
           reorderStatus: $("reorderStatus"),
           mobileMenu: $("mobileMenuButton"),
@@ -6128,7 +6143,6 @@
         let settings = loadSettings();
         let activeView = { type: "all", folderId: null };
         let editing = false;
-        let visibleLimit = PAGE_SIZE;
         let editingBlockId = null;
         let activeBlockId = null;
         let activeFolderId = null;
@@ -6546,7 +6560,6 @@
 
         function setView(type, folderId = null) {
           activeView = { type, folderId };
-          visibleLimit = PAGE_SIZE;
           editing = false;
           refs.search.value = "";
           refs.body.classList.remove("editing", "mobile-menu-open");
@@ -7105,8 +7118,7 @@
             filtered = filtered.filter((block) => !block.starred);
           }
 
-          const shown = filtered.slice(0, visibleLimit);
-          shown.forEach((block) => refs.blocks.append(makeCard(block)));
+          filtered.forEach((block) => refs.blocks.append(makeCard(block)));
           refs.blocks.classList.toggle(
             "list-layout",
             settings.layout === "list",
@@ -7123,11 +7135,6 @@
                     ? "This folder has no blocks yet."
                     : "No blocks match this view.";
           }
-          refs.loadMore.hidden = filtered.length <= shown.length;
-          refs.loadMore.textContent =
-            filtered.length <= shown.length
-              ? "All blocks loaded"
-              : "Load more blocks ⌄";
         }
 
         function render() {
@@ -7393,12 +7400,10 @@
           refs.settingsDialog.showModal();
         });
         refs.search.addEventListener("input", () => {
-          visibleLimit = PAGE_SIZE;
           render();
         });
         refs.sort.addEventListener("change", () => {
           settings.sort = refs.sort.value;
-          visibleLimit = PAGE_SIZE;
           saveSettings();
           syncSortButtons();
           render();
@@ -7413,11 +7418,6 @@
           saveSettings();
           render();
         });
-        refs.loadMore.addEventListener("click", () => {
-          visibleLimit += PAGE_SIZE;
-          renderCards();
-        });
-
         refs.addForm.addEventListener("submit", (event) => {
           event.preventDefault();
           const folderIds = [
